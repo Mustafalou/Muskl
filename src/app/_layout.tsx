@@ -28,8 +28,6 @@ function RootNavigator() {
         headerTintColor: Colors.dark.tint,
         headerTitleStyle: { color: Colors.dark.text },
       }}>
-      <Stack.Screen name="legal/privacy" options={{ title: 'Confidentialité' }} />
-
       <Stack.Protected guard={!session}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
@@ -49,6 +47,7 @@ function RootNavigator() {
           name="reset-password"
           options={{ title: 'Nouveau mot de passe', presentation: 'modal' }}
         />
+        <Stack.Screen name="legal/privacy" options={{ title: 'Confidentialité' }} />
       </Stack.Protected>
     </Stack>
   );
