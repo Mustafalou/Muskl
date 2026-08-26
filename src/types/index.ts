@@ -33,6 +33,7 @@ export type Exercise = {
   workout_id: string;
   name: string;
   order: number;
+  rest_seconds: number | null;
 };
 
 // Named to match the `sets` table; shadows the global `Set` collection type within this file's scope.
@@ -43,6 +44,8 @@ export type Set = {
   weight: number;
   rpe: number | null;
   order: number;
+  // 0 = top weight, 1+ = drop-set continuations sharing the same `order` (same logical set).
+  drop_index: number;
 };
 
 export type WorkoutWithAuthor = Workout & {
@@ -52,4 +55,31 @@ export type WorkoutWithAuthor = Workout & {
 
 export type ExerciseWithSets = Exercise & {
   sets: Set[];
+};
+
+export type WorkoutTemplate = {
+  id: string;
+  user_id: string;
+  name: string;
+  created_at: string;
+};
+
+export type TemplateExercise = {
+  id: string;
+  template_id: string;
+  name: string;
+  order: number;
+  rest_seconds: number | null;
+};
+
+export type TemplateSet = {
+  id: string;
+  template_exercise_id: string;
+  reps: number;
+  weight: number;
+  order: number;
+};
+
+export type TemplateExerciseWithSets = TemplateExercise & {
+  sets: TemplateSet[];
 };

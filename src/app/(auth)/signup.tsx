@@ -1,5 +1,6 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,6 +12,7 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function SignupScreen() {
+  const { t } = useTranslation();
   const { signup } = useAuth();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -31,7 +33,7 @@ export default function SignupScreen() {
       return;
     }
     if (result.needsEmailConfirmation) {
-      setInfo('Compte créé. Vérifie tes emails pour confirmer ton adresse, puis connecte-toi.');
+      setInfo(t('auth.signup.needsConfirmation'));
     }
   }
 
@@ -43,23 +45,23 @@ export default function SignupScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
             <ThemedText type="title" style={styles.title}>
-              Rejoins Muskl
+              {t('auth.signup.title')}
             </ThemedText>
             <ThemedText themeColor="textSecondary" style={styles.subtitle}>
-              Crée ton compte pour commencer à logger tes séances.
+              {t('auth.signup.subtitle')}
             </ThemedText>
 
             <ThemedView style={styles.form}>
               <TextField
-                label="Pseudo"
+                label={t('auth.signup.usernameLabel')}
                 value={username}
                 onChangeText={setUsername}
                 autoCapitalize="none"
                 autoCorrect={false}
-                placeholder="ex: gigachad_du_92"
+                placeholder={t('auth.signup.usernamePlaceholder')}
               />
               <TextField
-                label="Email"
+                label={t('auth.signup.emailLabel')}
                 value={email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
@@ -68,7 +70,7 @@ export default function SignupScreen() {
                 autoComplete="email"
               />
               <TextField
-                label="Mot de passe"
+                label={t('auth.signup.passwordLabel')}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -88,7 +90,7 @@ export default function SignupScreen() {
               ) : null}
 
               <PrimaryButton
-                title="Créer mon compte"
+                title={t('auth.signup.submit')}
                 onPress={handleSubmit}
                 loading={isSubmitting}
                 disabled={!email || !password || !username}
@@ -96,7 +98,7 @@ export default function SignupScreen() {
             </ThemedView>
 
             <Link href="/login" style={styles.link}>
-              <ThemedText themeColor="tint">Déjà un compte ? Connecte-toi</ThemedText>
+              <ThemedText themeColor="tint">{t('auth.signup.hasAccount')}</ThemedText>
             </Link>
           </ScrollView>
         </KeyboardAvoidingView>

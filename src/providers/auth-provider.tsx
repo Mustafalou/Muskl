@@ -2,6 +2,7 @@ import type { Session, User } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
 import { router } from 'expo-router';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { supabase } from '@/lib/supabase';
 
@@ -24,6 +25,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: PropsWithChildren) {
+  const { t } = useTranslation();
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [profileError, setProfileError] = useState<string | null>(null);
@@ -88,9 +90,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         .insert({ id: currentUser!.id, username });
 
       if (insertError && !isCancelled) {
-        setProfileError(
-          `Impossible de créer ton profil ("${username}") : ${insertError.message}`,
-        );
+        setProfileError(t('profile.createProfileError', { username, message: insertError.message }));
       }
     }
 
@@ -118,7 +118,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         setProfileError(null);
         const trimmedUsername = username.trim();
         if (!trimmedUsername) {
-          return { error: 'Choisis un pseudo.' };
+          return { error: t('auth.signup.chooseUsername') };
         }
 
         const { data, error } = await supabase.auth.signUp({
@@ -135,7 +135,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           return { error: error.message };
         }
         if (!data.user) {
-          return { error: "L'inscription a échoué, réessaie." };
+          return { error: t('auth.signup.signupFailed') };
         }
         if (!data.session) {
           return { error: null, needsEmailConfirmation: true };
@@ -156,7 +156,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         setProfileError(null);
       },
     }),
-    [session, isLoading, profileError],
+    [session, isLoading, profileError, t],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

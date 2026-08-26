@@ -1,0 +1,211 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "save": "Save",
+    "back": "Back"
+  },
+  "tabs": {
+    "feed": "Feed",
+    "myWorkouts": "My Workouts",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": {
+      "title": "Muskl",
+      "subtitle": "Log in to see your workouts and the community's.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account yet? Sign up"
+    },
+    "signup": {
+      "title": "Join Muskl",
+      "subtitle": "Create your account to start logging your workouts.",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "e.g. gigachad_du_92",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Create my account",
+      "hasAccount": "Already have an account? Log in",
+      "chooseUsername": "Choose a username.",
+      "signupFailed": "Sign up failed, try again.",
+      "needsConfirmation": "Account created. Check your emails to confirm your address, then log in."
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email, we'll send you a link to reset it.",
+      "submit": "Send link",
+      "backToLogin": "Back to login",
+      "successMessage": "If an account exists with that email, a reset link has just been sent."
+    },
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account.",
+      "passwordLabel": "New password",
+      "submit": "Save",
+      "tooShort": "Password must be at least 6 characters."
+    }
+  },
+  "feed": {
+    "title": "Feed",
+    "empty": "No workouts yet. Be the first to log one!",
+    "reportTitle": "Report this workout?",
+    "reportMessage": "Report @{{username}}'s workout.",
+    "reportConfirm": "Report",
+    "reportReason": "Reported from the feed",
+    "thanksTitle": "Thanks",
+    "thanksMessage": "Your report has been sent."
+  },
+  "myWorkouts": {
+    "title": "My Workouts",
+    "empty": "No workouts yet. Get started!"
+  },
+  "workout": {
+    "new": {
+      "title": "New workout",
+      "nameLabel": "Workout name",
+      "namePlaceholder": "e.g. Push day",
+      "dateLabel": "Date (YYYY-MM-DD)",
+      "submit": "Create",
+      "createFailed": "Couldn't create the workout."
+    },
+    "addExercise": {
+      "title": "Add an exercise",
+      "searchPlaceholder": "Search an exercise...",
+      "all": "All",
+      "addCustom": "Add \"{{query}}\" as a custom exercise",
+      "addSelected": "Add ({{count}})"
+    },
+    "detail": {
+      "notFound": "Workout not found.",
+      "noExercises": "No exercises yet.",
+      "addExercise": "+ Add an exercise",
+      "deleteWorkout": "Delete this workout",
+      "deleteConfirmTitle": "Delete this workout?",
+      "deleteConfirmMessage": "This action is irreversible: the associated exercises and sets will also be deleted.",
+      "addSetFailed": "Couldn't add the set.",
+      "reportMode": "Report",
+      "liveMode": "Live",
+      "exerciseCounter": "Exercise {{current}} / {{total}}",
+      "rest": "Rest",
+      "cancelRest": "Cancel rest",
+      "previous": "Previous",
+      "next": "Next",
+      "finish": "Finish"
+    }
+  },
+  "restTimer": {
+    "channelName": "Rest timer",
+    "notificationTitle": "Rest over",
+    "notificationBody": "Ready for the next set?"
+  },
+  "exercise": {
+    "noSets": "No sets yet.",
+    "addDrop": "+ Add a drop (drop set)"
+  },
+  "templates": {
+    "title": "My Templates",
+    "empty": "No templates yet. Create a go-to workout you can relaunch later.",
+    "deleteConfirmTitle": "Delete this template?",
+    "exerciseCount_one": "{{count}} exercise",
+    "exerciseCount_other": "{{count}} exercises",
+    "new": {
+      "title": "New template",
+      "nameLabel": "Template name",
+      "namePlaceholder": "e.g. Push day",
+      "submit": "Create",
+      "createFailed": "Couldn't create the template."
+    },
+    "detail": {
+      "notFound": "Template not found.",
+      "nameLabel": "Template name",
+      "saving": "Saving...",
+      "noExercises": "No exercises yet.",
+      "addExercise": "+ Add an exercise",
+      "launch": "Start this workout",
+      "deleteTemplate": "Delete this template",
+      "deleteConfirmTitle": "Delete this template?",
+      "addSetFailed": "Couldn't add the target set."
+    },
+    "exerciseSection": {
+      "noTargetSets": "No target sets (optional).",
+      "rest": "Rest",
+      "noRest": "None"
+    }
+  },
+  "profile": {
+    "publicToggleTitle": "Public profile",
+    "publicToggleSubtitle": "Others can see your height and weigh-ins",
+    "heightLabel": "Height",
+    "weightLabel": "Weight",
+    "weighToday": "Weigh in today",
+    "noWeightLogs": "No weigh-ins logged yet.",
+    "logout": "Log out",
+    "logoutConfirmTitle": "Log out?",
+    "logoutConfirmButton": "Log out",
+    "privacy": "Privacy",
+    "language": "Language",
+    "deleteAccount": "Delete my account",
+    "deletingAccount": "Deleting...",
+    "deleteAccountConfirmTitle": "Delete your account?",
+    "deleteAccountConfirmMessage": "This action is irreversible: all your workouts, photos, and data will be permanently deleted.",
+    "deleteAccountConfirmButton": "Delete permanently",
+    "photoPermissionDenied": "Allow photo access to change your profile picture.",
+    "createProfileError": "Couldn't create your profile (\"{{username}}\"): {{message}}",
+    "addWeightFailed": "Couldn't add the weigh-in.",
+    "deleteAccountGenericError": "Something went wrong while deleting your account."
+  },
+  "legal": {
+    "privacy": {
+      "lastUpdated": "Last updated: August 10, 2026",
+      "sections": [
+        {
+          "title": "1. Who's responsible for your data",
+          "body": "Muskl is an independently developed and operated project. For any question, contact mustafaliiyilmaz@gmail.com."
+        },
+        {
+          "title": "2. Data collected",
+          "body": "• Account: email and password (managed by Supabase Auth, never stored in plain text)\n• Profile: username, profile photo (optional)\n• Body stats (optional): height, weight history\n• Workouts: name, date, exercises, sets (reps, weight, RPE)\n• Reports: which workout, by whom"
+        },
+        {
+          "title": "3. Visibility of your data",
+          "body": "Muskl is a social app: your username, photo, and workouts are visible to everyone in the feed by default. Your height and weight history have a separate privacy setting (Profile tab → \"Public profile\"), on by default — you can turn it off at any time."
+        },
+        {
+          "title": "4. Data processor",
+          "body": "Data is hosted with Supabase (database, authentication, photo storage), in the European Union. No data is sold or shared for advertising purposes — Muskl shows no ads and uses no third-party analytics tools."
+        },
+        {
+          "title": "5. Retention period",
+          "body": "Your data is kept as long as your account exists. Deleting your account erases everything permanently."
+        },
+        {
+          "title": "6. Deleting your account",
+          "body": "Profile tab → Delete my account. Irreversible action: immediately deletes your account, profile, photo, workouts, exercises, sets, weight history, and reports."
+        },
+        {
+          "title": "7. Your rights",
+          "body": "Under GDPR: access, rectification, erasure, portability. Most of these are available directly in the app. For any other request, contact us."
+        },
+        {
+          "title": "8. Reporting content",
+          "body": "You can report a workout from the feed. Reports are visible only to you and the Muskl team."
+        },
+        {
+          "title": "9. Security",
+          "body": "Data access is protected by row-level security rules in the database (Row Level Security). Traffic is encrypted (HTTPS)."
+        },
+        {
+          "title": "10. Minimum age",
+          "body": "Muskl is not intended for people under 16."
+        },
+        {
+          "title": "11. Contact",
+          "body": "mustafaliiyilmaz@gmail.com"
+        }
+      ]
+    }
+  }
+}

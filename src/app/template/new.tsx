@@ -9,32 +9,35 @@ import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
+import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
 
-export default function ResetPasswordScreen() {
+export default function NewTemplateScreen() {
   const { t } = useTranslation();
-  const [password, setPassword] = useState('');
+  const { user } = useAuth();
+  const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit() {
-    if (password.length < 6) {
-      setError(t('auth.resetPassword.tooShort'));
-      return;
-    }
+  async function handleCreate() {
+    if (!user) return;
     setError(null);
     setIsSubmitting(true);
 
-    const { error: updateError } = await supabase.auth.updateUser({ password });
+    const { data, error } = await supabase
+      .from('workout_templates')
+      .insert({ user_id: user.id, name: name.trim() })
+      .select('id')
+      .single();
 
     setIsSubmitting(false);
 
-    if (updateError) {
-      setError(updateError.message);
+    if (error || !data) {
+      setError(error?.message ?? t('templates.new.createFailed'));
       return;
     }
 
-    router.replace('/');
+    router.replace(`/template/${data.id}`);
   }
 
   return (
@@ -45,16 +48,15 @@ export default function ResetPasswordScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ThemedView style={styles.content}>
             <ThemedText type="title" style={styles.title}>
-              {t('auth.resetPassword.title')}
+              {t('templates.new.title')}
             </ThemedText>
-            <ThemedText themeColor="textSecondary">{t('auth.resetPassword.subtitle')}</ThemedText>
 
             <TextField
-              label={t('auth.resetPassword.passwordLabel')}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
+              label={t('templates.new.nameLabel')}
+              placeholder={t('templates.new.namePlaceholder')}
+              value={name}
+              onChangeText={setName}
+              autoFocus
             />
 
             {error ? (
@@ -64,10 +66,10 @@ export default function ResetPasswordScreen() {
             ) : null}
 
             <PrimaryButton
-              title={t('auth.resetPassword.submit')}
-              onPress={handleSubmit}
+              title={t('templates.new.submit')}
+              onPress={handleCreate}
               loading={isSubmitting}
-              disabled={password.length < 6}
+              disabled={!name.trim()}
             />
           </ThemedView>
         </KeyboardAvoidingView>

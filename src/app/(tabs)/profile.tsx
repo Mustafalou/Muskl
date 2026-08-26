@@ -3,6 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Link, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -23,10 +24,18 @@ import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
+import { setAppLanguage, SUPPORTED_LANGUAGES, type SupportedLanguage } from '@/i18n';
 import { supabase } from '@/lib/supabase';
 import type { BodyWeightLog, Profile, ProfileStats } from '@/types';
 
+const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
+  fr: 'Français',
+  en: 'English',
+  es: 'Español',
+};
+
 export default function ProfileScreen() {
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
   const { user, logout, profileError } = useAuth();
 
@@ -95,7 +104,7 @@ export default function ProfileScreen() {
 
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
-      setError("Autorise l'accès aux photos pour changer ta photo de profil.");
+      setError(t('profile.photoPermissionDenied'));
       return;
     }
 
@@ -205,7 +214,7 @@ export default function ProfileScreen() {
     setIsAddingWeight(false);
 
     if (insertError || !data) {
-      setError(insertError?.message ?? "Impossible d'ajouter la pesée.");
+      setError(insertError?.message ?? t('profile.addWeightFailed'));
       return;
     }
 
@@ -225,9 +234,9 @@ export default function ProfileScreen() {
   }
 
   function confirmLogout() {
-    Alert.alert('Se déconnecter ?', undefined, [
-      { text: 'Annuler', style: 'cancel' },
-      { text: 'Déconnexion', style: 'destructive', onPress: logout },
+    Alert.alert(t('profile.logoutConfirmTitle'), undefined, [
+      { text: t('common.cancel'), style: 'cancel' },
+      { text: t('profile.logoutConfirmButton'), style: 'destructive', onPress: logout },
     ]);
   }
 
@@ -243,9 +252,7 @@ export default function ProfileScreen() {
         }
       }
     }
-    return functionError instanceof Error
-      ? functionError.message
-      : 'Une erreur est survenue lors de la suppression du compte.';
+    return functionError instanceof Error ? functionError.message : t('profile.deleteAccountGenericError');
   }
 
   async function handleDeleteAccount() {
@@ -264,14 +271,14 @@ export default function ProfileScreen() {
   }
 
   function confirmDeleteAccount() {
-    Alert.alert(
-      'Supprimer ton compte ?',
-      'Cette action est irréversible : toutes tes séances, photos et données seront définitivement supprimées.',
-      [
-        { text: 'Annuler', style: 'cancel' },
-        { text: 'Supprimer définitivement', style: 'destructive', onPress: handleDeleteAccount },
-      ],
-    );
+    Alert.alert(t('profile.deleteAccountConfirmTitle'), t('profile.deleteAccountConfirmMessage'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('profile.deleteAccountConfirmButton'),
+        style: 'destructive',
+        onPress: handleDeleteAccount,
+      },
+    ]);
   }
 
   if (isLoading || !profile) {
@@ -323,9 +330,9 @@ export default function ProfileScreen() {
             <ThemedView type="backgroundElement" style={styles.section}>
               <View style={styles.privacyRow}>
                 <View style={styles.privacyText}>
-                  <ThemedText type="smallBold">Profil public</ThemedText>
+                  <ThemedText type="smallBold">{t('profile.publicToggleTitle')}</ThemedText>
                   <ThemedText type="small" themeColor="textSecondary">
-                    Les autres peuvent voir ta taille et tes pesées
+                    {t('profile.publicToggleSubtitle')}
                   </ThemedText>
                 </View>
                 <Switch
@@ -338,7 +345,7 @@ export default function ProfileScreen() {
             </ThemedView>
 
             <ThemedView type="backgroundElement" style={styles.section}>
-              <ThemedText type="smallBold">Taille</ThemedText>
+              <ThemedText type="smallBold">{t('profile.heightLabel')}</ThemedText>
               <View style={styles.inlineRow}>
                 <TextInput
                   style={[
@@ -352,7 +359,7 @@ export default function ProfileScreen() {
                   onChangeText={setHeightInput}
                 />
                 <PrimaryButton
-                  title="Enregistrer"
+                  title={t('common.save')}
                   onPress={handleSaveHeight}
                   loading={isSavingHeight}
                   disabled={!heightInput.trim() || heightInput === (stats?.height_cm != null ? String(stats.height_cm) : '')}
@@ -361,7 +368,7 @@ export default function ProfileScreen() {
             </ThemedView>
 
             <ThemedView type="backgroundElement" style={styles.section}>
-              <ThemedText type="smallBold">Poids</ThemedText>
+              <ThemedText type="smallBold">{t('profile.weightLabel')}</ThemedText>
               <View style={styles.inlineRow}>
                 <TextInput
                   style={[
@@ -375,7 +382,7 @@ export default function ProfileScreen() {
                   onChangeText={setNewWeightInput}
                 />
                 <PrimaryButton
-                  title="Peser aujourd'hui"
+                  title={t('profile.weighToday')}
                   onPress={handleAddWeight}
                   loading={isAddingWeight}
                   disabled={!newWeightInput.trim()}
@@ -384,7 +391,7 @@ export default function ProfileScreen() {
 
               {weightLogs.length === 0 ? (
                 <ThemedText type="small" themeColor="textSecondary">
-                  Aucune pesée enregistrée.
+                  {t('profile.noWeightLogs')}
                 </ThemedText>
               ) : (
                 <View style={styles.weightList}>
@@ -392,7 +399,7 @@ export default function ProfileScreen() {
                     <View key={log.id} style={styles.weightRow}>
                       <ThemedText type="small">
                         {log.weight_kg} kg ·{' '}
-                        {new Date(log.logged_at).toLocaleDateString('fr-FR', {
+                        {new Date(log.logged_at).toLocaleDateString(i18n.language, {
                           day: 'numeric',
                           month: 'long',
                           year: 'numeric',
@@ -411,11 +418,32 @@ export default function ProfileScreen() {
               )}
             </ThemedView>
 
-            <PrimaryButton title="Se déconnecter" variant="secondary" onPress={confirmLogout} />
+            <ThemedView type="backgroundElement" style={styles.section}>
+              <ThemedText type="smallBold">{t('profile.language')}</ThemedText>
+              <View style={styles.languageRow}>
+                {SUPPORTED_LANGUAGES.map((language) => (
+                  <Pressable
+                    key={language}
+                    onPress={() => setAppLanguage(language)}
+                    style={[
+                      styles.languageChip,
+                      { backgroundColor: i18n.language === language ? theme.tint : theme.backgroundSelected },
+                    ]}>
+                    <ThemedText
+                      type="small"
+                      style={{ color: i18n.language === language ? theme.background : theme.text }}>
+                      {LANGUAGE_LABELS[language]}
+                    </ThemedText>
+                  </Pressable>
+                ))}
+              </View>
+            </ThemedView>
+
+            <PrimaryButton title={t('profile.logout')} variant="secondary" onPress={confirmLogout} />
 
             <Link href="/legal/privacy" style={styles.legalLink}>
               <ThemedText type="small" themeColor="textSecondary">
-                Confidentialité
+                {t('profile.privacy')}
               </ThemedText>
             </Link>
 
@@ -424,7 +452,7 @@ export default function ProfileScreen() {
                 type="small"
                 themeColor="danger"
                 style={[styles.deleteAccountText, isDeletingAccount && styles.disabled]}>
-                {isDeletingAccount ? 'Suppression en cours...' : 'Supprimer mon compte'}
+                {isDeletingAccount ? t('profile.deletingAccount') : t('profile.deleteAccount')}
               </ThemedText>
             </Pressable>
           </ScrollView>
@@ -504,6 +532,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  languageRow: {
+    flexDirection: 'row',
+    gap: Spacing.two,
+    flexWrap: 'wrap',
+  },
+  languageChip: {
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    borderRadius: Spacing.five,
   },
   legalLink: {
     alignSelf: 'center',

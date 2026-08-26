@@ -2,6 +2,7 @@ import type { AndroidSymbol } from 'expo-symbols';
 import { SymbolView } from 'expo-symbols';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, Pressable, RefreshControl, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { SFSymbol } from 'sf-symbols-typescript';
@@ -16,6 +17,7 @@ import { supabase } from '@/lib/supabase';
 import type { Workout } from '@/types';
 
 export default function MyWorkoutsScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
   const { user } = useAuth();
@@ -52,12 +54,18 @@ export default function MyWorkoutsScreen() {
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
         <ThemedView style={styles.headerRow}>
-          <ThemedText type="title">Mes séances</ThemedText>
-          <HeaderIconButton
-            onPress={() => router.push('/workout/new')}
-            symbol={{ ios: 'plus', android: 'add', web: 'add' }}
-            accent
-          />
+          <ThemedText type="title">{t('myWorkouts.title')}</ThemedText>
+          <ThemedView style={styles.headerActions}>
+            <HeaderIconButton
+              onPress={() => router.push('/templates')}
+              symbol={{ ios: 'rectangle.stack', android: 'queue_music', web: 'queue_music' }}
+            />
+            <HeaderIconButton
+              onPress={() => router.push('/workout/new')}
+              symbol={{ ios: 'plus', android: 'add', web: 'add' }}
+              accent
+            />
+          </ThemedView>
         </ThemedView>
 
         {error ? (
@@ -67,7 +75,7 @@ export default function MyWorkoutsScreen() {
         ) : null}
         {!error && !isLoading && workouts.length === 0 ? (
           <ThemedText themeColor="textSecondary" style={styles.message}>
-            Pas encore de séance. Lance-toi !
+            {t('myWorkouts.empty')}
           </ThemedText>
         ) : null}
 
@@ -133,6 +141,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.four,
     paddingTop: Spacing.two,
     paddingBottom: Spacing.three,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    gap: Spacing.two,
   },
   iconButton: {
     width: 40,

@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -16,6 +17,7 @@ function todayISODate() {
 }
 
 export default function NewWorkoutScreen() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [name, setName] = useState('');
   const [date, setDate] = useState(todayISODate());
@@ -36,7 +38,7 @@ export default function NewWorkoutScreen() {
     setIsSubmitting(false);
 
     if (error || !data) {
-      setError(error?.message ?? 'Impossible de créer la séance.');
+      setError(error?.message ?? t('workout.new.createFailed'));
       return;
     }
 
@@ -51,18 +53,18 @@ export default function NewWorkoutScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ThemedView style={styles.content}>
             <ThemedText type="title" style={styles.title}>
-              Nouvelle séance
+              {t('workout.new.title')}
             </ThemedText>
 
             <TextField
-              label="Nom de la séance"
-              placeholder="Ex : Push day"
+              label={t('workout.new.nameLabel')}
+              placeholder={t('workout.new.namePlaceholder')}
               value={name}
               onChangeText={setName}
               autoFocus
             />
             <TextField
-              label="Date (AAAA-MM-JJ)"
+              label={t('workout.new.dateLabel')}
               value={date}
               onChangeText={setDate}
               autoCapitalize="none"
@@ -76,7 +78,7 @@ export default function NewWorkoutScreen() {
             ) : null}
 
             <PrimaryButton
-              title="Créer"
+              title={t('workout.new.submit')}
               onPress={handleCreate}
               loading={isSubmitting}
               disabled={!name.trim() || !date.trim()}

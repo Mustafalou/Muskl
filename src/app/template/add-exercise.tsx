@@ -18,10 +18,10 @@ import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/lib/supabase';
 
-export default function AddExerciseScreen() {
+export default function AddTemplateExerciseScreen() {
   const { t, i18n } = useTranslation();
   const language = i18n.language as SupportedLanguage;
-  const { workoutId } = useLocalSearchParams<{ workoutId: string }>();
+  const { templateId } = useLocalSearchParams<{ templateId: string }>();
   const theme = useTheme();
   const [query, setQuery] = useState('');
   const [muscle, setMuscle] = useState<string | null>(null);
@@ -53,14 +53,14 @@ export default function AddExerciseScreen() {
   }
 
   async function insertExercises(names: string[]) {
-    if (names.length === 0 || !workoutId || isSubmitting) return;
+    if (names.length === 0 || !templateId || isSubmitting) return;
     setIsSubmitting(true);
     setError(null);
 
     const { count, error: countError } = await supabase
-      .from('exercises')
+      .from('template_exercises')
       .select('id', { count: 'exact', head: true })
-      .eq('workout_id', workoutId);
+      .eq('template_id', templateId);
 
     if (countError) {
       setIsSubmitting(false);
@@ -69,12 +69,12 @@ export default function AddExerciseScreen() {
     }
 
     const rows = names.map((name, index) => ({
-      workout_id: workoutId,
+      template_id: templateId,
       name,
       order: (count ?? 0) + index,
     }));
 
-    const { error: insertError } = await supabase.from('exercises').insert(rows);
+    const { error: insertError } = await supabase.from('template_exercises').insert(rows);
 
     setIsSubmitting(false);
 

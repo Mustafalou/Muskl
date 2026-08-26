@@ -1,5 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -13,6 +14,7 @@ import { supabase } from '@/lib/supabase';
 import type { WorkoutWithAuthor } from '@/types';
 
 export default function FeedScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
   const { user } = useAuth();
@@ -76,25 +78,25 @@ export default function FeedScreen() {
 
   function handleReport(workout: WorkoutWithAuthor) {
     Alert.alert(
-      'Signaler cette séance ?',
-      workout.username ? `Signaler la séance de @${workout.username}.` : undefined,
+      t('feed.reportTitle'),
+      workout.username ? t('feed.reportMessage', { username: workout.username }) : undefined,
       [
-        { text: 'Annuler', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Signaler',
+          text: t('feed.reportConfirm'),
           style: 'destructive',
           onPress: async () => {
             if (!user) return;
             const { error: reportError } = await supabase.from('content_reports').insert({
               reporter_id: user.id,
               workout_id: workout.id,
-              reason: 'Signalé depuis le feed',
+              reason: t('feed.reportReason'),
             });
             if (reportError) {
               setError(reportError.message);
               return;
             }
-            Alert.alert('Merci', 'Ton signalement a bien été envoyé.');
+            Alert.alert(t('feed.thanksTitle'), t('feed.thanksMessage'));
           },
         },
       ],
@@ -105,7 +107,7 @@ export default function FeedScreen() {
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
         <ThemedText type="title" style={styles.header}>
-          Feed
+          {t('feed.title')}
         </ThemedText>
 
         {error ? (
@@ -115,7 +117,7 @@ export default function FeedScreen() {
         ) : null}
         {!error && !isLoading && workouts.length === 0 ? (
           <ThemedText themeColor="textSecondary" style={styles.message}>
-            Aucune séance pour l&apos;instant. Sois le premier à en logger une !
+            {t('feed.empty')}
           </ThemedText>
         ) : null}
 

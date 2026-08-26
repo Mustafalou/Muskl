@@ -1,5 +1,8 @@
+import '@/i18n';
+
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StyleSheet, useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
@@ -12,6 +15,7 @@ SplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
   const { session, isLoading } = useAuth();
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -34,20 +38,30 @@ function RootNavigator() {
 
       <Stack.Protected guard={!!session}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="workout/[id]" options={{ headerBackTitle: 'Retour' }} />
+        <Stack.Screen name="workout/[id]" options={{ headerBackTitle: t('common.back') }} />
         <Stack.Screen
           name="workout/new"
-          options={{ title: 'Nouvelle séance', presentation: 'modal' }}
+          options={{ title: t('workout.new.title'), presentation: 'modal' }}
         />
         <Stack.Screen
           name="workout/add-exercise"
-          options={{ title: 'Ajouter un exercice', presentation: 'modal' }}
+          options={{ title: t('workout.addExercise.title'), presentation: 'modal' }}
         />
         <Stack.Screen
           name="reset-password"
-          options={{ title: 'Nouveau mot de passe', presentation: 'modal' }}
+          options={{ title: t('auth.resetPassword.title'), presentation: 'modal' }}
         />
-        <Stack.Screen name="legal/privacy" options={{ title: 'Confidentialité' }} />
+        <Stack.Screen name="legal/privacy" options={{ title: t('profile.privacy') }} />
+        <Stack.Screen name="templates" options={{ title: t('templates.title') }} />
+        <Stack.Screen name="template/[id]" options={{ headerBackTitle: t('common.back') }} />
+        <Stack.Screen
+          name="template/new"
+          options={{ title: t('templates.new.title'), presentation: 'modal' }}
+        />
+        <Stack.Screen
+          name="template/add-exercise"
+          options={{ title: t('workout.addExercise.title'), presentation: 'modal' }}
+        />
       </Stack.Protected>
     </Stack>
   );

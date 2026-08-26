@@ -1,0 +1,211 @@
+{
+  "common": {
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "back": "Retour"
+  },
+  "tabs": {
+    "feed": "Feed",
+    "myWorkouts": "Mes séances",
+    "profile": "Profil"
+  },
+  "auth": {
+    "login": {
+      "title": "Muskl",
+      "subtitle": "Connecte-toi pour voir tes séances et celles de la communauté.",
+      "emailLabel": "Email",
+      "passwordLabel": "Mot de passe",
+      "submit": "Se connecter",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Pas encore de compte ? Inscris-toi"
+    },
+    "signup": {
+      "title": "Rejoins Muskl",
+      "subtitle": "Crée ton compte pour commencer à logger tes séances.",
+      "usernameLabel": "Pseudo",
+      "usernamePlaceholder": "ex: gigachad_du_92",
+      "emailLabel": "Email",
+      "passwordLabel": "Mot de passe",
+      "submit": "Créer mon compte",
+      "hasAccount": "Déjà un compte ? Connecte-toi",
+      "chooseUsername": "Choisis un pseudo.",
+      "signupFailed": "L'inscription a échoué, réessaie.",
+      "needsConfirmation": "Compte créé. Vérifie tes emails pour confirmer ton adresse, puis connecte-toi."
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entre ton email, on t'envoie un lien pour le réinitialiser.",
+      "submit": "Envoyer le lien",
+      "backToLogin": "Retour à la connexion",
+      "successMessage": "Si un compte existe avec cet email, un lien de réinitialisation vient d'être envoyé."
+    },
+    "resetPassword": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Choisis un nouveau mot de passe pour ton compte.",
+      "passwordLabel": "Nouveau mot de passe",
+      "submit": "Enregistrer",
+      "tooShort": "Le mot de passe doit contenir au moins 6 caractères."
+    }
+  },
+  "feed": {
+    "title": "Feed",
+    "empty": "Aucune séance pour l'instant. Sois le premier à en logger une !",
+    "reportTitle": "Signaler cette séance ?",
+    "reportMessage": "Signaler la séance de @{{username}}.",
+    "reportConfirm": "Signaler",
+    "reportReason": "Signalé depuis le feed",
+    "thanksTitle": "Merci",
+    "thanksMessage": "Ton signalement a bien été envoyé."
+  },
+  "myWorkouts": {
+    "title": "Mes séances",
+    "empty": "Pas encore de séance. Lance-toi !"
+  },
+  "workout": {
+    "new": {
+      "title": "Nouvelle séance",
+      "nameLabel": "Nom de la séance",
+      "namePlaceholder": "Ex : Push day",
+      "dateLabel": "Date (AAAA-MM-JJ)",
+      "submit": "Créer",
+      "createFailed": "Impossible de créer la séance."
+    },
+    "addExercise": {
+      "title": "Ajouter un exercice",
+      "searchPlaceholder": "Chercher un exercice...",
+      "all": "Tous",
+      "addCustom": "Ajouter « {{query}} » comme exercice personnalisé",
+      "addSelected": "Ajouter ({{count}})"
+    },
+    "detail": {
+      "notFound": "Séance introuvable.",
+      "noExercises": "Aucun exercice pour l'instant.",
+      "addExercise": "+ Ajouter un exercice",
+      "deleteWorkout": "Supprimer cette séance",
+      "deleteConfirmTitle": "Supprimer cette séance ?",
+      "deleteConfirmMessage": "Cette action est irréversible : les exercices et séries associés seront aussi supprimés.",
+      "addSetFailed": "Impossible d'ajouter la série.",
+      "reportMode": "Rapport",
+      "liveMode": "Live",
+      "exerciseCounter": "Exercice {{current}} / {{total}}",
+      "rest": "Repos",
+      "cancelRest": "Annuler le repos",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "finish": "Terminer"
+    }
+  },
+  "restTimer": {
+    "channelName": "Minuteur de repos",
+    "notificationTitle": "Repos terminé",
+    "notificationBody": "Prêt pour la prochaine série ?"
+  },
+  "exercise": {
+    "noSets": "Aucune série pour l'instant.",
+    "addDrop": "+ Ajouter un drop (poids dégressif)"
+  },
+  "templates": {
+    "title": "Mes modèles",
+    "empty": "Aucun modèle pour l'instant. Crée une séance type que tu pourras relancer plus tard.",
+    "deleteConfirmTitle": "Supprimer ce modèle ?",
+    "exerciseCount_one": "{{count}} exercice",
+    "exerciseCount_other": "{{count}} exercices",
+    "new": {
+      "title": "Nouveau modèle",
+      "nameLabel": "Nom du modèle",
+      "namePlaceholder": "Ex : Push day",
+      "submit": "Créer",
+      "createFailed": "Impossible de créer le modèle."
+    },
+    "detail": {
+      "notFound": "Modèle introuvable.",
+      "nameLabel": "Nom du modèle",
+      "saving": "Enregistrement...",
+      "noExercises": "Aucun exercice pour l'instant.",
+      "addExercise": "+ Ajouter un exercice",
+      "launch": "Lancer cette séance",
+      "deleteTemplate": "Supprimer ce modèle",
+      "deleteConfirmTitle": "Supprimer ce modèle ?",
+      "addSetFailed": "Impossible d'ajouter la série cible."
+    },
+    "exerciseSection": {
+      "noTargetSets": "Aucune série cible (facultatif).",
+      "rest": "Repos",
+      "noRest": "Aucun"
+    }
+  },
+  "profile": {
+    "publicToggleTitle": "Profil public",
+    "publicToggleSubtitle": "Les autres peuvent voir ta taille et tes pesées",
+    "heightLabel": "Taille",
+    "weightLabel": "Poids",
+    "weighToday": "Peser aujourd'hui",
+    "noWeightLogs": "Aucune pesée enregistrée.",
+    "logout": "Se déconnecter",
+    "logoutConfirmTitle": "Se déconnecter ?",
+    "logoutConfirmButton": "Déconnexion",
+    "privacy": "Confidentialité",
+    "language": "Langue",
+    "deleteAccount": "Supprimer mon compte",
+    "deletingAccount": "Suppression en cours...",
+    "deleteAccountConfirmTitle": "Supprimer ton compte ?",
+    "deleteAccountConfirmMessage": "Cette action est irréversible : toutes tes séances, photos et données seront définitivement supprimées.",
+    "deleteAccountConfirmButton": "Supprimer définitivement",
+    "photoPermissionDenied": "Autorise l'accès aux photos pour changer ta photo de profil.",
+    "createProfileError": "Impossible de créer ton profil (\"{{username}}\") : {{message}}",
+    "addWeightFailed": "Impossible d'ajouter la pesée.",
+    "deleteAccountGenericError": "Une erreur est survenue lors de la suppression du compte."
+  },
+  "legal": {
+    "privacy": {
+      "lastUpdated": "Dernière mise à jour : 10 août 2026",
+      "sections": [
+        {
+          "title": "1. Qui est responsable de tes données",
+          "body": "Muskl est un projet développé et exploité de façon indépendante. Pour toute question, contacte mustafaliiyilmaz@gmail.com."
+        },
+        {
+          "title": "2. Données collectées",
+          "body": "• Compte : email et mot de passe (géré par Supabase Auth, jamais stocké en clair)\n• Profil : pseudo, photo de profil (optionnelle)\n• Statistiques corporelles (optionnelles) : taille, historique de poids\n• Séances : nom, date, exercices, séries (répétitions, poids, RPE)\n• Signalements : quelle séance, par qui"
+        },
+        {
+          "title": "3. Visibilité de tes données",
+          "body": "Muskl est une app sociale : ton pseudo, ta photo et tes séances sont visibles par tous dans le feed, par défaut. Ta taille et ton historique de poids ont un réglage de confidentialité séparé (onglet Profil → \"Profil public\"), activé par défaut — tu peux le désactiver à tout moment."
+        },
+        {
+          "title": "4. Sous-traitant",
+          "body": "Les données sont hébergées chez Supabase (base de données, authentification, stockage des photos), dans l'Union Européenne. Aucune donnée n'est vendue ni partagée à des fins publicitaires — Muskl n'affiche aucune publicité et n'utilise aucun outil d'analytics tiers."
+        },
+        {
+          "title": "5. Durée de conservation",
+          "body": "Tes données sont conservées tant que ton compte existe. La suppression de compte efface tout définitivement."
+        },
+        {
+          "title": "6. Suppression de ton compte",
+          "body": "Onglet Profil → Supprimer mon compte. Action irréversible : supprime immédiatement ton compte, profil, photo, séances, exercices, séries, historique de poids et signalements."
+        },
+        {
+          "title": "7. Tes droits",
+          "body": "Conformément au RGPD : accès, rectification, effacement, portabilité. La plupart sont disponibles directement dans l'app. Pour toute autre demande, contacte-nous."
+        },
+        {
+          "title": "8. Signalement de contenu",
+          "body": "Tu peux signaler une séance depuis le feed. Les signalements sont visibles uniquement par toi et par l'équipe de Muskl."
+        },
+        {
+          "title": "9. Sécurité",
+          "body": "L'accès aux données est protégé par des règles de sécurité au niveau de chaque ligne de la base de données (Row Level Security). Les échanges sont chiffrés (HTTPS)."
+        },
+        {
+          "title": "10. Âge minimum",
+          "body": "Muskl n'est pas destiné aux personnes de moins de 16 ans."
+        },
+        {
+          "title": "11. Contact",
+          "body": "mustafaliiyilmaz@gmail.com"
+        }
+      ]
+    }
+  }
+}

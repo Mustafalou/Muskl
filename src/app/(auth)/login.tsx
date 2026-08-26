@@ -1,5 +1,6 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,6 +12,7 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function LoginScreen() {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,15 +37,15 @@ export default function LoginScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
             <ThemedText type="title" style={styles.title}>
-              Muskl
+              {t('auth.login.title')}
             </ThemedText>
             <ThemedText themeColor="textSecondary" style={styles.subtitle}>
-              Connecte-toi pour voir tes séances et celles de la communauté.
+              {t('auth.login.subtitle')}
             </ThemedText>
 
             <ThemedView style={styles.form}>
               <TextField
-                label="Email"
+                label={t('auth.login.emailLabel')}
                 value={email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
@@ -52,7 +54,7 @@ export default function LoginScreen() {
                 autoComplete="email"
               />
               <TextField
-                label="Mot de passe"
+                label={t('auth.login.passwordLabel')}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -67,7 +69,7 @@ export default function LoginScreen() {
               ) : null}
 
               <PrimaryButton
-                title="Se connecter"
+                title={t('auth.login.submit')}
                 onPress={handleSubmit}
                 loading={isSubmitting}
                 disabled={!email || !password}
@@ -75,13 +77,13 @@ export default function LoginScreen() {
 
               <Link href="/forgot-password" style={styles.forgotLink}>
                 <ThemedText type="small" themeColor="textSecondary">
-                  Mot de passe oublié ?
+                  {t('auth.login.forgotPassword')}
                 </ThemedText>
               </Link>
             </ThemedView>
 
             <Link href="/signup" style={styles.link}>
-              <ThemedText themeColor="tint">Pas encore de compte ? Inscris-toi</ThemedText>
+              <ThemedText themeColor="tint">{t('auth.login.noAccount')}</ThemedText>
             </Link>
           </ScrollView>
         </KeyboardAvoidingView>

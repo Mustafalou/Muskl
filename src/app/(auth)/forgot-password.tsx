@@ -1,5 +1,6 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,6 +12,7 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function ForgotPasswordScreen() {
+  const { t } = useTranslation();
   const { requestPasswordReset } = useAuth();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +30,7 @@ export default function ForgotPasswordScreen() {
       setError(result.error);
       return;
     }
-    setInfo("Si un compte existe avec cet email, un lien de réinitialisation vient d'être envoyé.");
+    setInfo(t('auth.forgotPassword.successMessage'));
   }
 
   return (
@@ -39,15 +41,15 @@ export default function ForgotPasswordScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
             <ThemedText type="title" style={styles.title}>
-              Mot de passe oublié
+              {t('auth.forgotPassword.title')}
             </ThemedText>
             <ThemedText themeColor="textSecondary" style={styles.subtitle}>
-              Entre ton email, on t&apos;envoie un lien pour le réinitialiser.
+              {t('auth.forgotPassword.subtitle')}
             </ThemedText>
 
             <ThemedView style={styles.form}>
               <TextField
-                label="Email"
+                label={t('auth.login.emailLabel')}
                 value={email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
@@ -68,7 +70,7 @@ export default function ForgotPasswordScreen() {
               ) : null}
 
               <PrimaryButton
-                title="Envoyer le lien"
+                title={t('auth.forgotPassword.submit')}
                 onPress={handleSubmit}
                 loading={isSubmitting}
                 disabled={!email.trim()}
@@ -76,7 +78,7 @@ export default function ForgotPasswordScreen() {
             </ThemedView>
 
             <Link href="/login" style={styles.link}>
-              <ThemedText themeColor="tint">Retour à la connexion</ThemedText>
+              <ThemedText themeColor="tint">{t('auth.forgotPassword.backToLogin')}</ThemedText>
             </Link>
           </ScrollView>
         </KeyboardAvoidingView>
