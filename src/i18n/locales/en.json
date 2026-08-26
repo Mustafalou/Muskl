@@ -11,6 +11,7 @@
     "profile": "Profile"
   },
   "auth": {
+    "networkError": "Couldn't reach the server. Check your internet connection and try again.",
     "login": {
       "title": "Muskl",
       "subtitle": "Log in to see your workouts and the community's.",
@@ -89,10 +90,16 @@
       "reportMode": "Report",
       "liveMode": "Live",
       "exerciseCounter": "Exercise {{current}} / {{total}}",
+      "setCounter": "Set {{current}} / {{total}}",
+      "setDone": "Set done",
+      "noSetsPlanned": "No sets planned for this exercise. Add your sets as you go.",
+      "noMoreSets": "No more sets planned for this exercise.",
+      "addExtraSet": "Add a set",
+      "nextExercise": "Next exercise",
+      "setsSummary_one": "{{count}} set",
+      "setsSummary_other": "{{count}} sets",
       "rest": "Rest",
       "cancelRest": "Cancel rest",
-      "previous": "Previous",
-      "next": "Next",
       "finish": "Finish"
     }
   },

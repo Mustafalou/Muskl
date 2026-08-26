@@ -1,7 +1,8 @@
 import '@/i18n';
 
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StyleSheet, useColorScheme } from 'react-native';
 
@@ -9,6 +10,7 @@ import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { loadLiveSession } from '@/lib/live-session';
 import { AuthProvider } from '@/providers/auth-provider';
 
 SplashScreen.preventAutoHideAsync();
@@ -16,6 +18,18 @@ SplashScreen.preventAutoHideAsync();
 function RootNavigator() {
   const { session, isLoading } = useAuth();
   const { t } = useTranslation();
+  const router = useRouter();
+  const hasResumedRef = useRef(false);
+
+  useEffect(() => {
+    if (isLoading || !session || hasResumedRef.current) return;
+    hasResumedRef.current = true;
+    loadLiveSession().then((liveSession) => {
+      if (liveSession) {
+        router.push({ pathname: '/workout/[id]', params: { id: liveSession.workoutId, resume: '1' } });
+      }
+    });
+  }, [isLoading, session, router]);
 
   if (isLoading) {
     return (

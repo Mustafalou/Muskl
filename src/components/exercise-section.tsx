@@ -8,6 +8,7 @@ import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
+import { groupSetsByOrder } from '@/lib/group-sets';
 import { supabase } from '@/lib/supabase';
 import type { ExerciseWithSets } from '@/types';
 
@@ -160,18 +161,7 @@ export function ExerciseSection({
     setRpe('');
   }
 
-  const groups = new Map<number, typeof exercise.sets>();
-  for (const set of exercise.sets) {
-    const list = groups.get(set.order) ?? [];
-    list.push(set);
-    groups.set(set.order, list);
-  }
-  const groupedSets = [...groups.entries()]
-    .sort(([orderA], [orderB]) => orderA - orderB)
-    .map(([order, sets]) => ({
-      order,
-      sets: [...sets].sort((a, b) => a.drop_index - b.drop_index),
-    }));
+  const groupedSets = groupSetsByOrder(exercise.sets);
 
   return (
     <ThemedView type="backgroundElement" style={styles.card}>

@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import type * as NotificationsModule from 'expo-notifications';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
 
 const MUTE_STORAGE_KEY = 'restTimerMuted';
 const CHANNEL_ID = 'rest-timer';
@@ -39,6 +39,22 @@ export function useRestTimer() {
   const [secondsRemaining, setSecondsRemaining] = useState<number | null>(null);
   const notificationIdRef = useRef<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // The wall-clock timestamp the rest period ends at. JS timers stop firing while the app is
+  // backgrounded, so `secondsRemaining` is always recomputed from this rather than decremented,
+  // otherwise the on-screen countdown drifts behind the OS-scheduled notification after a
+  // background/foreground cycle.
+  const endTimeRef = useRef<number | null>(null);
+  const [restEndTime, setRestEndTime] = useState<number | null>(null);
+  const isMutedRef = useRef(isMuted);
+
+  function setEndTime(value: number | null) {
+    endTimeRef.current = value;
+    setRestEndTime(value);
+  }
+
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+  }, [isMuted]);
 
   useEffect(() => {
     AsyncStorage.getItem(MUTE_STORAGE_KEY).then((value) => {
@@ -66,6 +82,38 @@ export function useRestTimer() {
     };
   }, []);
 
+  function tick() {
+    if (endTimeRef.current === null) return;
+
+    const remainingMs = endTimeRef.current - Date.now();
+    if (remainingMs <= 0) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      setEndTime(null);
+      setSecondsRemaining(null);
+      if (!isMutedRef.current) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+      }
+      return;
+    }
+
+    setSecondsRemaining(Math.ceil(remainingMs / 1000));
+  }
+
+  const tickRef = useRef(tick);
+  useEffect(() => {
+    tickRef.current = tick;
+  });
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextState) => {
+      if (nextState === 'active') tickRef.current();
+    });
+    return () => subscription.remove();
+  }, []);
+
   async function toggleMute() {
     const next = !isMuted;
     setIsMuted(next);
@@ -77,6 +125,7 @@ export function useRestTimer() {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
+    setEndTime(null);
     if (notificationIdRef.current && Notifications) {
       try {
         await Notifications.cancelScheduledNotificationAsync(notificationIdRef.current);
@@ -91,22 +140,10 @@ export function useRestTimer() {
   async function startTimer() {
     await cancelTimer();
 
+    const endTime = Date.now() + duration * 1000;
+    setEndTime(endTime);
     setSecondsRemaining(duration);
-    intervalRef.current = setInterval(() => {
-      setSecondsRemaining((prev) => {
-        if (prev === null || prev <= 1) {
-          if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-          }
-          if (prev !== null && !isMuted) {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-          }
-          return null;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    intervalRef.current = setInterval(tick, 250);
 
     if (!isMuted && Notifications) {
       try {
@@ -128,6 +165,22 @@ export function useRestTimer() {
         // and end-of-timer haptic feedback above still work.
       }
     }
+
+    return endTime;
+  }
+
+  // Resumes a rest period that was already running before the app was fully closed (its
+  // notification was scheduled against the OS clock, so it still fires on time regardless).
+  // Only the in-app countdown display needs picking back up here.
+  function restoreTimer(endTime: number, restoredDuration: number) {
+    setDuration(restoredDuration);
+    const remainingMs = endTime - Date.now();
+    if (remainingMs <= 0) return;
+
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setEndTime(endTime);
+    setSecondsRemaining(Math.ceil(remainingMs / 1000));
+    intervalRef.current = setInterval(tick, 250);
   }
 
   return {
@@ -136,7 +189,9 @@ export function useRestTimer() {
     duration,
     setDuration,
     secondsRemaining,
+    restEndTime,
     startTimer,
+    restoreTimer,
     cancelTimer,
   };
 }

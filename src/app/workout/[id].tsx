@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
@@ -10,6 +10,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  TextInput,
   View,
 } from 'react-native';
 
@@ -21,6 +22,8 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { REST_DURATIONS, useRestTimer } from '@/hooks/use-rest-timer';
 import { useTheme } from '@/hooks/use-theme';
+import { groupSetsByOrder, type SetGroup } from '@/lib/group-sets';
+import { clearLiveSession, loadLiveSession, saveLiveSession } from '@/lib/live-session';
 import { supabase } from '@/lib/supabase';
 import type { ExerciseWithSets, Workout } from '@/types';
 
@@ -34,7 +37,7 @@ type WorkoutDetail = Workout & { username: string | null };
 
 export default function WorkoutDetailScreen() {
   const { t, i18n } = useTranslation();
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, resume } = useLocalSearchParams<{ id: string; resume?: string }>();
   const router = useRouter();
   const theme = useTheme();
   const { user } = useAuth();
@@ -44,7 +47,9 @@ export default function WorkoutDetailScreen() {
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'report' | 'live'>('report');
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [initialSetIndex, setInitialSetIndex] = useState(0);
   const restTimer = useRestTimer();
+  const hasResumedRef = useRef(false);
 
   const loadWorkout = useCallback(async () => {
     const { data: workoutRow, error: workoutError } = await supabase
@@ -106,8 +111,24 @@ export default function WorkoutDetailScreen() {
         sets: setsByExercise[exercise.id] ?? [],
       })),
     );
+
+    if (resume === '1' && !hasResumedRef.current) {
+      hasResumedRef.current = true;
+      const session = await loadLiveSession();
+      if (session && session.workoutId === id) {
+        setCurrentExerciseIndex(session.exerciseIndex);
+        setInitialSetIndex(session.setIndex);
+        setViewMode('live');
+        if (session.restEndTime) {
+          restTimer.restoreTimer(session.restEndTime, session.restDuration);
+        } else {
+          restTimer.setDuration(session.restDuration);
+        }
+      }
+    }
+
     setIsLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- t/i18n intentionally excluded; only re-fetch on id change, not language change
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- t/i18n/resume/restTimer intentionally excluded; only re-fetch on id change, not language change
   }, [id]);
 
   useFocusEffect(
@@ -165,7 +186,7 @@ export default function WorkoutDetailScreen() {
     rpe: number | null,
   ) {
     await handleAddSet(exerciseId, drops, rpe);
-    restTimer.startTimer();
+    return restTimer.startTimer();
   }
 
   async function handleUpdateSet(updates: { id: string; weight: number; reps: number }[]) {
@@ -222,6 +243,7 @@ export default function WorkoutDetailScreen() {
       return;
     }
 
+    await clearLiveSession();
     router.replace('/');
   }
 
@@ -286,6 +308,7 @@ export default function WorkoutDetailScreen() {
                 <Pressable
                   onPress={() => {
                     setCurrentExerciseIndex(0);
+                    setInitialSetIndex(0);
                     if (exercises[0]?.rest_seconds) {
                       restTimer.setDuration(exercises[0].rest_seconds);
                     }
@@ -308,12 +331,14 @@ export default function WorkoutDetailScreen() {
               <LiveWorkoutView
                 exercises={exercises}
                 currentIndex={Math.min(currentExerciseIndex, exercises.length - 1)}
+                initialSetIndex={initialSetIndex}
                 onNavigate={setCurrentExerciseIndex}
-                onFinish={() => setViewMode('report')}
+                onFinish={() => {
+                  clearLiveSession();
+                  setViewMode('report');
+                }}
                 onAddSet={handleAddSetLive}
                 onUpdateSet={handleUpdateSet}
-                onDeleteSet={handleDeleteSet}
-                onDeleteExercise={handleDeleteExercise}
                 restTimer={restTimer}
               />
             ) : (
@@ -366,137 +391,403 @@ export default function WorkoutDetailScreen() {
 type LiveWorkoutViewProps = {
   exercises: ExerciseWithSets[];
   currentIndex: number;
+  initialSetIndex: number;
   onNavigate: (index: number) => void;
   onFinish: () => void;
   onAddSet: (
     exerciseId: string,
     drops: { weight: number; reps: number }[],
     rpe: number | null,
-  ) => Promise<void>;
+  ) => Promise<number>;
   onUpdateSet: (updates: { id: string; weight: number; reps: number }[]) => Promise<void>;
-  onDeleteSet: (setIds: string[]) => void;
-  onDeleteExercise: (exerciseId: string) => void;
   restTimer: ReturnType<typeof useRestTimer>;
 };
+
+function seedActiveValues(group: SetGroup | undefined) {
+  if (group && group.sets.length === 1) {
+    return { weight: String(group.sets[0].weight), reps: String(group.sets[0].reps) };
+  }
+  return { weight: '', reps: '' };
+}
 
 function LiveWorkoutView({
   exercises,
   currentIndex,
+  initialSetIndex,
   onNavigate,
   onFinish,
   onAddSet,
   onUpdateSet,
-  onDeleteSet,
-  onDeleteExercise,
   restTimer,
 }: LiveWorkoutViewProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const exercise = exercises[currentIndex];
-  const isLast = currentIndex === exercises.length - 1;
+  const groups = groupSetsByOrder(exercise.sets);
 
-  function navigateTo(index: number) {
-    onNavigate(index);
-    const nextExercise = exercises[index];
-    if (nextExercise?.rest_seconds) {
-      restTimer.setDuration(nextExercise.rest_seconds);
-    }
+  const [currentSetIndex, setCurrentSetIndex] = useState(initialSetIndex);
+  const [activeValues, setActiveValues] = useState(() => seedActiveValues(groups[initialSetIndex]));
+  const [editingOrder, setEditingOrder] = useState<number | null>(null);
+  const [editValues, setEditValues] = useState({ weight: '', reps: '' });
+  const [extraValues, setExtraValues] = useState({ weight: '', reps: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  function persistSession(exerciseIndex: number, setIndex: number, restEndTime: number | null) {
+    saveLiveSession({
+      workoutId: exercise.workout_id,
+      exerciseIndex,
+      setIndex,
+      restEndTime,
+      restDuration: restTimer.duration,
+    });
   }
+
+  function enterExercise(index: number) {
+    onNavigate(index);
+    setEditingOrder(null);
+    setExtraValues({ weight: '', reps: '' });
+    setCurrentSetIndex(0);
+    setActiveValues(seedActiveValues(groupSetsByOrder(exercises[index]?.sets ?? [])[0]));
+    if (exercises[index]?.rest_seconds) {
+      restTimer.setDuration(exercises[index].rest_seconds!);
+    }
+    persistSession(index, 0, restTimer.restEndTime);
+  }
+
+  async function handleCompleteSet() {
+    const group = groups[currentSetIndex];
+    if (!group) return;
+
+    setIsSubmitting(true);
+    if (group.sets.length === 1) {
+      const weight = parseFloat(activeValues.weight);
+      const reps = parseInt(activeValues.reps, 10);
+      if (
+        Number.isFinite(weight) &&
+        Number.isFinite(reps) &&
+        (weight !== group.sets[0].weight || reps !== group.sets[0].reps)
+      ) {
+        await onUpdateSet([{ id: group.sets[0].id, weight, reps }]);
+      }
+    }
+    const endTime = await restTimer.startTimer();
+    setIsSubmitting(false);
+
+    const nextIndex = currentSetIndex + 1;
+    setCurrentSetIndex(nextIndex);
+    setActiveValues(seedActiveValues(groups[nextIndex]));
+    persistSession(currentIndex, nextIndex, endTime);
+  }
+
+  const canCompleteSet =
+    !isSubmitting &&
+    (groups[currentSetIndex]?.sets.length !== 1 ||
+      (Number.isFinite(parseFloat(activeValues.weight)) && Number.isFinite(parseInt(activeValues.reps, 10))));
+
+  function startEditing(group: SetGroup) {
+    if (group.sets.length !== 1) return;
+    setEditingOrder(group.order);
+    setEditValues({ weight: String(group.sets[0].weight), reps: String(group.sets[0].reps) });
+  }
+
+  async function saveEditing(group: SetGroup) {
+    const weight = parseFloat(editValues.weight);
+    const reps = parseInt(editValues.reps, 10);
+    if (!Number.isFinite(weight) || !Number.isFinite(reps)) return;
+    await onUpdateSet([{ id: group.sets[0].id, weight, reps }]);
+    setEditingOrder(null);
+  }
+
+  async function handleAddExtraSet() {
+    const weight = parseFloat(extraValues.weight);
+    const reps = parseInt(extraValues.reps, 10);
+    if (!Number.isFinite(weight) || !Number.isFinite(reps)) return;
+    setIsSubmitting(true);
+    const endTime = await onAddSet(exercise.id, [{ weight, reps }], null);
+    setIsSubmitting(false);
+    setExtraValues({ weight: '', reps: '' });
+    const nextIndex = currentSetIndex + 1;
+    setCurrentSetIndex(nextIndex);
+    persistSession(currentIndex, nextIndex, endTime);
+  }
+
+  const isLast = currentIndex === exercises.length - 1;
+  const isPastPlan = currentSetIndex >= groups.length;
 
   return (
     <View style={styles.liveContainer}>
-      <ThemedText type="small" themeColor="textSecondary" style={styles.liveCounter}>
-        {t('workout.detail.exerciseCounter', { current: currentIndex + 1, total: exercises.length })}
-      </ThemedText>
-
-      <ExerciseSection
-        exercise={exercise}
-        editable
-        onAddSet={onAddSet}
-        onUpdateSet={onUpdateSet}
-        onDeleteSet={onDeleteSet}
-        onDeleteExercise={onDeleteExercise}
-      />
-
-      <ThemedView type="backgroundElement" style={styles.restPanel}>
-        <View style={styles.restHeader}>
-          <ThemedText type="smallBold">
-            {restTimer.secondsRemaining !== null
-              ? formatCountdown(restTimer.secondsRemaining)
-              : t('workout.detail.rest')}
-          </ThemedText>
-          <Pressable onPress={restTimer.toggleMute} hitSlop={8}>
-            <SymbolView
-              name={{
-                ios: restTimer.isMuted ? 'speaker.slash.fill' : 'speaker.wave.2.fill',
-                android: restTimer.isMuted ? 'volume_off' : 'volume_up',
-                web: restTimer.isMuted ? 'volume_off' : 'volume_up',
-              }}
-              tintColor={theme.textSecondary}
-              size={18}
-            />
-          </Pressable>
-        </View>
-
-        <View style={styles.restDurations}>
-          {REST_DURATIONS.map((seconds) => (
-            <Pressable
-              key={seconds}
-              onPress={() => restTimer.setDuration(seconds)}
-              style={[
-                styles.durationChip,
-                { backgroundColor: restTimer.duration === seconds ? theme.tint : theme.backgroundSelected },
-              ]}>
-              <ThemedText
-                type="small"
-                style={{ color: restTimer.duration === seconds ? theme.background : theme.text }}>
-                {seconds}s
+      {exercises.map((item, index) => {
+        if (index === currentIndex) {
+          return (
+            <ThemedView key={item.id} type="backgroundElement" style={[styles.focusCard, { borderColor: theme.tint }]}>
+              <ThemedText type="small" themeColor="textSecondary">
+                {t('workout.detail.exerciseCounter', { current: index + 1, total: exercises.length })}
               </ThemedText>
-            </Pressable>
-          ))}
-        </View>
+              <ThemedText type="title">{item.name}</ThemedText>
 
-        {restTimer.secondsRemaining !== null ? (
-          <Pressable onPress={restTimer.cancelTimer}>
-            <ThemedText type="small" themeColor="danger" style={styles.cancelRest}>
-              {t('workout.detail.cancelRest')}
+              {groups.length > 0 ? (
+                <ThemedText type="small" themeColor="tint">
+                  {t('workout.detail.setCounter', {
+                    current: Math.min(currentSetIndex + 1, groups.length),
+                    total: groups.length,
+                  })}
+                </ThemedText>
+              ) : null}
+
+              <View style={styles.setsList}>
+                {groups.map((group, setIdx) => {
+                  const isDone = setIdx < currentSetIndex;
+                  const isActive = setIdx === currentSetIndex;
+                  const isEditingThis = editingOrder === group.order;
+
+                  if (isActive) {
+                    return (
+                      <View
+                        key={group.order}
+                        style={[styles.setRow, styles.activeSetRow, { borderColor: theme.tint }]}>
+                        <ThemedText type="smallBold" style={styles.setIndex}>
+                          {setIdx + 1}
+                        </ThemedText>
+                        {group.sets.length === 1 ? (
+                          <View style={styles.editGroup}>
+                            <TextInput
+                              style={[
+                                styles.input,
+                                { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                              ]}
+                              placeholder="kg"
+                              placeholderTextColor={theme.textSecondary}
+                              keyboardType="decimal-pad"
+                              value={activeValues.weight}
+                              onChangeText={(value) => setActiveValues((prev) => ({ ...prev, weight: value }))}
+                            />
+                            <TextInput
+                              style={[
+                                styles.input,
+                                { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                              ]}
+                              placeholder="reps"
+                              placeholderTextColor={theme.textSecondary}
+                              keyboardType="number-pad"
+                              value={activeValues.reps}
+                              onChangeText={(value) => setActiveValues((prev) => ({ ...prev, reps: value }))}
+                            />
+                          </View>
+                        ) : (
+                          <ThemedText type="small" style={styles.setContent}>
+                            {group.sets
+                              .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
+                              .join('')}
+                          </ThemedText>
+                        )}
+                      </View>
+                    );
+                  }
+
+                  if (isDone) {
+                    return (
+                      <View key={group.order} style={styles.setRow}>
+                        <SymbolView
+                          name={{ ios: 'checkmark.circle.fill', android: 'check_circle', web: 'check_circle' }}
+                          tintColor={theme.tint}
+                          size={16}
+                        />
+                        {isEditingThis ? (
+                          <>
+                            <View style={styles.editGroup}>
+                              <TextInput
+                                style={[
+                                  styles.input,
+                                  { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                                ]}
+                                keyboardType="decimal-pad"
+                                value={editValues.weight}
+                                onChangeText={(value) => setEditValues((prev) => ({ ...prev, weight: value }))}
+                              />
+                              <TextInput
+                                style={[
+                                  styles.input,
+                                  { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                                ]}
+                                keyboardType="number-pad"
+                                value={editValues.reps}
+                                onChangeText={(value) => setEditValues((prev) => ({ ...prev, reps: value }))}
+                              />
+                            </View>
+                            <Pressable onPress={() => saveEditing(group)} hitSlop={8}>
+                              <SymbolView
+                                name={{ ios: 'checkmark', android: 'check', web: 'check' }}
+                                tintColor={theme.tint}
+                                size={14}
+                              />
+                            </Pressable>
+                          </>
+                        ) : (
+                          <Pressable
+                            disabled={group.sets.length !== 1}
+                            onPress={() => startEditing(group)}
+                            style={styles.setContent}>
+                            <ThemedText type="small" themeColor="textSecondary">
+                              {group.sets
+                                .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
+                                .join('')}
+                            </ThemedText>
+                          </Pressable>
+                        )}
+                      </View>
+                    );
+                  }
+
+                  return (
+                    <View key={group.order} style={styles.setRow}>
+                      <ThemedText type="small" themeColor="textSecondary" style={styles.setIndex}>
+                        {setIdx + 1}
+                      </ThemedText>
+                      <ThemedText type="small" themeColor="textSecondary" style={styles.setContent}>
+                        {group.sets
+                          .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
+                          .join('')}
+                      </ThemedText>
+                    </View>
+                  );
+                })}
+              </View>
+
+              {isPastPlan ? (
+                <>
+                  <ThemedText type="small" themeColor="textSecondary">
+                    {groups.length === 0 ? t('workout.detail.noSetsPlanned') : t('workout.detail.noMoreSets')}
+                  </ThemedText>
+                  <View style={styles.addSetRow}>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                      ]}
+                      placeholder="kg"
+                      placeholderTextColor={theme.textSecondary}
+                      keyboardType="decimal-pad"
+                      value={extraValues.weight}
+                      onChangeText={(value) => setExtraValues((prev) => ({ ...prev, weight: value }))}
+                    />
+                    <TextInput
+                      style={[
+                        styles.input,
+                        { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                      ]}
+                      placeholder="reps"
+                      placeholderTextColor={theme.textSecondary}
+                      keyboardType="number-pad"
+                      value={extraValues.reps}
+                      onChangeText={(value) => setExtraValues((prev) => ({ ...prev, reps: value }))}
+                    />
+                    <Pressable
+                      onPress={handleAddExtraSet}
+                      disabled={
+                        isSubmitting ||
+                        !Number.isFinite(parseFloat(extraValues.weight)) ||
+                        !Number.isFinite(parseInt(extraValues.reps, 10))
+                      }
+                      style={[styles.addButton, { backgroundColor: theme.tint }]}>
+                      <SymbolView
+                        name={{ ios: 'plus', android: 'add', web: 'add' }}
+                        tintColor={theme.background}
+                        size={14}
+                        weight="bold"
+                      />
+                    </Pressable>
+                  </View>
+
+                  <PrimaryButton
+                    title={isLast ? t('workout.detail.finish') : t('workout.detail.nextExercise')}
+                    onPress={() => (isLast ? onFinish() : enterExercise(currentIndex + 1))}
+                    variant="secondary"
+                  />
+                </>
+              ) : (
+                <PrimaryButton
+                  title={t('workout.detail.setDone')}
+                  onPress={handleCompleteSet}
+                  disabled={!canCompleteSet}
+                  loading={isSubmitting}
+                />
+              )}
+
+              <ThemedView type="backgroundElement" style={styles.restPanel}>
+                <View style={styles.restHeader}>
+                  <ThemedText type="smallBold">
+                    {restTimer.secondsRemaining !== null
+                      ? formatCountdown(restTimer.secondsRemaining)
+                      : t('workout.detail.rest')}
+                  </ThemedText>
+                  <Pressable onPress={restTimer.toggleMute} hitSlop={8}>
+                    <SymbolView
+                      name={{
+                        ios: restTimer.isMuted ? 'speaker.slash.fill' : 'speaker.wave.2.fill',
+                        android: restTimer.isMuted ? 'volume_off' : 'volume_up',
+                        web: restTimer.isMuted ? 'volume_off' : 'volume_up',
+                      }}
+                      tintColor={theme.textSecondary}
+                      size={18}
+                    />
+                  </Pressable>
+                </View>
+
+                <View style={styles.restDurations}>
+                  {REST_DURATIONS.map((seconds) => (
+                    <Pressable
+                      key={seconds}
+                      onPress={() => restTimer.setDuration(seconds)}
+                      style={[
+                        styles.durationChip,
+                        { backgroundColor: restTimer.duration === seconds ? theme.tint : theme.backgroundSelected },
+                      ]}>
+                      <ThemedText
+                        type="small"
+                        style={{ color: restTimer.duration === seconds ? theme.background : theme.text }}>
+                        {seconds}s
+                      </ThemedText>
+                    </Pressable>
+                  ))}
+                </View>
+
+                {restTimer.secondsRemaining !== null ? (
+                  <Pressable onPress={restTimer.cancelTimer}>
+                    <ThemedText type="small" themeColor="danger" style={styles.cancelRest}>
+                      {t('workout.detail.cancelRest')}
+                    </ThemedText>
+                  </Pressable>
+                ) : null}
+              </ThemedView>
+            </ThemedView>
+          );
+        }
+
+        const itemGroups = groupSetsByOrder(item.sets);
+        const isDone = index < currentIndex;
+        return (
+          <Pressable
+            key={item.id}
+            onPress={() => enterExercise(index)}
+            style={[styles.planItem, { backgroundColor: theme.backgroundElement }, isDone && styles.planItemDone]}>
+            <SymbolView
+              name={
+                isDone
+                  ? { ios: 'checkmark.circle.fill', android: 'check_circle', web: 'check_circle' }
+                  : { ios: 'circle', android: 'radio_button_unchecked', web: 'radio_button_unchecked' }
+              }
+              tintColor={isDone ? theme.tint : theme.textSecondary}
+              size={16}
+            />
+            <ThemedText type="small" themeColor={isDone ? 'textSecondary' : 'text'} style={styles.setContent}>
+              {item.name}
+            </ThemedText>
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('workout.detail.setsSummary', { count: itemGroups.length })}
             </ThemedText>
           </Pressable>
-        ) : null}
-      </ThemedView>
-
-      <View style={styles.liveNav}>
-        <Pressable
-          onPress={() => navigateTo(currentIndex - 1)}
-          disabled={currentIndex === 0}
-          style={[
-            styles.navButton,
-            { backgroundColor: theme.backgroundElement },
-            currentIndex === 0 && styles.disabled,
-          ]}>
-          <SymbolView
-            name={{ ios: 'chevron.left', android: 'chevron_left', web: 'chevron_left' }}
-            tintColor={theme.text}
-            size={18}
-          />
-          <ThemedText type="small">{t('workout.detail.previous')}</ThemedText>
-        </Pressable>
-
-        <Pressable
-          onPress={() => (isLast ? onFinish() : navigateTo(currentIndex + 1))}
-          style={[styles.navButton, { backgroundColor: theme.tint }]}>
-          <ThemedText type="small" style={{ color: theme.background }}>
-            {isLast ? t('workout.detail.finish') : t('workout.detail.next')}
-          </ThemedText>
-          {!isLast ? (
-            <SymbolView
-              name={{ ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' }}
-              tintColor={theme.background}
-              size={18}
-            />
-          ) : null}
-        </Pressable>
-      </View>
+        );
+      })}
     </View>
   );
 }
@@ -535,8 +826,66 @@ const styles = StyleSheet.create({
     marginTop: Spacing.four,
     gap: Spacing.three,
   },
-  liveCounter: {
-    textAlign: 'center',
+  focusCard: {
+    borderRadius: Spacing.three,
+    borderWidth: 2,
+    padding: Spacing.three,
+    gap: Spacing.two,
+  },
+  setsList: {
+    gap: Spacing.one,
+  },
+  setRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+    paddingVertical: Spacing.one,
+  },
+  activeSetRow: {
+    borderWidth: 1,
+    borderRadius: Spacing.two,
+    paddingHorizontal: Spacing.two,
+  },
+  setIndex: {
+    width: 16,
+  },
+  setContent: {
+    flex: 1,
+  },
+  editGroup: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: Spacing.one,
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: Spacing.two,
+    paddingHorizontal: Spacing.two,
+    paddingVertical: Spacing.one,
+    fontSize: 14,
+  },
+  addSetRow: {
+    flexDirection: 'row',
+    gap: Spacing.one,
+    alignItems: 'center',
+  },
+  addButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  planItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+    borderRadius: Spacing.three,
+    padding: Spacing.three,
+  },
+  planItemDone: {
+    opacity: 0.6,
   },
   restPanel: {
     borderRadius: Spacing.three,
@@ -560,21 +909,5 @@ const styles = StyleSheet.create({
   },
   cancelRest: {
     alignSelf: 'center',
-  },
-  liveNav: {
-    flexDirection: 'row',
-    gap: Spacing.two,
-  },
-  navButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: Spacing.one,
-    paddingVertical: Spacing.three,
-    borderRadius: Spacing.three,
-  },
-  disabled: {
-    opacity: 0.4,
   },
 });

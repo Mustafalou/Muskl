@@ -24,6 +24,17 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+// Supabase surfaces a raw connectivity failure (e.g. "fetch failed: java.net.UnknownHostException...")
+// as an AuthError like any other — that raw message is meaningless to an end user, so it's swapped
+// for a friendly one instead of being shown as-is.
+function isNetworkError(error: { name?: string; message?: string } | null): boolean {
+  if (!error) return false;
+  return (
+    error.name === 'AuthRetryableFetchError' ||
+    /fetch failed|network request failed|unable to resolve host/i.test(error.message ?? '')
+  );
+}
+
 export function AuthProvider({ children }: PropsWithChildren) {
   const { t } = useTranslation();
   const [session, setSession] = useState<Session | null>(null);
@@ -111,7 +122,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       async login(email, password) {
         setProfileError(null);
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        return { error: error?.message ?? null };
+        if (!error) return { error: null };
+        return { error: isNetworkError(error) ? t('auth.networkError') : error.message };
       },
 
       async signup(email, password, username) {
@@ -132,7 +144,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           },
         });
         if (error) {
-          return { error: error.message };
+          return { error: isNetworkError(error) ? t('auth.networkError') : error.message };
         }
         if (!data.user) {
           return { error: t('auth.signup.signupFailed') };
@@ -148,7 +160,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: Linking.createURL('/reset-password'),
         });
-        return { error: error?.message ?? null };
+        if (!error) return { error: null };
+        return { error: isNetworkError(error) ? t('auth.networkError') : error.message };
       },
 
       async logout() {

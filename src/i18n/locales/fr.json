@@ -11,6 +11,7 @@
     "profile": "Profil"
   },
   "auth": {
+    "networkError": "Impossible de contacter le serveur. Vérifie ta connexion internet et réessaie.",
     "login": {
       "title": "Muskl",
       "subtitle": "Connecte-toi pour voir tes séances et celles de la communauté.",
@@ -89,10 +90,16 @@
       "reportMode": "Rapport",
       "liveMode": "Live",
       "exerciseCounter": "Exercice {{current}} / {{total}}",
+      "setCounter": "Série {{current}} / {{total}}",
+      "setDone": "Série terminée",
+      "noSetsPlanned": "Aucune série prévue pour cet exercice. Ajoute tes séries au fur et à mesure.",
+      "noMoreSets": "Plus de série prévue pour cet exercice.",
+      "addExtraSet": "Ajouter une série",
+      "nextExercise": "Exercice suivant",
+      "setsSummary_one": "{{count}} série",
+      "setsSummary_other": "{{count}} séries",
       "rest": "Repos",
       "cancelRest": "Annuler le repos",
-      "previous": "Précédent",
-      "next": "Suivant",
       "finish": "Terminer"
     }
   },
