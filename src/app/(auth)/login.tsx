@@ -1,7 +1,8 @@
+import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/primary-button';
@@ -18,14 +19,35 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const passwordFieldRef = useRef<TextInput>(null);
+  const isSubmittingRef = useRef(isSubmitting);
 
-  async function handleSubmit() {
+  useEffect(() => {
+    isSubmittingRef.current = isSubmitting;
+  });
+
+  async function handleSubmit(overrideEmail?: string, overridePassword?: string) {
+    const emailToUse = overrideEmail ?? email;
+    const passwordToUse = overridePassword ?? password;
+    if (!emailToUse.trim() || !passwordToUse || isSubmittingRef.current) return;
+
     setError(null);
     setIsSubmitting(true);
-    const result = await login(email.trim(), password);
+    const result = await login(emailToUse.trim(), passwordToUse);
     setIsSubmitting(false);
     if (result.error) {
       setError(result.error);
+    }
+  }
+
+  // Password managers (Samsung Pass, Google, iOS Keychain) fill the whole password in one go,
+  // unlike normal typing which adds one character at a time — that jump is the signal to submit
+  // automatically instead of waiting for an explicit tap.
+  function handlePasswordChange(value: string) {
+    const isAutofillJump = value.length - password.length > 1;
+    setPassword(value);
+    if (isAutofillJump) {
+      handleSubmit(email, value);
     }
   }
 
@@ -36,6 +58,7 @@ export default function LoginScreen() {
           style={styles.flex}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+            <Image style={styles.logo} source={require('@/assets/images/muskl-logo.png')} contentFit="contain" />
             <ThemedText type="title" style={styles.title}>
               {t('auth.login.title')}
             </ThemedText>
@@ -52,14 +75,20 @@ export default function LoginScreen() {
                 autoCorrect={false}
                 keyboardType="email-address"
                 autoComplete="email"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordFieldRef.current?.focus()}
+                blurOnSubmit={false}
               />
               <TextField
+                ref={passwordFieldRef}
                 label={t('auth.login.passwordLabel')}
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={handlePasswordChange}
                 secureTextEntry
                 autoCapitalize="none"
                 autoComplete="password"
+                returnKeyType="go"
+                onSubmitEditing={() => handleSubmit()}
               />
 
               {error ? (
@@ -70,7 +99,7 @@ export default function LoginScreen() {
 
               <PrimaryButton
                 title={t('auth.login.submit')}
-                onPress={handleSubmit}
+                onPress={() => handleSubmit()}
                 loading={isSubmitting}
                 disabled={!email || !password}
               />
@@ -99,6 +128,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: Spacing.four,
     gap: Spacing.four,
+  },
+  logo: {
+    width: 88,
+    height: 77,
+    alignSelf: 'center',
   },
   title: { textAlign: 'center' },
   subtitle: { textAlign: 'center' },

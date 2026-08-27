@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve real files/directories as-is (JS bundles, images, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else falls back to index.html so Expo Router's client-side
+  # navigation can handle the route (e.g. refreshing on /workout/123).
+  RewriteRule ^ index.html [L]
+</IfModule>

@@ -1,7 +1,8 @@
+import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/primary-button';
@@ -20,6 +21,8 @@ export default function SignupScreen() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const emailFieldRef = useRef<TextInput>(null);
+  const passwordFieldRef = useRef<TextInput>(null);
 
   async function handleSubmit() {
     setError(null);
@@ -44,6 +47,7 @@ export default function SignupScreen() {
           style={styles.flex}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+            <Image style={styles.logo} source={require('@/assets/images/muskl-logo.png')} contentFit="contain" />
             <ThemedText type="title" style={styles.title}>
               {t('auth.signup.title')}
             </ThemedText>
@@ -59,8 +63,12 @@ export default function SignupScreen() {
                 autoCapitalize="none"
                 autoCorrect={false}
                 placeholder={t('auth.signup.usernamePlaceholder')}
+                returnKeyType="next"
+                onSubmitEditing={() => emailFieldRef.current?.focus()}
+                blurOnSubmit={false}
               />
               <TextField
+                ref={emailFieldRef}
                 label={t('auth.signup.emailLabel')}
                 value={email}
                 onChangeText={setEmail}
@@ -68,14 +76,20 @@ export default function SignupScreen() {
                 autoCorrect={false}
                 keyboardType="email-address"
                 autoComplete="email"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordFieldRef.current?.focus()}
+                blurOnSubmit={false}
               />
               <TextField
+                ref={passwordFieldRef}
                 label={t('auth.signup.passwordLabel')}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
                 autoCapitalize="none"
                 autoComplete="password-new"
+                returnKeyType="go"
+                onSubmitEditing={handleSubmit}
               />
 
               {error ? (
@@ -114,6 +128,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: Spacing.four,
     gap: Spacing.four,
+  },
+  logo: {
+    width: 88,
+    height: 77,
+    alignSelf: 'center',
   },
   title: { textAlign: 'center' },
   subtitle: { textAlign: 'center' },

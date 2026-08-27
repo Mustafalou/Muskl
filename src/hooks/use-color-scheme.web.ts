@@ -1,21 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useColorScheme as useRNColorScheme } from 'react-native';
-
-/**
- * To support static rendering, this value needs to be re-calculated on the client side for web
- */
+// The app only has one real theme (dark) — see `Colors` in constants/theme.ts. Native enforces
+// this regardless of the device's system setting via `userInterfaceStyle: "dark"` in app.json,
+// which has no web equivalent (there's no way to override a visitor's browser `prefers-color-scheme`
+// at the manifest level), so it's hardcoded here to match native instead of following the browser.
 export function useColorScheme() {
-  const [hasHydrated, setHasHydrated] = useState(false);
-
-  useEffect(() => {
-    setHasHydrated(true);
-  }, []);
-
-  const colorScheme = useRNColorScheme();
-
-  if (hasHydrated) {
-    return colorScheme;
-  }
-
-  return 'light';
+  return 'dark';
 }
