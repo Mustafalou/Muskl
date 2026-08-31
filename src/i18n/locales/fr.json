@@ -8,6 +8,7 @@
   "tabs": {
     "feed": "Feed",
     "myWorkouts": "Mes séances",
+    "services": "Services",
     "profile": "Profil"
   },
   "auth": {
@@ -51,13 +52,55 @@
   },
   "feed": {
     "title": "Feed",
-    "empty": "Aucune séance pour l'instant. Sois le premier à en logger une !",
+    "empty": "Ton feed est vide. Suis des gens pour voir leurs séances ici.",
     "reportTitle": "Signaler cette séance ?",
     "reportMessage": "Signaler la séance de @{{username}}.",
     "reportConfirm": "Signaler",
     "reportReason": "Signalé depuis le feed",
     "thanksTitle": "Merci",
     "thanksMessage": "Ton signalement a bien été envoyé."
+  },
+  "search": {
+    "title": "Rechercher",
+    "placeholder": "Chercher un pseudo...",
+    "empty": "Aucun résultat.",
+    "follow": "Suivre",
+    "requested": "Demande envoyée",
+    "following": "Abonné"
+  },
+  "followRequests": {
+    "title": "Demandes de suivi",
+    "empty": "Aucune demande de suivi pour l'instant."
+  },
+  "userProfile": {
+    "notFound": "Profil introuvable.",
+    "lockedMessage": "Suis @{{username}} pour voir ses séances et ses stats.",
+    "noWorkouts": "Aucune séance pour l'instant."
+  },
+  "services": {
+    "progression": {
+      "title": "Progression",
+      "subtitle": "Poids et exercices dans le temps",
+      "bodyWeightTitle": "Poids corporel",
+      "noBodyWeightData": "Pas encore de pesée enregistrée.",
+      "exercisesTitle": "Exercices",
+      "noExercises": "Aucun exercice du catalogue enregistré pour l'instant.",
+      "personalRecord": "Record personnel",
+      "noHistory": "Pas encore d'historique pour cet exercice."
+    }
+  },
+  "stats": {
+    "last30Days": "30 derniers jours",
+    "thisYear": "Cette année",
+    "perWeek": "{{value}}/sem"
+  },
+  "streak": {
+    "title": "Streak",
+    "weeksLabel_one": "semaine d'affilée",
+    "weeksLabel_other": "semaines d'affilée",
+    "longestLabel_one": "Record : {{count}} semaine",
+    "longestLabel_other": "Record : {{count}} semaines",
+    "noGoalSet": "Définis ton objectif hebdomadaire dans le Profil pour activer ton streak."
   },
   "myWorkouts": {
     "title": "Mes séances",
@@ -150,6 +193,10 @@
     "publicToggleTitle": "Profil public",
     "publicToggleSubtitle": "Les autres peuvent voir ta taille et tes pesées",
     "heightLabel": "Taille",
+    "weeklyGoalLabel": "Objectif hebdomadaire",
+    "weeklyGoalSubtitle": "Utilisé pour calculer ton streak",
+    "weeklyGoalChip_one": "{{count}} séance / semaine",
+    "weeklyGoalChip_other": "{{count}} séances / semaine",
     "weightLabel": "Poids",
     "weighToday": "Peser aujourd'hui",
     "noWeightLogs": "Aucune pesée enregistrée.",

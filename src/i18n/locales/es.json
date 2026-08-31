@@ -8,6 +8,7 @@
   "tabs": {
     "feed": "Feed",
     "myWorkouts": "Mis sesiones",
+    "services": "Servicios",
     "profile": "Perfil"
   },
   "auth": {
@@ -51,13 +52,55 @@
   },
   "feed": {
     "title": "Feed",
-    "empty": "Todavía no hay sesiones. ¡Sé el primero en registrar una!",
+    "empty": "Tu feed está vacío. Sigue a gente para ver sus sesiones aquí.",
     "reportTitle": "¿Denunciar esta sesión?",
     "reportMessage": "Denunciar la sesión de @{{username}}.",
     "reportConfirm": "Denunciar",
     "reportReason": "Denunciado desde el feed",
     "thanksTitle": "Gracias",
     "thanksMessage": "Tu denuncia se ha enviado correctamente."
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "Buscar un usuario...",
+    "empty": "Sin resultados.",
+    "follow": "Seguir",
+    "requested": "Solicitud enviada",
+    "following": "Siguiendo"
+  },
+  "followRequests": {
+    "title": "Solicitudes de seguimiento",
+    "empty": "No hay solicitudes de seguimiento por ahora."
+  },
+  "userProfile": {
+    "notFound": "Perfil no encontrado.",
+    "lockedMessage": "Sigue a @{{username}} para ver sus sesiones y estadísticas.",
+    "noWorkouts": "Todavía no hay sesiones."
+  },
+  "services": {
+    "progression": {
+      "title": "Progresión",
+      "subtitle": "Peso y ejercicios en el tiempo",
+      "bodyWeightTitle": "Peso corporal",
+      "noBodyWeightData": "Todavía no hay pesajes registrados.",
+      "exercisesTitle": "Ejercicios",
+      "noExercises": "Todavía no hay ejercicios del catálogo registrados.",
+      "personalRecord": "Récord personal",
+      "noHistory": "Todavía no hay historial para este ejercicio."
+    }
+  },
+  "stats": {
+    "last30Days": "Últimos 30 días",
+    "thisYear": "Este año",
+    "perWeek": "{{value}}/sem"
+  },
+  "streak": {
+    "title": "Racha",
+    "weeksLabel_one": "semana seguida",
+    "weeksLabel_other": "semanas seguidas",
+    "longestLabel_one": "Récord: {{count}} semana",
+    "longestLabel_other": "Récord: {{count}} semanas",
+    "noGoalSet": "Define tu objetivo semanal en el Perfil para activar tu racha."
   },
   "myWorkouts": {
     "title": "Mis sesiones",
@@ -150,6 +193,10 @@
     "publicToggleTitle": "Perfil público",
     "publicToggleSubtitle": "Los demás pueden ver tu estatura y tus pesajes",
     "heightLabel": "Estatura",
+    "weeklyGoalLabel": "Objetivo semanal",
+    "weeklyGoalSubtitle": "Se usa para calcular tu racha",
+    "weeklyGoalChip_one": "{{count}} sesión / semana",
+    "weeklyGoalChip_other": "{{count}} sesiones / semana",
     "weightLabel": "Peso",
     "weighToday": "Pesarme hoy",
     "noWeightLogs": "Todavía no hay pesajes registrados.",

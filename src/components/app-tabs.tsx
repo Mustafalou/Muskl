@@ -28,6 +28,11 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Icon sf="figure.strengthtraining.traditional" md="fitness_center" />
       </NativeTabs.Trigger>
 
+      <NativeTabs.Trigger name="services">
+        <NativeTabs.Trigger.Label>{t('tabs.services')}</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="chart.line.uptrend.xyaxis" md="show_chart" />
+      </NativeTabs.Trigger>
+
       <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Label>{t('tabs.profile')}</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="person.crop.circle" md="account_circle" />

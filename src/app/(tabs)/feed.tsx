@@ -6,6 +6,7 @@ import { Alert, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { HeaderIconButton } from '@/components/header-icon-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WorkoutCard } from '@/components/workout-card';
@@ -23,13 +24,43 @@ export default function FeedScreen() {
   const [workouts, setWorkouts] = useState<WorkoutWithAuthor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasPendingRequests, setHasPendingRequests] = useState(false);
+
+  const loadPendingRequestsIndicator = useCallback(async () => {
+    if (!user) return;
+    const { count } = await supabase
+      .from('follows')
+      .select('id', { count: 'exact', head: true })
+      .eq('following_id', user.id)
+      .eq('status', 'pending');
+    setHasPendingRequests((count ?? 0) > 0);
+  }, [user]);
 
   const loadFeed = useCallback(async () => {
+    if (!user) return;
     setError(null);
+
+    const { data: followingRows, error: followingError } = await supabase
+      .from('follows')
+      .select('following_id')
+      .eq('follower_id', user.id)
+      .eq('status', 'accepted');
+
+    if (followingError) {
+      setError(followingError.message);
+      setIsLoading(false);
+      return;
+    }
+
+    // The feed only ever shows people you actually follow (plus yourself) — a public profile is
+    // reachable by visiting it directly (search, tapping a name), but doesn't get pushed into the
+    // feed just because it's public.
+    const visibleUserIds = [user.id, ...(followingRows ?? []).map((row) => row.following_id)];
 
     const { data: workoutRows, error: workoutError } = await supabase
       .from('workouts')
       .select('id, user_id, name, date, notes, created_at')
+      .in('user_id', visibleUserIds)
       .order('date', { ascending: false })
       .order('created_at', { ascending: false });
 
@@ -70,12 +101,13 @@ export default function FeedScreen() {
       })),
     );
     setIsLoading(false);
-  }, []);
+  }, [user]);
 
   useFocusEffect(
     useCallback(() => {
       loadFeed();
-    }, [loadFeed]),
+      loadPendingRequestsIndicator();
+    }, [loadFeed, loadPendingRequestsIndicator]),
   );
 
   function handleReport(workout: WorkoutWithAuthor) {
@@ -108,9 +140,21 @@ export default function FeedScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
-        <ThemedText type="title" style={styles.header}>
-          {t('feed.title')}
-        </ThemedText>
+        <ThemedView style={styles.headerRow}>
+          <ThemedText type="title">{t('feed.title')}</ThemedText>
+          <ThemedView style={styles.headerActions}>
+            <HeaderIconButton
+              onPress={() => router.push('/follow-requests')}
+              symbol={{ ios: 'person.crop.circle.badge.checkmark', android: 'person_add', web: 'person_add' }}
+              hasBadge={hasPendingRequests}
+            />
+            <HeaderIconButton
+              onPress={() => router.push('/search-users')}
+              symbol={{ ios: 'magnifyingglass', android: 'search', web: 'search' }}
+              accent
+            />
+          </ThemedView>
+        </ThemedView>
 
         {error ? (
           <ThemedText themeColor="danger" style={styles.message}>
@@ -143,6 +187,11 @@ export default function FeedScreen() {
                 workout={item}
                 onPress={() => router.push(`/workout/${item.id}`)}
                 onReport={() => handleReport(item)}
+                onPressAuthor={
+                  item.user_id !== user?.id
+                    ? () => router.push({ pathname: '/user/[id]', params: { id: item.user_id } })
+                    : undefined
+                }
               />
             </Animated.View>
           )}
@@ -154,10 +203,17 @@ export default function FeedScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  header: {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: Spacing.four,
     paddingTop: Spacing.two,
     paddingBottom: Spacing.three,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    gap: Spacing.two,
   },
   message: {
     paddingHorizontal: Spacing.four,

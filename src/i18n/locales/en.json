@@ -8,6 +8,7 @@
   "tabs": {
     "feed": "Feed",
     "myWorkouts": "My Workouts",
+    "services": "Services",
     "profile": "Profile"
   },
   "auth": {
@@ -51,13 +52,55 @@
   },
   "feed": {
     "title": "Feed",
-    "empty": "No workouts yet. Be the first to log one!",
+    "empty": "Your feed is empty. Follow people to see their workouts here.",
     "reportTitle": "Report this workout?",
     "reportMessage": "Report @{{username}}'s workout.",
     "reportConfirm": "Report",
     "reportReason": "Reported from the feed",
     "thanksTitle": "Thanks",
     "thanksMessage": "Your report has been sent."
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search a username...",
+    "empty": "No results.",
+    "follow": "Follow",
+    "requested": "Requested",
+    "following": "Following"
+  },
+  "followRequests": {
+    "title": "Follow requests",
+    "empty": "No follow requests for now."
+  },
+  "userProfile": {
+    "notFound": "Profile not found.",
+    "lockedMessage": "Follow @{{username}} to see their workouts and stats.",
+    "noWorkouts": "No workouts yet."
+  },
+  "services": {
+    "progression": {
+      "title": "Progression",
+      "subtitle": "Weight and exercises over time",
+      "bodyWeightTitle": "Body weight",
+      "noBodyWeightData": "No weigh-ins logged yet.",
+      "exercisesTitle": "Exercises",
+      "noExercises": "No catalog exercises logged yet.",
+      "personalRecord": "Personal record",
+      "noHistory": "No history yet for this exercise."
+    }
+  },
+  "stats": {
+    "last30Days": "Last 30 days",
+    "thisYear": "This year",
+    "perWeek": "{{value}}/wk"
+  },
+  "streak": {
+    "title": "Streak",
+    "weeksLabel_one": "week streak",
+    "weeksLabel_other": "week streak",
+    "longestLabel_one": "Longest: {{count}} week",
+    "longestLabel_other": "Longest: {{count}} weeks",
+    "noGoalSet": "Set your weekly goal in Profile to activate your streak."
   },
   "myWorkouts": {
     "title": "My Workouts",
@@ -150,6 +193,10 @@
     "publicToggleTitle": "Public profile",
     "publicToggleSubtitle": "Others can see your height and weigh-ins",
     "heightLabel": "Height",
+    "weeklyGoalLabel": "Weekly goal",
+    "weeklyGoalSubtitle": "Used to calculate your streak",
+    "weeklyGoalChip_one": "{{count}} workout / week",
+    "weeklyGoalChip_other": "{{count}} workouts / week",
     "weightLabel": "Weight",
     "weighToday": "Weigh in today",
     "noWeightLogs": "No weigh-ins logged yet.",

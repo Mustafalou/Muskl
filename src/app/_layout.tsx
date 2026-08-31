@@ -69,6 +69,12 @@ function RootNavigator() {
             options={{ title: t('auth.resetPassword.title'), presentation: 'modal' }}
           />
           <Stack.Screen name="legal/privacy" options={{ title: t('profile.privacy') }} />
+          <Stack.Screen name="search-users" options={{ title: t('search.title'), presentation: 'modal' }} />
+          <Stack.Screen name="follow-requests" options={{ title: t('followRequests.title') }} />
+          <Stack.Screen name="streak" options={{ title: t('streak.title') }} />
+          <Stack.Screen name="user/[id]" options={{ headerBackTitle: t('common.back') }} />
+          <Stack.Screen name="services/progression" options={{ title: t('services.progression.title') }} />
+          <Stack.Screen name="services/exercise/[catalogKey]" options={{ headerBackTitle: t('common.back') }} />
           <Stack.Screen name="templates" options={{ title: t('templates.title') }} />
           <Stack.Screen name="template/[id]" options={{ headerBackTitle: t('common.back') }} />
           <Stack.Screen

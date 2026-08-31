@@ -307,7 +307,7 @@ const ACCENTS: Record<string, string> = {
   ñ: 'n',
 };
 
-function normalize(text: string) {
+export function normalize(text: string) {
   return text
     .toLowerCase()
     .split('')

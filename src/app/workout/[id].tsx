@@ -345,8 +345,12 @@ export default function WorkoutDetailScreen() {
                   year: 'numeric',
                 })}
               </ThemedText>
-              {workout.username ? (
-                <ThemedText themeColor="tint">@{workout.username}</ThemedText>
+              {workout.username && !isOwner ? (
+                <Pressable
+                  onPress={() => router.push({ pathname: '/user/[id]', params: { id: workout.user_id } })}
+                  hitSlop={4}>
+                  <ThemedText themeColor="tint">@{workout.username}</ThemedText>
+                </Pressable>
               ) : null}
 
               {isOwner ? (

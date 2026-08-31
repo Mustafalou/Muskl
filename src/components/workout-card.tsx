@@ -14,6 +14,7 @@ type WorkoutCardProps = {
   onPress: () => void;
   showAuthor?: boolean;
   onReport?: () => void;
+  onPressAuthor?: () => void;
 };
 
 function formatDate(date: string, language: string) {
@@ -24,7 +25,7 @@ function formatDate(date: string, language: string) {
   });
 }
 
-export function WorkoutCard({ workout, onPress, showAuthor = true, onReport }: WorkoutCardProps) {
+export function WorkoutCard({ workout, onPress, showAuthor = true, onReport, onPressAuthor }: WorkoutCardProps) {
   const { i18n } = useTranslation();
   const theme = useTheme();
 
@@ -33,12 +34,20 @@ export function WorkoutCard({ workout, onPress, showAuthor = true, onReport }: W
       <ThemedView type="backgroundElement" style={styles.card}>
         {showAuthor ? (
           <View style={styles.row}>
-            <Avatar uri={workout.avatar_url} size={40} />
+            <Pressable
+              onPress={onPressAuthor}
+              disabled={!onPressAuthor}
+              hitSlop={4}
+              style={styles.authorTouchArea}>
+              <Avatar uri={workout.avatar_url} size={40} />
+            </Pressable>
             <View style={styles.rowContent}>
               {workout.username ? (
-                <ThemedText type="small" themeColor="tint">
-                  @{workout.username}
-                </ThemedText>
+                <Pressable onPress={onPressAuthor} disabled={!onPressAuthor} hitSlop={4}>
+                  <ThemedText type="small" themeColor="tint">
+                    @{workout.username}
+                  </ThemedText>
+                </Pressable>
               ) : null}
               <ThemedText type="smallBold" numberOfLines={1}>
                 {workout.name}
@@ -88,6 +97,9 @@ const styles = StyleSheet.create({
   rowContent: {
     flex: 1,
     gap: Spacing.half,
+  },
+  authorTouchArea: {
+    alignSelf: 'flex-start',
   },
   reportButton: {
     padding: Spacing.one,

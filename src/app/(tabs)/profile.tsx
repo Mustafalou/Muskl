@@ -25,6 +25,8 @@ const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   es: 'Español',
 };
 
+const WEEKLY_GOAL_OPTIONS = [2, 3, 4, 5, 6];
+
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -40,6 +42,7 @@ export default function ProfileScreen() {
   const [newWeightInput, setNewWeightInput] = useState('');
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isSavingHeight, setIsSavingHeight] = useState(false);
+  const [isSavingWeeklyGoal, setIsSavingWeeklyGoal] = useState(false);
   const [isAddingWeight, setIsAddingWeight] = useState(false);
   const [isTogglingPrivacy, setIsTogglingPrivacy] = useState(false);
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
@@ -56,7 +59,7 @@ export default function ProfileScreen() {
         .single(),
       supabase
         .from('profile_stats')
-        .select('user_id, height_cm, updated_at')
+        .select('user_id, height_cm, weekly_goal, updated_at')
         .eq('user_id', user.id)
         .maybeSingle(),
       supabase
@@ -185,7 +188,36 @@ export default function ProfileScreen() {
       return;
     }
 
-    setStats({ user_id: user.id, height_cm: heightValue, updated_at: new Date().toISOString() });
+    setStats((prev) => ({
+      user_id: user.id,
+      height_cm: heightValue,
+      weekly_goal: prev?.weekly_goal ?? null,
+      updated_at: new Date().toISOString(),
+    }));
+  }
+
+  async function handleSetWeeklyGoal(goal: number) {
+    if (!user) return;
+    setIsSavingWeeklyGoal(true);
+    setError(null);
+
+    const { error: upsertError } = await supabase
+      .from('profile_stats')
+      .upsert({ user_id: user.id, weekly_goal: goal, updated_at: new Date().toISOString() });
+
+    setIsSavingWeeklyGoal(false);
+
+    if (upsertError) {
+      setError(upsertError.message);
+      return;
+    }
+
+    setStats((prev) => ({
+      user_id: user.id,
+      height_cm: prev?.height_cm ?? null,
+      weekly_goal: goal,
+      updated_at: new Date().toISOString(),
+    }));
   }
 
   async function handleAddWeight() {
@@ -352,6 +384,31 @@ export default function ProfileScreen() {
                 loading={isSavingHeight}
                 disabled={!heightInput.trim() || heightInput === (stats?.height_cm != null ? String(stats.height_cm) : '')}
               />
+            </View>
+          </ThemedView>
+
+          <ThemedView type="backgroundElement" style={styles.section}>
+            <ThemedText type="smallBold">{t('profile.weeklyGoalLabel')}</ThemedText>
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('profile.weeklyGoalSubtitle')}
+            </ThemedText>
+            <View style={styles.weeklyGoalRow}>
+              {WEEKLY_GOAL_OPTIONS.map((goal) => (
+                <Pressable
+                  key={goal}
+                  onPress={() => handleSetWeeklyGoal(goal)}
+                  disabled={isSavingWeeklyGoal}
+                  style={[
+                    styles.weeklyGoalChip,
+                    { backgroundColor: stats?.weekly_goal === goal ? theme.tint : theme.backgroundSelected },
+                  ]}>
+                  <ThemedText
+                    type="small"
+                    style={{ color: stats?.weekly_goal === goal ? theme.background : theme.text }}>
+                    {t('profile.weeklyGoalChip', { count: goal })}
+                  </ThemedText>
+                </Pressable>
+              ))}
             </View>
           </ThemedView>
 
@@ -526,6 +583,16 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   languageChip: {
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    borderRadius: Spacing.five,
+  },
+  weeklyGoalRow: {
+    flexDirection: 'row',
+    gap: Spacing.two,
+    flexWrap: 'wrap',
+  },
+  weeklyGoalChip: {
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
     borderRadius: Spacing.five,

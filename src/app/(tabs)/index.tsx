@@ -1,15 +1,15 @@
-import type { AndroidSymbol } from 'expo-symbols';
 import { SymbolView } from 'expo-symbols';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Pressable, RefreshControl, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { SFSymbol } from 'sf-symbols-typescript';
 
+import { HeaderIconButton } from '@/components/header-icon-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { WeeklyStatsBar } from '@/components/weekly-stats-bar';
 import { WorkoutCard } from '@/components/workout-card';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
@@ -23,6 +23,7 @@ export default function MyWorkoutsScreen() {
   const theme = useTheme();
   const { user } = useAuth();
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [weeklyGoal, setWeeklyGoal] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,18 +31,22 @@ export default function MyWorkoutsScreen() {
     if (!user) return;
     setError(null);
 
-    const { data, error } = await supabase
-      .from('workouts')
-      .select('id, user_id, name, date, notes, created_at')
-      .eq('user_id', user.id)
-      .order('date', { ascending: false })
-      .order('created_at', { ascending: false });
+    const [workoutsResult, statsResult] = await Promise.all([
+      supabase
+        .from('workouts')
+        .select('id, user_id, name, date, notes, created_at')
+        .eq('user_id', user.id)
+        .order('date', { ascending: false })
+        .order('created_at', { ascending: false }),
+      supabase.from('profile_stats').select('weekly_goal').eq('user_id', user.id).maybeSingle(),
+    ]);
 
-    if (error) {
-      setError(error.message);
+    if (workoutsResult.error) {
+      setError(workoutsResult.error.message);
     } else {
-      setWorkouts(data ?? []);
+      setWorkouts(workoutsResult.data ?? []);
     }
+    setWeeklyGoal(statsResult.data?.weekly_goal ?? null);
     setIsLoading(false);
   }, [user]);
 
@@ -68,6 +73,8 @@ export default function MyWorkoutsScreen() {
             />
           </ThemedView>
         </ThemedView>
+
+        <WeeklyStatsBar workoutDates={workouts.map((workout) => workout.date)} weeklyGoal={weeklyGoal} />
 
         {error ? (
           <ThemedText themeColor="danger" style={styles.message}>
@@ -113,35 +120,6 @@ export default function MyWorkoutsScreen() {
   );
 }
 
-function HeaderIconButton({
-  onPress,
-  symbol,
-  accent = false,
-}: {
-  onPress: () => void;
-  symbol: { ios: SFSymbol; android: AndroidSymbol; web: AndroidSymbol };
-  accent?: boolean;
-}) {
-  const theme = useTheme();
-
-  return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.iconButton,
-        { backgroundColor: accent ? theme.tint : theme.backgroundElement },
-        pressed && styles.pressed,
-      ]}>
-      <SymbolView
-        name={symbol}
-        tintColor={accent ? theme.background : theme.text}
-        size={18}
-        weight="semibold"
-      />
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   headerRow: {
@@ -155,16 +133,6 @@ const styles = StyleSheet.create({
   headerActions: {
     flexDirection: 'row',
     gap: Spacing.two,
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pressed: {
-    opacity: 0.7,
   },
   message: {
     paddingHorizontal: Spacing.four,

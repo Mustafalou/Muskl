@@ -9,6 +9,7 @@ export type Profile = {
 export type ProfileStats = {
   user_id: string;
   height_cm: number | null;
+  weekly_goal: number | null;
   updated_at: string;
 };
 
@@ -56,6 +57,16 @@ export type Set = {
 export type WorkoutWithAuthor = Workout & {
   username: string | null;
   avatar_url: string | null;
+};
+
+export type FollowStatus = 'pending' | 'accepted';
+
+export type Follow = {
+  id: string;
+  follower_id: string;
+  following_id: string;
+  status: FollowStatus;
+  created_at: string;
 };
 
 export type ExerciseWithSets = Exercise & {
