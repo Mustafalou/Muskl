@@ -1,4 +1,5 @@
 import { SymbolView } from 'expo-symbols';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Avatar } from '@/components/avatar';
@@ -15,8 +16,8 @@ type WorkoutCardProps = {
   onReport?: () => void;
 };
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('fr-FR', {
+function formatDate(date: string, language: string) {
+  return new Date(date).toLocaleDateString(language, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -24,6 +25,7 @@ function formatDate(date: string) {
 }
 
 export function WorkoutCard({ workout, onPress, showAuthor = true, onReport }: WorkoutCardProps) {
+  const { i18n } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -42,7 +44,7 @@ export function WorkoutCard({ workout, onPress, showAuthor = true, onReport }: W
                 {workout.name}
               </ThemedText>
               <ThemedText type="small" themeColor="textSecondary">
-                {formatDate(workout.date)}
+                {formatDate(workout.date, i18n.language)}
               </ThemedText>
             </View>
             {onReport ? (
@@ -61,7 +63,7 @@ export function WorkoutCard({ workout, onPress, showAuthor = true, onReport }: W
               {workout.name}
             </ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
-              {formatDate(workout.date)}
+              {formatDate(workout.date, i18n.language)}
             </ThemedText>
           </>
         )}

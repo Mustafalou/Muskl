@@ -27,7 +27,7 @@ export async function startTemplate(
 
   const { data: templateExercises, error: exercisesError } = await supabase
     .from('template_exercises')
-    .select('id, name, order, rest_seconds')
+    .select('id, name, order, rest_seconds, catalog_key')
     .eq('template_id', templateId)
     .order('order', { ascending: true });
 
@@ -43,6 +43,7 @@ export async function startTemplate(
         name: templateExercise.name,
         order: templateExercise.order,
         rest_seconds: templateExercise.rest_seconds,
+        catalog_key: templateExercise.catalog_key,
       })
       .select('id')
       .single();

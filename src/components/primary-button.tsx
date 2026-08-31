@@ -1,7 +1,10 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type PrimaryButtonProps = {
   title: string;
@@ -21,18 +24,31 @@ export function PrimaryButton({
   const theme = useTheme();
   const isSecondary = variant === 'secondary';
   const isDisabled = disabled || loading;
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   return (
-    <Pressable
+    <AnimatedPressable
       onPress={onPress}
+      onPressIn={() => {
+        // eslint-disable-next-line react-hooks/immutability -- Reanimated shared values are mutated via `.value` by design; the linter doesn't know this API, it isn't React state
+        if (!isDisabled) scale.value = withSpring(0.96, { damping: 15, stiffness: 400 });
+      }}
+      onPressOut={() => {
+        // eslint-disable-next-line react-hooks/immutability -- see onPressIn
+        scale.value = withSpring(1, { damping: 15, stiffness: 400 });
+      }}
       disabled={isDisabled}
-      style={({ pressed }) => [
+      style={[
         styles.button,
         isSecondary
           ? { backgroundColor: 'transparent', borderWidth: 1, borderColor: theme.tint }
           : { backgroundColor: theme.tint },
         isDisabled && styles.disabled,
-        pressed && !isDisabled && styles.pressed,
+        animatedStyle,
       ]}>
       {loading ? (
         <ActivityIndicator color={isSecondary ? theme.tint : theme.background} />
@@ -41,7 +57,7 @@ export function PrimaryButton({
           {title}
         </Text>
       )}
-    </Pressable>
+    </AnimatedPressable>
   );
 }
 
@@ -55,9 +71,6 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.5,
-  },
-  pressed: {
-    opacity: 0.8,
   },
   label: {
     fontSize: 16,

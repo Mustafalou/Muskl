@@ -10,6 +10,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import {
   filterExercises,
+  getExerciseCatalog,
   getMuscleGroups,
   type CatalogExercise,
   type SupportedLanguage,
@@ -32,6 +33,10 @@ export default function AddExerciseScreen() {
 
   const muscleGroups = getMuscleGroups(language);
   const results = filterExercises(query, muscle, language);
+  // Unfiltered, so a name selected before the search/muscle filter changed can still resolve.
+  const catalogKeyByName = new Map(
+    getExerciseCatalog(language).map((exercise) => [exercise.name, exercise.catalogKey]),
+  );
   const trimmedQuery = query.trim();
   const hasExactMatch = results.some(
     (exercise) => exercise.name.toLowerCase() === trimmedQuery.toLowerCase(),
@@ -72,6 +77,7 @@ export default function AddExerciseScreen() {
       workout_id: workoutId,
       name,
       order: (count ?? 0) + index,
+      catalog_key: catalogKeyByName.get(name) ?? null,
     }));
 
     const { error: insertError } = await supabase.from('exercises').insert(rows);

@@ -96,11 +96,14 @@
       "noMoreSets": "Plus de série prévue pour cet exercice.",
       "addExtraSet": "Ajouter une série",
       "nextExercise": "Exercice suivant",
-      "setsSummary_one": "{{count}} série",
-      "setsSummary_other": "{{count}} séries",
       "rest": "Repos",
       "cancelRest": "Annuler le repos",
-      "finish": "Terminer"
+      "finish": "Terminer",
+      "addToTemplates": "Ajouter à mes modèles",
+      "saveAsTemplateFailed": "Impossible d'ajouter aux modèles.",
+      "notesLabel": "Note de séance",
+      "notesPlaceholder": "Ajoute une note sur cette séance (facultatif)",
+      "resumeLive": "Reprendre la séance"
     }
   },
   "restTimer": {
@@ -110,7 +113,8 @@
   },
   "exercise": {
     "noSets": "Aucune série pour l'instant.",
-    "addDrop": "+ Ajouter un drop (poids dégressif)"
+    "addDrop": "+ Ajouter un drop (poids dégressif)",
+    "notesPlaceholder": "Note (facultatif)"
   },
   "templates": {
     "title": "Mes modèles",

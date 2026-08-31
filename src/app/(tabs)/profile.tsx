@@ -4,20 +4,11 @@ import { Link, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Avatar } from '@/components/avatar';
+import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -292,171 +283,167 @@ export default function ProfileScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-            <View style={styles.header}>
-              <Pressable onPress={handlePickAvatar} style={styles.avatarWrapper}>
-                <Avatar uri={profile.avatar_url} size={96} />
-                <View style={[styles.avatarEditBadge, { backgroundColor: theme.tint }]}>
-                  <SymbolView
-                    name={{ ios: 'pencil', android: 'edit', web: 'edit' }}
-                    tintColor={theme.background}
-                    size={12}
-                    weight="bold"
-                  />
+        <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          <View style={styles.header}>
+            <Pressable onPress={handlePickAvatar} style={styles.avatarWrapper}>
+              <Avatar uri={profile.avatar_url} size={96} />
+              <View style={[styles.avatarEditBadge, { backgroundColor: theme.tint }]}>
+                <SymbolView
+                  name={{ ios: 'pencil', android: 'edit', web: 'edit' }}
+                  tintColor={theme.background}
+                  size={12}
+                  weight="bold"
+                />
+              </View>
+              {isUploadingAvatar ? (
+                <View style={styles.avatarLoadingOverlay}>
+                  <ThemedText type="small">...</ThemedText>
                 </View>
-                {isUploadingAvatar ? (
-                  <View style={styles.avatarLoadingOverlay}>
-                    <ThemedText type="small">...</ThemedText>
-                  </View>
-                ) : null}
-              </Pressable>
-              <ThemedText type="title">@{profile.username}</ThemedText>
+              ) : null}
+            </Pressable>
+            <ThemedText type="title">@{profile.username}</ThemedText>
+          </View>
+
+          {profileError ? (
+            <ThemedText themeColor="danger" type="small">
+              {profileError}
+            </ThemedText>
+          ) : null}
+          {error ? (
+            <ThemedText themeColor="danger" type="small">
+              {error}
+            </ThemedText>
+          ) : null}
+
+          <ThemedView type="backgroundElement" style={styles.section}>
+            <View style={styles.privacyRow}>
+              <View style={styles.privacyText}>
+                <ThemedText type="smallBold">{t('profile.publicToggleTitle')}</ThemedText>
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('profile.publicToggleSubtitle')}
+                </ThemedText>
+              </View>
+              <Switch
+                value={profile.is_public}
+                onValueChange={handleTogglePrivacy}
+                disabled={isTogglingPrivacy}
+                trackColor={{ true: theme.tint }}
+              />
+            </View>
+          </ThemedView>
+
+          <ThemedView type="backgroundElement" style={styles.section}>
+            <ThemedText type="smallBold">{t('profile.heightLabel')}</ThemedText>
+            <View style={styles.inlineRow}>
+              <TextInput
+                style={[
+                  styles.inlineInput,
+                  { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                ]}
+                placeholder="cm"
+                placeholderTextColor={theme.textSecondary}
+                keyboardType="decimal-pad"
+                value={heightInput}
+                onChangeText={setHeightInput}
+              />
+              <PrimaryButton
+                title={t('common.save')}
+                onPress={handleSaveHeight}
+                loading={isSavingHeight}
+                disabled={!heightInput.trim() || heightInput === (stats?.height_cm != null ? String(stats.height_cm) : '')}
+              />
+            </View>
+          </ThemedView>
+
+          <ThemedView type="backgroundElement" style={styles.section}>
+            <ThemedText type="smallBold">{t('profile.weightLabel')}</ThemedText>
+            <View style={styles.inlineRow}>
+              <TextInput
+                style={[
+                  styles.inlineInput,
+                  { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                ]}
+                placeholder="kg"
+                placeholderTextColor={theme.textSecondary}
+                keyboardType="decimal-pad"
+                value={newWeightInput}
+                onChangeText={setNewWeightInput}
+              />
+              <PrimaryButton
+                title={t('profile.weighToday')}
+                onPress={handleAddWeight}
+                loading={isAddingWeight}
+                disabled={!newWeightInput.trim()}
+              />
             </View>
 
-            {profileError ? (
-              <ThemedText themeColor="danger" type="small">
-                {profileError}
+            {weightLogs.length === 0 ? (
+              <ThemedText type="small" themeColor="textSecondary">
+                {t('profile.noWeightLogs')}
               </ThemedText>
-            ) : null}
-            {error ? (
-              <ThemedText themeColor="danger" type="small">
-                {error}
-              </ThemedText>
-            ) : null}
-
-            <ThemedView type="backgroundElement" style={styles.section}>
-              <View style={styles.privacyRow}>
-                <View style={styles.privacyText}>
-                  <ThemedText type="smallBold">{t('profile.publicToggleTitle')}</ThemedText>
-                  <ThemedText type="small" themeColor="textSecondary">
-                    {t('profile.publicToggleSubtitle')}
-                  </ThemedText>
-                </View>
-                <Switch
-                  value={profile.is_public}
-                  onValueChange={handleTogglePrivacy}
-                  disabled={isTogglingPrivacy}
-                  trackColor={{ true: theme.tint }}
-                />
-              </View>
-            </ThemedView>
-
-            <ThemedView type="backgroundElement" style={styles.section}>
-              <ThemedText type="smallBold">{t('profile.heightLabel')}</ThemedText>
-              <View style={styles.inlineRow}>
-                <TextInput
-                  style={[
-                    styles.inlineInput,
-                    { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
-                  ]}
-                  placeholder="cm"
-                  placeholderTextColor={theme.textSecondary}
-                  keyboardType="decimal-pad"
-                  value={heightInput}
-                  onChangeText={setHeightInput}
-                />
-                <PrimaryButton
-                  title={t('common.save')}
-                  onPress={handleSaveHeight}
-                  loading={isSavingHeight}
-                  disabled={!heightInput.trim() || heightInput === (stats?.height_cm != null ? String(stats.height_cm) : '')}
-                />
-              </View>
-            </ThemedView>
-
-            <ThemedView type="backgroundElement" style={styles.section}>
-              <ThemedText type="smallBold">{t('profile.weightLabel')}</ThemedText>
-              <View style={styles.inlineRow}>
-                <TextInput
-                  style={[
-                    styles.inlineInput,
-                    { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
-                  ]}
-                  placeholder="kg"
-                  placeholderTextColor={theme.textSecondary}
-                  keyboardType="decimal-pad"
-                  value={newWeightInput}
-                  onChangeText={setNewWeightInput}
-                />
-                <PrimaryButton
-                  title={t('profile.weighToday')}
-                  onPress={handleAddWeight}
-                  loading={isAddingWeight}
-                  disabled={!newWeightInput.trim()}
-                />
-              </View>
-
-              {weightLogs.length === 0 ? (
-                <ThemedText type="small" themeColor="textSecondary">
-                  {t('profile.noWeightLogs')}
-                </ThemedText>
-              ) : (
-                <View style={styles.weightList}>
-                  {weightLogs.map((log) => (
-                    <View key={log.id} style={styles.weightRow}>
-                      <ThemedText type="small">
-                        {log.weight_kg} kg ·{' '}
-                        {new Date(log.logged_at).toLocaleDateString(i18n.language, {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })}
-                      </ThemedText>
-                      <Pressable onPress={() => handleDeleteWeight(log.id)} hitSlop={8}>
-                        <SymbolView
-                          name={{ ios: 'xmark', android: 'close', web: 'close' }}
-                          tintColor={theme.textSecondary}
-                          size={14}
-                        />
-                      </Pressable>
-                    </View>
-                  ))}
-                </View>
-              )}
-            </ThemedView>
-
-            <ThemedView type="backgroundElement" style={styles.section}>
-              <ThemedText type="smallBold">{t('profile.language')}</ThemedText>
-              <View style={styles.languageRow}>
-                {SUPPORTED_LANGUAGES.map((language) => (
-                  <Pressable
-                    key={language}
-                    onPress={() => setAppLanguage(language)}
-                    style={[
-                      styles.languageChip,
-                      { backgroundColor: i18n.language === language ? theme.tint : theme.backgroundSelected },
-                    ]}>
-                    <ThemedText
-                      type="small"
-                      style={{ color: i18n.language === language ? theme.background : theme.text }}>
-                      {LANGUAGE_LABELS[language]}
+            ) : (
+              <View style={styles.weightList}>
+                {weightLogs.map((log) => (
+                  <View key={log.id} style={styles.weightRow}>
+                    <ThemedText type="small">
+                      {log.weight_kg} kg ·{' '}
+                      {new Date(log.logged_at).toLocaleDateString(i18n.language, {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </ThemedText>
-                  </Pressable>
+                    <Pressable onPress={() => handleDeleteWeight(log.id)} hitSlop={8}>
+                      <SymbolView
+                        name={{ ios: 'xmark', android: 'close', web: 'close' }}
+                        tintColor={theme.textSecondary}
+                        size={14}
+                      />
+                    </Pressable>
+                  </View>
                 ))}
               </View>
-            </ThemedView>
+            )}
+          </ThemedView>
 
-            <PrimaryButton title={t('profile.logout')} variant="secondary" onPress={confirmLogout} />
+          <ThemedView type="backgroundElement" style={styles.section}>
+            <ThemedText type="smallBold">{t('profile.language')}</ThemedText>
+            <View style={styles.languageRow}>
+              {SUPPORTED_LANGUAGES.map((language) => (
+                <Pressable
+                  key={language}
+                  onPress={() => setAppLanguage(language)}
+                  style={[
+                    styles.languageChip,
+                    { backgroundColor: i18n.language === language ? theme.tint : theme.backgroundSelected },
+                  ]}>
+                  <ThemedText
+                    type="small"
+                    style={{ color: i18n.language === language ? theme.background : theme.text }}>
+                    {LANGUAGE_LABELS[language]}
+                  </ThemedText>
+                </Pressable>
+              ))}
+            </View>
+          </ThemedView>
 
-            <Link href="/legal/privacy" style={styles.legalLink}>
-              <ThemedText type="small" themeColor="textSecondary">
-                {t('profile.privacy')}
-              </ThemedText>
-            </Link>
+          <PrimaryButton title={t('profile.logout')} variant="secondary" onPress={confirmLogout} />
 
-            <Pressable onPress={confirmDeleteAccount} disabled={isDeletingAccount}>
-              <ThemedText
-                type="small"
-                themeColor="danger"
-                style={[styles.deleteAccountText, isDeletingAccount && styles.disabled]}>
-                {isDeletingAccount ? t('profile.deletingAccount') : t('profile.deleteAccount')}
-              </ThemedText>
-            </Pressable>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          <Link href="/legal/privacy" style={styles.legalLink}>
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('profile.privacy')}
+            </ThemedText>
+          </Link>
+
+          <Pressable onPress={confirmDeleteAccount} disabled={isDeletingAccount}>
+            <ThemedText
+              type="small"
+              themeColor="danger"
+              style={[styles.deleteAccountText, isDeletingAccount && styles.disabled]}>
+              {isDeletingAccount ? t('profile.deletingAccount') : t('profile.deleteAccount')}
+            </ThemedText>
+          </Pressable>
+        </KeyboardAwareForm>
       </SafeAreaView>
     </ThemedView>
   );

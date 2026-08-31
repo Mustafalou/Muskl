@@ -5,9 +5,11 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { getExerciseDisplayName } from '@/constants/exercise-catalog';
 import { Spacing } from '@/constants/theme';
 import { REST_DURATIONS } from '@/hooks/use-rest-timer';
 import { useTheme } from '@/hooks/use-theme';
+import type { SupportedLanguage } from '@/i18n';
 import type { TemplateExerciseWithSets } from '@/types';
 
 type TemplateExerciseSectionProps = {
@@ -25,11 +27,12 @@ export function TemplateExerciseSection({
   onDeleteExercise,
   onUpdateRest,
 }: TemplateExerciseSectionProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
   const [reps, setReps] = useState('');
   const [weight, setWeight] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const displayName = getExerciseDisplayName(exercise, i18n.language as SupportedLanguage);
 
   const repsValue = parseInt(reps, 10);
   const weightValue = parseFloat(weight);
@@ -47,7 +50,7 @@ export function TemplateExerciseSection({
   return (
     <ThemedView type="backgroundElement" style={styles.card}>
       <View style={styles.header}>
-        <ThemedText type="smallBold">{exercise.name}</ThemedText>
+        <ThemedText type="smallBold">{displayName}</ThemedText>
         <Pressable onPress={() => onDeleteExercise(exercise.id)} hitSlop={8}>
           <SymbolView
             name={{ ios: 'trash', android: 'delete', web: 'delete' }}

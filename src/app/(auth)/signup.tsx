@@ -2,9 +2,10 @@ import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
@@ -43,79 +44,75 @@ export default function SignupScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-            <Image style={styles.logo} source={require('@/assets/images/muskl-logo.png')} contentFit="contain" />
-            <ThemedText type="title" style={styles.title}>
-              {t('auth.signup.title')}
-            </ThemedText>
-            <ThemedText themeColor="textSecondary" style={styles.subtitle}>
-              {t('auth.signup.subtitle')}
-            </ThemedText>
+        <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          <Image style={styles.logo} source={require('@/assets/images/muskl-logo.png')} contentFit="contain" />
+          <ThemedText type="title" style={styles.title}>
+            {t('auth.signup.title')}
+          </ThemedText>
+          <ThemedText themeColor="textSecondary" style={styles.subtitle}>
+            {t('auth.signup.subtitle')}
+          </ThemedText>
 
-            <ThemedView style={styles.form}>
-              <TextField
-                label={t('auth.signup.usernameLabel')}
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder={t('auth.signup.usernamePlaceholder')}
-                returnKeyType="next"
-                onSubmitEditing={() => emailFieldRef.current?.focus()}
-                blurOnSubmit={false}
-              />
-              <TextField
-                ref={emailFieldRef}
-                label={t('auth.signup.emailLabel')}
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="email-address"
-                autoComplete="email"
-                returnKeyType="next"
-                onSubmitEditing={() => passwordFieldRef.current?.focus()}
-                blurOnSubmit={false}
-              />
-              <TextField
-                ref={passwordFieldRef}
-                label={t('auth.signup.passwordLabel')}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                autoCapitalize="none"
-                autoComplete="password-new"
-                returnKeyType="go"
-                onSubmitEditing={handleSubmit}
-              />
+          <ThemedView style={styles.form}>
+            <TextField
+              label={t('auth.signup.usernameLabel')}
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder={t('auth.signup.usernamePlaceholder')}
+              returnKeyType="next"
+              onSubmitEditing={() => emailFieldRef.current?.focus()}
+              blurOnSubmit={false}
+            />
+            <TextField
+              ref={emailFieldRef}
+              label={t('auth.signup.emailLabel')}
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              autoComplete="email"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordFieldRef.current?.focus()}
+              blurOnSubmit={false}
+            />
+            <TextField
+              ref={passwordFieldRef}
+              label={t('auth.signup.passwordLabel')}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              autoCapitalize="none"
+              autoComplete="password-new"
+              returnKeyType="go"
+              onSubmitEditing={handleSubmit}
+            />
 
-              {error ? (
-                <ThemedText themeColor="danger" type="small">
-                  {error}
-                </ThemedText>
-              ) : null}
-              {info ? (
-                <ThemedText themeColor="tint" type="small">
-                  {info}
-                </ThemedText>
-              ) : null}
+            {error ? (
+              <ThemedText themeColor="danger" type="small">
+                {error}
+              </ThemedText>
+            ) : null}
+            {info ? (
+              <ThemedText themeColor="tint" type="small">
+                {info}
+              </ThemedText>
+            ) : null}
 
-              <PrimaryButton
-                title={t('auth.signup.submit')}
-                onPress={handleSubmit}
-                loading={isSubmitting}
-                disabled={!email || !password || !username}
-              />
-            </ThemedView>
+            <PrimaryButton
+              title={t('auth.signup.submit')}
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              disabled={!email || !password || !username}
+            />
+          </ThemedView>
 
-            <Link href="/login" style={styles.link}>
-              <ThemedText themeColor="tint">{t('auth.signup.hasAccount')}</ThemedText>
-            </Link>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          <Link href="/login" style={styles.link}>
+            <ThemedText themeColor="tint">{t('auth.signup.hasAccount')}</ThemedText>
+          </Link>
+        </KeyboardAwareForm>
       </SafeAreaView>
     </ThemedView>
   );

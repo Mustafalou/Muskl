@@ -25,6 +25,7 @@ export type Workout = {
   user_id: string;
   name: string;
   date: string;
+  notes: string | null;
   created_at: string;
 };
 
@@ -34,6 +35,10 @@ export type Exercise = {
   name: string;
   order: number;
   rest_seconds: number | null;
+  // Stable catalog reference (see constants/exercise-catalog.ts) — null for custom, free-typed
+  // exercises, which can't be auto-translated for viewers in another language.
+  catalog_key: string | null;
+  notes: string | null;
 };
 
 // Named to match the `sets` table; shadows the global `Set` collection type within this file's scope.
@@ -70,6 +75,7 @@ export type TemplateExercise = {
   name: string;
   order: number;
   rest_seconds: number | null;
+  catalog_key: string | null;
 };
 
 export type TemplateSet = {

@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
@@ -43,36 +44,32 @@ export default function NewTemplateScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ThemedView style={styles.content}>
-            <ThemedText type="title" style={styles.title}>
-              {t('templates.new.title')}
+        <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          <ThemedText type="title" style={styles.title}>
+            {t('templates.new.title')}
+          </ThemedText>
+
+          <TextField
+            label={t('templates.new.nameLabel')}
+            placeholder={t('templates.new.namePlaceholder')}
+            value={name}
+            onChangeText={setName}
+            autoFocus
+          />
+
+          {error ? (
+            <ThemedText themeColor="danger" type="small">
+              {error}
             </ThemedText>
+          ) : null}
 
-            <TextField
-              label={t('templates.new.nameLabel')}
-              placeholder={t('templates.new.namePlaceholder')}
-              value={name}
-              onChangeText={setName}
-              autoFocus
-            />
-
-            {error ? (
-              <ThemedText themeColor="danger" type="small">
-                {error}
-              </ThemedText>
-            ) : null}
-
-            <PrimaryButton
-              title={t('templates.new.submit')}
-              onPress={handleCreate}
-              loading={isSubmitting}
-              disabled={!name.trim()}
-            />
-          </ThemedView>
-        </KeyboardAvoidingView>
+          <PrimaryButton
+            title={t('templates.new.submit')}
+            onPress={handleCreate}
+            loading={isSubmitting}
+            disabled={!name.trim()}
+          />
+        </KeyboardAwareForm>
       </SafeAreaView>
     </ThemedView>
   );

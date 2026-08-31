@@ -1,9 +1,10 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
@@ -36,52 +37,48 @@ export default function ForgotPasswordScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-            <ThemedText type="title" style={styles.title}>
-              {t('auth.forgotPassword.title')}
-            </ThemedText>
-            <ThemedText themeColor="textSecondary" style={styles.subtitle}>
-              {t('auth.forgotPassword.subtitle')}
-            </ThemedText>
+        <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          <ThemedText type="title" style={styles.title}>
+            {t('auth.forgotPassword.title')}
+          </ThemedText>
+          <ThemedText themeColor="textSecondary" style={styles.subtitle}>
+            {t('auth.forgotPassword.subtitle')}
+          </ThemedText>
 
-            <ThemedView style={styles.form}>
-              <TextField
-                label={t('auth.login.emailLabel')}
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="email-address"
-                autoComplete="email"
-              />
+          <ThemedView style={styles.form}>
+            <TextField
+              label={t('auth.login.emailLabel')}
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              autoComplete="email"
+            />
 
-              {error ? (
-                <ThemedText themeColor="danger" type="small">
-                  {error}
-                </ThemedText>
-              ) : null}
-              {info ? (
-                <ThemedText themeColor="tint" type="small">
-                  {info}
-                </ThemedText>
-              ) : null}
+            {error ? (
+              <ThemedText themeColor="danger" type="small">
+                {error}
+              </ThemedText>
+            ) : null}
+            {info ? (
+              <ThemedText themeColor="tint" type="small">
+                {info}
+              </ThemedText>
+            ) : null}
 
-              <PrimaryButton
-                title={t('auth.forgotPassword.submit')}
-                onPress={handleSubmit}
-                loading={isSubmitting}
-                disabled={!email.trim()}
-              />
-            </ThemedView>
+            <PrimaryButton
+              title={t('auth.forgotPassword.submit')}
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              disabled={!email.trim()}
+            />
+          </ThemedView>
 
-            <Link href="/login" style={styles.link}>
-              <ThemedText themeColor="tint">{t('auth.forgotPassword.backToLogin')}</ThemedText>
-            </Link>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          <Link href="/login" style={styles.link}>
+            <ThemedText themeColor="tint">{t('auth.forgotPassword.backToLogin')}</ThemedText>
+          </Link>
+        </KeyboardAwareForm>
       </SafeAreaView>
     </ThemedView>
   );

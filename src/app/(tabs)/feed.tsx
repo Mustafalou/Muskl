@@ -1,7 +1,9 @@
+import { SymbolView } from 'expo-symbols';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, RefreshControl, StyleSheet } from 'react-native';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -27,7 +29,7 @@ export default function FeedScreen() {
 
     const { data: workoutRows, error: workoutError } = await supabase
       .from('workouts')
-      .select('id, user_id, name, date, created_at')
+      .select('id, user_id, name, date, notes, created_at')
       .order('date', { ascending: false })
       .order('created_at', { ascending: false });
 
@@ -116,9 +118,16 @@ export default function FeedScreen() {
           </ThemedText>
         ) : null}
         {!error && !isLoading && workouts.length === 0 ? (
-          <ThemedText themeColor="textSecondary" style={styles.message}>
-            {t('feed.empty')}
-          </ThemedText>
+          <Animated.View entering={FadeIn} style={styles.emptyState}>
+            <SymbolView
+              name={{ ios: 'figure.strengthtraining.traditional', android: 'fitness_center', web: 'fitness_center' }}
+              tintColor={theme.textSecondary}
+              size={40}
+            />
+            <ThemedText themeColor="textSecondary" style={styles.emptyText}>
+              {t('feed.empty')}
+            </ThemedText>
+          </Animated.View>
         ) : null}
 
         <FlatList
@@ -128,12 +137,14 @@ export default function FeedScreen() {
           refreshControl={
             <RefreshControl refreshing={isLoading} onRefresh={loadFeed} tintColor={theme.tint} />
           }
-          renderItem={({ item }) => (
-            <WorkoutCard
-              workout={item}
-              onPress={() => router.push(`/workout/${item.id}`)}
-              onReport={() => handleReport(item)}
-            />
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInDown.delay(Math.min(index, 8) * 40).springify().damping(16)}>
+              <WorkoutCard
+                workout={item}
+                onPress={() => router.push(`/workout/${item.id}`)}
+                onReport={() => handleReport(item)}
+              />
+            </Animated.View>
           )}
         />
       </SafeAreaView>
@@ -151,6 +162,15 @@ const styles = StyleSheet.create({
   message: {
     paddingHorizontal: Spacing.four,
     paddingBottom: Spacing.three,
+  },
+  emptyState: {
+    alignItems: 'center',
+    gap: Spacing.two,
+    paddingTop: Spacing.six,
+    paddingHorizontal: Spacing.four,
+  },
+  emptyText: {
+    textAlign: 'center',
   },
   list: {
     gap: Spacing.two,

@@ -96,11 +96,14 @@
       "noMoreSets": "No hay más series previstas para este ejercicio.",
       "addExtraSet": "Añadir una serie",
       "nextExercise": "Siguiente ejercicio",
-      "setsSummary_one": "{{count}} serie",
-      "setsSummary_other": "{{count}} series",
       "rest": "Descanso",
       "cancelRest": "Cancelar descanso",
-      "finish": "Terminar"
+      "finish": "Terminar",
+      "addToTemplates": "Añadir a mis plantillas",
+      "saveAsTemplateFailed": "No se pudo añadir a las plantillas.",
+      "notesLabel": "Nota de la sesión",
+      "notesPlaceholder": "Añade una nota sobre esta sesión (opcional)",
+      "resumeLive": "Reanudar la sesión"
     }
   },
   "restTimer": {
@@ -110,7 +113,8 @@
   },
   "exercise": {
     "noSets": "Todavía no hay series.",
-    "addDrop": "+ Añadir un drop (serie descendente)"
+    "addDrop": "+ Añadir un drop (serie descendente)",
+    "notesPlaceholder": "Nota (opcional)"
   },
   "templates": {
     "title": "Mis plantillas",

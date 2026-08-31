@@ -4,6 +4,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Pressable, RefreshControl, StyleSheet } from 'react-native';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -31,7 +32,7 @@ export default function MyWorkoutsScreen() {
 
     const { data, error } = await supabase
       .from('workouts')
-      .select('id, user_id, name, date, created_at')
+      .select('id, user_id, name, date, notes, created_at')
       .eq('user_id', user.id)
       .order('date', { ascending: false })
       .order('created_at', { ascending: false });
@@ -74,9 +75,16 @@ export default function MyWorkoutsScreen() {
           </ThemedText>
         ) : null}
         {!error && !isLoading && workouts.length === 0 ? (
-          <ThemedText themeColor="textSecondary" style={styles.message}>
-            {t('myWorkouts.empty')}
-          </ThemedText>
+          <Animated.View entering={FadeIn} style={styles.emptyState}>
+            <SymbolView
+              name={{ ios: 'figure.strengthtraining.traditional', android: 'fitness_center', web: 'fitness_center' }}
+              tintColor={theme.textSecondary}
+              size={40}
+            />
+            <ThemedText themeColor="textSecondary" style={styles.emptyText}>
+              {t('myWorkouts.empty')}
+            </ThemedText>
+          </Animated.View>
         ) : null}
 
         <FlatList
@@ -90,12 +98,14 @@ export default function MyWorkoutsScreen() {
               tintColor={theme.tint}
             />
           }
-          renderItem={({ item }) => (
-            <WorkoutCard
-              workout={item}
-              onPress={() => router.push(`/workout/${item.id}`)}
-              showAuthor={false}
-            />
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInDown.delay(Math.min(index, 8) * 40).springify().damping(16)}>
+              <WorkoutCard
+                workout={item}
+                onPress={() => router.push(`/workout/${item.id}`)}
+                showAuthor={false}
+              />
+            </Animated.View>
           )}
         />
       </SafeAreaView>
@@ -159,6 +169,15 @@ const styles = StyleSheet.create({
   message: {
     paddingHorizontal: Spacing.four,
     paddingBottom: Spacing.three,
+  },
+  emptyState: {
+    alignItems: 'center',
+    gap: Spacing.two,
+    paddingTop: Spacing.six,
+    paddingHorizontal: Spacing.four,
+  },
+  emptyText: {
+    textAlign: 'center',
   },
   list: {
     gap: Spacing.two,

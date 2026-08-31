@@ -1,17 +1,9 @@
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 
+import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { TemplateExerciseSection } from '@/components/template-exercise-section';
 import { TextField } from '@/components/text-field';
@@ -53,7 +45,7 @@ export default function TemplateDetailScreen() {
 
     const { data: exerciseRows, error: exercisesError } = await supabase
       .from('template_exercises')
-      .select('id, template_id, name, order, rest_seconds')
+      .select('id, template_id, name, order, rest_seconds, catalog_key')
       .eq('template_id', id)
       .order('order', { ascending: true });
 
@@ -229,65 +221,61 @@ export default function TemplateDetailScreen() {
           <ThemedText themeColor="danger">{error}</ThemedText>
         </ThemedView>
       ) : template ? (
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-            <TextField
-              label={t('templates.detail.nameLabel')}
-              value={name}
-              onChangeText={setName}
-              onBlur={handleSaveName}
-            />
-            {isSavingName ? (
-              <ThemedText type="small" themeColor="textSecondary">
-                {t('templates.detail.saving')}
+        <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          <TextField
+            label={t('templates.detail.nameLabel')}
+            value={name}
+            onChangeText={setName}
+            onBlur={handleSaveName}
+          />
+          {isSavingName ? (
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('templates.detail.saving')}
+            </ThemedText>
+          ) : null}
+
+          {error ? (
+            <ThemedText themeColor="danger" type="small">
+              {error}
+            </ThemedText>
+          ) : null}
+
+          <View style={styles.exercises}>
+            {exercises.map((exercise) => (
+              <TemplateExerciseSection
+                key={exercise.id}
+                exercise={exercise}
+                onAddSet={handleAddSet}
+                onDeleteSet={handleDeleteSet}
+                onDeleteExercise={handleDeleteExercise}
+                onUpdateRest={handleUpdateRest}
+              />
+            ))}
+            {exercises.length === 0 ? (
+              <ThemedText themeColor="textSecondary" type="small">
+                {t('templates.detail.noExercises')}
               </ThemedText>
             ) : null}
+          </View>
 
-            {error ? (
-              <ThemedText themeColor="danger" type="small">
-                {error}
-              </ThemedText>
-            ) : null}
+          <PrimaryButton
+            title={t('templates.detail.addExercise')}
+            variant="secondary"
+            onPress={() => router.push({ pathname: '/template/add-exercise', params: { templateId: id } })}
+          />
 
-            <View style={styles.exercises}>
-              {exercises.map((exercise) => (
-                <TemplateExerciseSection
-                  key={exercise.id}
-                  exercise={exercise}
-                  onAddSet={handleAddSet}
-                  onDeleteSet={handleDeleteSet}
-                  onDeleteExercise={handleDeleteExercise}
-                  onUpdateRest={handleUpdateRest}
-                />
-              ))}
-              {exercises.length === 0 ? (
-                <ThemedText themeColor="textSecondary" type="small">
-                  {t('templates.detail.noExercises')}
-                </ThemedText>
-              ) : null}
-            </View>
+          <PrimaryButton
+            title={t('templates.detail.launch')}
+            onPress={handleLaunch}
+            loading={isLaunching}
+          />
 
-            <PrimaryButton
-              title={t('templates.detail.addExercise')}
-              variant="secondary"
-              onPress={() => router.push({ pathname: '/template/add-exercise', params: { templateId: id } })}
-            />
-
-            <PrimaryButton
-              title={t('templates.detail.launch')}
-              onPress={handleLaunch}
-              loading={isLaunching}
-            />
-
-            <Pressable onPress={confirmDeleteTemplate}>
-              <ThemedText type="small" themeColor="danger" style={styles.deleteTemplate}>
-                {t('templates.detail.deleteTemplate')}
-              </ThemedText>
-            </Pressable>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          <Pressable onPress={confirmDeleteTemplate}>
+            <ThemedText type="small" themeColor="danger" style={styles.deleteTemplate}>
+              {t('templates.detail.deleteTemplate')}
+            </ThemedText>
+          </Pressable>
+        </KeyboardAwareForm>
       ) : null}
     </ThemedView>
   );

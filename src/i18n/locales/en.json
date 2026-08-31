@@ -96,11 +96,14 @@
       "noMoreSets": "No more sets planned for this exercise.",
       "addExtraSet": "Add a set",
       "nextExercise": "Next exercise",
-      "setsSummary_one": "{{count}} set",
-      "setsSummary_other": "{{count}} sets",
       "rest": "Rest",
       "cancelRest": "Cancel rest",
-      "finish": "Finish"
+      "finish": "Finish",
+      "addToTemplates": "Add to my templates",
+      "saveAsTemplateFailed": "Couldn't add to templates.",
+      "notesLabel": "Workout note",
+      "notesPlaceholder": "Add a note about this workout (optional)",
+      "resumeLive": "Resume workout"
     }
   },
   "restTimer": {
@@ -110,7 +113,8 @@
   },
   "exercise": {
     "noSets": "No sets yet.",
-    "addDrop": "+ Add a drop (drop set)"
+    "addDrop": "+ Add a drop (drop set)",
+    "notesPlaceholder": "Note (optional)"
   },
   "templates": {
     "title": "My Templates",
