@@ -14,6 +14,7 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/lib/supabase';
+import { loadWorkoutSocial, setLiked, type WorkoutSocial } from '@/lib/workout-social';
 import { loadWorkoutSummaries, type WorkoutSummary } from '@/lib/workout-summary';
 import type { WorkoutWithAuthor } from '@/types';
 
@@ -24,6 +25,7 @@ export default function FeedScreen() {
   const { user } = useAuth();
   const [workouts, setWorkouts] = useState<WorkoutWithAuthor[]>([]);
   const [summaries, setSummaries] = useState<Record<string, WorkoutSummary>>({});
+  const [social, setSocial] = useState<Record<string, WorkoutSocial>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasPendingRequests, setHasPendingRequests] = useState(false);
@@ -102,7 +104,13 @@ export default function FeedScreen() {
         avatar_url: profileById[workout.user_id]?.avatar_url ?? null,
       })),
     );
-    setSummaries(await loadWorkoutSummaries((workoutRows ?? []).map((workout) => workout.id)));
+    const visibleIds = (workoutRows ?? []).map((workout) => workout.id);
+    const [loadedSummaries, loadedSocial] = await Promise.all([
+      loadWorkoutSummaries(visibleIds),
+      loadWorkoutSocial(visibleIds, user.id),
+    ]);
+    setSummaries(loadedSummaries);
+    setSocial(loadedSocial);
     setIsLoading(false);
   }, [user]);
 
@@ -112,6 +120,25 @@ export default function FeedScreen() {
       loadPendingRequestsIndicator();
     }, [loadFeed, loadPendingRequestsIndicator]),
   );
+
+  function handleToggleLike(workoutId: string) {
+    if (!user) return;
+    const current = social[workoutId];
+    if (!current) return;
+
+    // Optimistic: the heart has to answer instantly, and a failed write just gets corrected on the
+    // next load rather than blocking the tap.
+    const nextLiked = !current.likedByMe;
+    setSocial((previous) => ({
+      ...previous,
+      [workoutId]: {
+        ...current,
+        likedByMe: nextLiked,
+        likeCount: current.likeCount + (nextLiked ? 1 : -1),
+      },
+    }));
+    setLiked(workoutId, user.id, nextLiked);
+  }
 
   function handleReport(workout: WorkoutWithAuthor) {
     Alert.alert(
@@ -200,6 +227,8 @@ export default function FeedScreen() {
               <WorkoutCard
                 workout={item}
                 summary={summaries[item.id]}
+                social={social[item.id]}
+                onToggleLike={() => handleToggleLike(item.id)}
                 onPress={() => router.push(`/workout/${item.id}`)}
                 onReport={() => handleReport(item)}
                 onPressAuthor={

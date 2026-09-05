@@ -2,7 +2,7 @@ import { SymbolView } from 'expo-symbols';
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -31,11 +31,14 @@ export default function UserProfileScreen() {
   const [followStatus, setFollowStatus] = useState<FollowStatus | null>(null);
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [weeklyGoal, setWeeklyGoal] = useState<number | null>(null);
+  const [blockId, setBlockId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const isOwnProfile = user?.id === id;
-  const canViewContent = isOwnProfile || targetProfile?.is_public === true || followStatus === 'accepted';
+  const isBlocked = blockId !== null;
+  const canViewContent =
+    !isBlocked && (isOwnProfile || targetProfile?.is_public === true || followStatus === 'accepted');
 
   const loadProfile = useCallback(async () => {
     if (!user || !id) return;
@@ -56,20 +59,33 @@ export default function UserProfileScreen() {
     setTargetProfile(profileData);
 
     let resolvedFollowStatus: FollowStatus | null = null;
+    let resolvedBlockId: string | null = null;
     if (user.id !== id) {
-      const { data: followData } = await supabase
-        .from('follows')
-        .select('id, status')
-        .eq('follower_id', user.id)
-        .eq('following_id', id)
-        .maybeSingle();
+      const [followResult, blockResult] = await Promise.all([
+        supabase
+          .from('follows')
+          .select('id, status')
+          .eq('follower_id', user.id)
+          .eq('following_id', id)
+          .maybeSingle(),
+        supabase
+          .from('blocks')
+          .select('id')
+          .eq('blocker_id', user.id)
+          .eq('blocked_id', id)
+          .maybeSingle(),
+      ]);
 
-      setFollowId(followData?.id ?? null);
-      resolvedFollowStatus = followData?.status ?? null;
+      setFollowId(followResult.data?.id ?? null);
+      resolvedFollowStatus = followResult.data?.status ?? null;
       setFollowStatus(resolvedFollowStatus);
+      resolvedBlockId = blockResult.data?.id ?? null;
+      setBlockId(resolvedBlockId);
     }
 
-    const canView = user.id === id || profileData.is_public || resolvedFollowStatus === 'accepted';
+    const canView =
+      !resolvedBlockId &&
+      (user.id === id || profileData.is_public || resolvedFollowStatus === 'accepted');
     if (canView) {
       const [workoutsResult, statsResult] = await Promise.all([
         supabase
@@ -109,6 +125,57 @@ export default function UserProfileScreen() {
 
     setFollowId(data.id);
     setFollowStatus('pending');
+  }
+
+  async function blockUser() {
+    if (!user || !id) return;
+
+    const { data, error: insertError } = await supabase
+      .from('blocks')
+      .insert({ blocker_id: user.id, blocked_id: id })
+      .select('id')
+      .single();
+
+    if (insertError || !data) {
+      setError(insertError?.message ?? null);
+      return;
+    }
+
+    // Blocking severs any existing relationship in both directions, otherwise the block would sit
+    // on top of a follow that silently comes back to life if it's ever lifted.
+    await supabase.from('follows').delete().eq('follower_id', user.id).eq('following_id', id);
+    await supabase.from('follows').delete().eq('follower_id', id).eq('following_id', user.id);
+
+    setBlockId(data.id);
+    setFollowId(null);
+    setFollowStatus(null);
+    setWorkouts([]);
+  }
+
+  function confirmBlock() {
+    if (!targetProfile) return;
+    Alert.alert(
+      t('userProfile.blockConfirmTitle', { username: targetProfile.username }),
+      t('userProfile.blockConfirmMessage'),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        { text: t('userProfile.block'), style: 'destructive', onPress: blockUser },
+      ],
+    );
+  }
+
+  async function handleUnblock() {
+    if (!blockId) return;
+    const idToRemove = blockId;
+    setBlockId(null);
+
+    const { error: deleteError } = await supabase.from('blocks').delete().eq('id', idToRemove);
+    if (deleteError) {
+      setError(deleteError.message);
+      setBlockId(idToRemove);
+      return;
+    }
+    loadProfile();
   }
 
   function handleUnfollowOrCancel() {
@@ -152,7 +219,7 @@ export default function UserProfileScreen() {
           <Avatar uri={targetProfile.avatar_url} size={72} />
           <ThemedText type="title">@{targetProfile.username}</ThemedText>
           <FollowCounts userId={targetProfile.id} />
-          {!isOwnProfile ? (
+          {!isOwnProfile && !isBlocked ? (
             <FollowActionButton status={followStatus} onFollow={handleFollow} onCancel={handleUnfollowOrCancel} />
           ) : null}
         </View>
@@ -163,7 +230,23 @@ export default function UserProfileScreen() {
           </ThemedText>
         ) : null}
 
-        {!canViewContent ? (
+        {isBlocked ? (
+          <View style={styles.lockedState}>
+            <SymbolView
+              name={{ ios: 'hand.raised.fill', android: 'block', web: 'block' }}
+              tintColor={theme.textSecondary}
+              size={40}
+            />
+            <ThemedText themeColor="textSecondary" style={styles.lockedText}>
+              {t('userProfile.blockedMessage', { username: targetProfile.username })}
+            </ThemedText>
+            <Pressable onPress={handleUnblock} hitSlop={8}>
+              <ThemedText type="smallBold" themeColor="tint">
+                {t('userProfile.unblock')}
+              </ThemedText>
+            </Pressable>
+          </View>
+        ) : !canViewContent ? (
           <View style={styles.lockedState}>
             <SymbolView
               name={{ ios: 'lock.fill', android: 'lock', web: 'lock' }}
@@ -204,6 +287,14 @@ export default function UserProfileScreen() {
             )}
           />
         )}
+
+        {!isOwnProfile && !isBlocked ? (
+          <Pressable onPress={confirmBlock} style={styles.blockAction}>
+            <ThemedText type="small" themeColor="danger">
+              {t('userProfile.blockUser', { username: targetProfile.username })}
+            </ThemedText>
+          </Pressable>
+        ) : null}
       </SafeAreaView>
     </ThemedView>
   );
@@ -224,6 +315,10 @@ const styles = StyleSheet.create({
   message: {
     paddingHorizontal: Spacing.four,
     paddingBottom: Spacing.three,
+  },
+  blockAction: {
+    alignItems: 'center',
+    paddingVertical: Spacing.three,
   },
   lockedState: {
     alignItems: 'center',

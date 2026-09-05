@@ -72,6 +72,12 @@
     "title": "Follow requests",
     "empty": "No follow requests for now."
   },
+  "comments": {
+    "title_zero": "Comments",
+    "title_one": "{{count}} comment",
+    "title_other": "{{count}} comments",
+    "placeholder": "Write a comment..."
+  },
   "follows": {
     "title": "Follows",
     "followers": "Followers",
@@ -81,7 +87,13 @@
   "userProfile": {
     "notFound": "Profile not found.",
     "lockedMessage": "Follow @{{username}} to see their workouts and stats.",
-    "noWorkouts": "No workouts yet."
+    "noWorkouts": "No workouts yet.",
+    "blockUser": "Block @{{username}}",
+    "block": "Block",
+    "unblock": "Unblock",
+    "blockedMessage": "You blocked @{{username}}. Neither of you can see the other's content.",
+    "blockConfirmTitle": "Block @{{username}}?",
+    "blockConfirmMessage": "Neither of you will see the other's content, and any follow between you will be removed."
   },
   "services": {
     "progression": {

@@ -72,6 +72,12 @@
     "title": "Solicitudes de seguimiento",
     "empty": "No hay solicitudes de seguimiento por ahora."
   },
+  "comments": {
+    "title_zero": "Comentarios",
+    "title_one": "{{count}} comentario",
+    "title_other": "{{count}} comentarios",
+    "placeholder": "Escribe un comentario..."
+  },
   "follows": {
     "title": "Seguimientos",
     "followers": "Seguidores",
@@ -81,7 +87,13 @@
   "userProfile": {
     "notFound": "Perfil no encontrado.",
     "lockedMessage": "Sigue a @{{username}} para ver sus sesiones y estadísticas.",
-    "noWorkouts": "Todavía no hay sesiones."
+    "noWorkouts": "Todavía no hay sesiones.",
+    "blockUser": "Bloquear a @{{username}}",
+    "block": "Bloquear",
+    "unblock": "Desbloquear",
+    "blockedMessage": "Has bloqueado a @{{username}}. Ninguno de los dos ve el contenido del otro.",
+    "blockConfirmTitle": "¿Bloquear a @{{username}}?",
+    "blockConfirmMessage": "Ninguno de los dos verá el contenido del otro y se eliminará cualquier seguimiento entre vosotros."
   },
   "services": {
     "progression": {

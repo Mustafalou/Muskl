@@ -12,6 +12,7 @@ import { RestTimerRing } from '@/components/rest-timer-ring';
 import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { WorkoutComments } from '@/components/workout-comments';
 import { getExerciseDisplayName } from '@/constants/exercise-catalog';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
@@ -512,6 +513,8 @@ export default function WorkoutDetailScreen() {
                   }
                 />
               ) : null}
+
+              <WorkoutComments workoutId={id} workoutOwnerId={workout.user_id} />
 
               {isOwner ? (
                 <Pressable onPress={confirmDeleteWorkout}>

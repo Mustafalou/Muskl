@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import type { WorkoutSocial } from '@/lib/workout-social';
 import type { WorkoutSummary } from '@/lib/workout-summary';
 import type { Workout } from '@/types';
 
@@ -17,6 +18,8 @@ type WorkoutCardProps = {
   onReport?: () => void;
   onPressAuthor?: () => void;
   summary?: WorkoutSummary | null;
+  social?: WorkoutSocial | null;
+  onToggleLike?: () => void;
 };
 
 function formatDate(date: string, language: string) {
@@ -34,6 +37,8 @@ export function WorkoutCard({
   onReport,
   onPressAuthor,
   summary,
+  social,
+  onToggleLike,
 }: WorkoutCardProps) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -112,6 +117,36 @@ export function WorkoutCard({
             {meta}
           </>
         )}
+
+        {social ? (
+          <View style={styles.socialRow}>
+            <Pressable onPress={onToggleLike} disabled={!onToggleLike} hitSlop={8} style={styles.socialItem}>
+              <SymbolView
+                name={{
+                  ios: social.likedByMe ? 'heart.fill' : 'heart',
+                  android: social.likedByMe ? 'favorite' : 'favorite_border',
+                  web: social.likedByMe ? 'favorite' : 'favorite_border',
+                }}
+                tintColor={social.likedByMe ? theme.tint : theme.textSecondary}
+                size={16}
+              />
+              <ThemedText type="small" themeColor={social.likedByMe ? 'tint' : 'textSecondary'}>
+                {social.likeCount}
+              </ThemedText>
+            </Pressable>
+
+            <View style={styles.socialItem}>
+              <SymbolView
+                name={{ ios: 'bubble.left', android: 'chat_bubble_outline', web: 'chat_bubble_outline' }}
+                tintColor={theme.textSecondary}
+                size={16}
+              />
+              <ThemedText type="small" themeColor="textSecondary">
+                {social.commentCount}
+              </ThemedText>
+            </View>
+          </View>
+        ) : null}
       </ThemedView>
     </Pressable>
   );
@@ -140,5 +175,15 @@ const styles = StyleSheet.create({
   },
   reportButton: {
     padding: Spacing.one,
+  },
+  socialRow: {
+    flexDirection: 'row',
+    gap: Spacing.four,
+    marginTop: Spacing.one,
+  },
+  socialItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
   },
 });
