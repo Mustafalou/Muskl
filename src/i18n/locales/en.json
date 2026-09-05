@@ -72,6 +72,12 @@
     "title": "Follow requests",
     "empty": "No follow requests for now."
   },
+  "follows": {
+    "title": "Follows",
+    "followers": "Followers",
+    "following": "Following",
+    "empty": "Nobody yet."
+  },
   "userProfile": {
     "notFound": "Profile not found.",
     "lockedMessage": "Follow @{{username}} to see their workouts and stats.",
@@ -108,6 +114,57 @@
     "legendWorkout": "Workout",
     "legendToday": "Today",
     "legendGoalMet": "Goal met"
+  },
+  "onboarding": {
+    "title": "Welcome to Muskl",
+    "subtitle": "Three questions, and we'll set up ready-to-use workouts for you.",
+    "levelQuestion": "What's your level?",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "levelHints": {
+      "beginner": "Less than a year of regular training",
+      "intermediate": "One to three years, you know the basic lifts",
+      "advanced": "Over three years, you manage your own volume"
+    },
+    "frequencyQuestion": "How many sessions per week?",
+    "splitPreview": "We'll set you up with a {{split}} program",
+    "splits": {
+      "fullBody": "full body",
+      "upperLower": "upper / lower",
+      "hybrid": "push / pull / legs + upper / lower",
+      "pushPullLegs": "push / pull / legs"
+    },
+    "goalQuestion": "Your main goal?",
+    "goals": {
+      "hypertrophy": "Muscle gain",
+      "strength": "Strength",
+      "general": "General fitness"
+    },
+    "goalHints": {
+      "hypertrophy": "Sets of 10, moderate rest",
+      "strength": "Heavy sets of 5, long rest",
+      "general": "Sets of 12, short rest"
+    },
+    "sessions": {
+      "fullBodyA": "Full body A",
+      "fullBodyB": "Full body B",
+      "fullBodyC": "Full body C",
+      "upperA": "Upper body A",
+      "lowerA": "Lower body A",
+      "upperB": "Upper body B",
+      "lowerB": "Lower body B",
+      "pushA": "Push A",
+      "pullA": "Pull A",
+      "legsA": "Legs A",
+      "pushB": "Push B",
+      "pullB": "Pull B",
+      "legsB": "Legs B"
+    },
+    "submit": "Create my workouts",
+    "skip": "Skip, I'll build my own"
   },
   "myWorkouts": {
     "title": "My Workouts",
@@ -213,6 +270,8 @@
     }
   },
   "profile": {
+    "shareProfile": "Share my profile",
+    "shareMessage": "Join me on Muskl — my profile: @{{username}}\n{{url}}",
     "publicToggleTitle": "Public profile",
     "publicToggleSubtitle": "Others can see your height and weigh-ins",
     "heightLabel": "Height",

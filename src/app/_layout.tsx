@@ -13,6 +13,7 @@ import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { loadLiveSession } from '@/lib/live-session';
+import { supabase } from '@/lib/supabase';
 import { AuthProvider } from '@/providers/auth-provider';
 
 SplashScreen.preventAutoHideAsync();
@@ -26,9 +27,23 @@ function RootNavigator() {
   useEffect(() => {
     if (isLoading || !session || hasResumedRef.current) return;
     hasResumedRef.current = true;
-    loadLiveSession().then((liveSession) => {
+
+    // An interrupted live session takes priority: someone mid-workout shouldn't be handed a
+    // questionnaire. The onboarding is only for accounts that have never answered it.
+    loadLiveSession().then(async (liveSession) => {
       if (liveSession) {
         router.push({ pathname: '/workout/[id]', params: { id: liveSession.workoutId, resume: '1' } });
+        return;
+      }
+
+      const { data } = await supabase
+        .from('profile_stats')
+        .select('onboarded_at')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (!data?.onboarded_at) {
+        router.push('/onboarding');
       }
     });
   }, [isLoading, session, router]);
@@ -73,6 +88,11 @@ function RootNavigator() {
           <Stack.Screen name="follow-requests" options={{ title: t('followRequests.title') }} />
           <Stack.Screen name="streak" options={{ title: t('streak.title') }} />
           <Stack.Screen name="user/[id]" options={{ headerBackTitle: t('common.back') }} />
+          <Stack.Screen name="follows/[id]" options={{ headerBackTitle: t('common.back') }} />
+          <Stack.Screen
+            name="onboarding"
+            options={{ headerShown: false, presentation: 'modal', gestureEnabled: false }}
+          />
           <Stack.Screen name="services/progression" options={{ title: t('services.progression.title') }} />
           <Stack.Screen name="services/exercise/[catalogKey]" options={{ headerBackTitle: t('common.back') }} />
           <Stack.Screen name="templates" options={{ title: t('templates.title') }} />

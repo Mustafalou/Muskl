@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Avatar } from '@/components/avatar';
 import { FollowActionButton } from '@/components/follow-action-button';
+import { FollowCounts } from '@/components/follow-counts';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WeeklyStatsBar } from '@/components/weekly-stats-bar';
@@ -150,6 +151,7 @@ export default function UserProfileScreen() {
         <View style={styles.header}>
           <Avatar uri={targetProfile.avatar_url} size={72} />
           <ThemedText type="title">@{targetProfile.username}</ThemedText>
+          <FollowCounts userId={targetProfile.id} />
           {!isOwnProfile ? (
             <FollowActionButton status={followStatus} onFollow={handleFollow} onCancel={handleUnfollowOrCancel} />
           ) : null}

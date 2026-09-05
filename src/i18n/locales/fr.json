@@ -72,6 +72,12 @@
     "title": "Demandes de suivi",
     "empty": "Aucune demande de suivi pour l'instant."
   },
+  "follows": {
+    "title": "Abonnements",
+    "followers": "Abonnés",
+    "following": "Abonnements",
+    "empty": "Personne pour l'instant."
+  },
   "userProfile": {
     "notFound": "Profil introuvable.",
     "lockedMessage": "Suis @{{username}} pour voir ses séances et ses stats.",
@@ -108,6 +114,57 @@
     "legendWorkout": "Séance",
     "legendToday": "Aujourd'hui",
     "legendGoalMet": "Objectif atteint"
+  },
+  "onboarding": {
+    "title": "Bienvenue sur Muskl",
+    "subtitle": "Trois questions, et on te prépare des séances prêtes à l'emploi.",
+    "levelQuestion": "Quel est ton niveau ?",
+    "levels": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé"
+    },
+    "levelHints": {
+      "beginner": "Moins d'un an de pratique régulière",
+      "intermediate": "Un à trois ans, tu connais les mouvements de base",
+      "advanced": "Plus de trois ans, tu sais gérer ton volume"
+    },
+    "frequencyQuestion": "Combien de séances par semaine ?",
+    "splitPreview": "On va te préparer un programme {{split}}",
+    "splits": {
+      "fullBody": "full body",
+      "upperLower": "haut / bas du corps",
+      "hybrid": "push / pull / jambes + haut / bas",
+      "pushPullLegs": "push / pull / jambes"
+    },
+    "goalQuestion": "Ton objectif principal ?",
+    "goals": {
+      "hypertrophy": "Prise de masse",
+      "strength": "Force",
+      "general": "Forme générale"
+    },
+    "goalHints": {
+      "hypertrophy": "Séries de 10, repos moyen",
+      "strength": "Séries de 5 lourdes, repos long",
+      "general": "Séries de 12, repos court"
+    },
+    "sessions": {
+      "fullBodyA": "Full body A",
+      "fullBodyB": "Full body B",
+      "fullBodyC": "Full body C",
+      "upperA": "Haut du corps A",
+      "lowerA": "Bas du corps A",
+      "upperB": "Haut du corps B",
+      "lowerB": "Bas du corps B",
+      "pushA": "Push A",
+      "pullA": "Pull A",
+      "legsA": "Jambes A",
+      "pushB": "Push B",
+      "pullB": "Pull B",
+      "legsB": "Jambes B"
+    },
+    "submit": "Créer mes séances",
+    "skip": "Passer, je fais mes séances moi-même"
   },
   "myWorkouts": {
     "title": "Mes séances",
@@ -213,6 +270,8 @@
     }
   },
   "profile": {
+    "shareProfile": "Partager mon profil",
+    "shareMessage": "Rejoins-moi sur Muskl — mon profil : @{{username}}\n{{url}}",
     "publicToggleTitle": "Profil public",
     "publicToggleSubtitle": "Les autres peuvent voir ta taille et tes pesées",
     "heightLabel": "Taille",

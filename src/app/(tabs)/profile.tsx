@@ -1,13 +1,16 @@
 import { File } from 'expo-file-system';
+import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { Link, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
+import * as Linking from 'expo-linking';
+import { Alert, Pressable, Share, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Avatar } from '@/components/avatar';
+import { FollowCounts } from '@/components/follow-counts';
 import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
@@ -24,6 +27,11 @@ const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   en: 'English',
   es: 'Español',
 };
+
+// Avatars are never rendered larger than 96pt (this screen); everywhere else they're 40-44pt.
+// 400px covers even a 3x display with room to spare, while an unresized camera crop was 500 KB-2 MB
+// — re-downloaded on every feed card, which is what actually costs bandwidth.
+const AVATAR_MAX_PX = 400;
 
 const WEEKLY_GOAL_OPTIONS = [1, 2, 3, 4, 5, 6, 7];
 
@@ -118,7 +126,9 @@ export default function ProfileScreen() {
       mediaTypes: 'images',
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.7,
+      // Full quality here on purpose: the picker's output is a throwaway intermediate that gets
+      // re-encoded below, and compressing twice only stacks JPEG artifacts.
+      quality: 1,
     });
 
     if (result.canceled || !result.assets[0]) return;
@@ -127,20 +137,36 @@ export default function ProfileScreen() {
     setIsUploadingAvatar(true);
     setError(null);
 
+    // Height is left out so the aspect ratio is preserved (the picker already returns a square crop).
+    const manipulation = ImageManipulator.manipulate(asset.uri);
+    manipulation.resize({ width: AVATAR_MAX_PX });
+    const rendered = await manipulation.renderAsync();
+    const resized = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+
     // fetch(uri).arrayBuffer() on a local file URI is unreliable in React Native and can
     // silently return near-empty bytes; expo-file-system's File reads the actual file content.
-    const arrayBuffer = await new File(asset.uri).arrayBuffer();
-    const extension = asset.uri.split('.').pop()?.toLowerCase() ?? 'jpg';
-    const path = `${user.id}/avatar.${extension}`;
+    const arrayBuffer = await new File(resized.uri).arrayBuffer();
+    const path = `${user.id}/avatar.jpg`;
 
     const { error: uploadError } = await supabase.storage
       .from('avatars')
-      .upload(path, arrayBuffer, { contentType: asset.mimeType ?? 'image/jpeg', upsert: true });
+      .upload(path, arrayBuffer, { contentType: 'image/jpeg', upsert: true });
 
     if (uploadError) {
       setIsUploadingAvatar(false);
       setError(uploadError.message);
       return;
+    }
+
+    // Older uploads kept the source file's extension (avatar.jpeg, avatar.png...), so switching to
+    // a fixed avatar.jpg would otherwise strand the previous file in the bucket forever. Best
+    // effort: a failed cleanup must not block the avatar change itself.
+    const { data: existingFiles } = await supabase.storage.from('avatars').list(user.id);
+    const stalePaths = (existingFiles ?? [])
+      .map((file) => `${user.id}/${file.name}`)
+      .filter((existingPath) => existingPath !== path);
+    if (stalePaths.length > 0) {
+      await supabase.storage.from('avatars').remove(stalePaths);
     }
 
     const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(path);
@@ -268,6 +294,16 @@ export default function ProfileScreen() {
       });
   }
 
+  async function handleShareProfile() {
+    if (!profile) return;
+    // createURL builds the right scheme for wherever the app is running (muskl:// in a real build,
+    // exp:// under Expo Go), and Expo Router resolves /user/<id> to the profile screen on its own.
+    const url = Linking.createURL(`/user/${profile.id}`);
+    await Share.share({
+      message: t('profile.shareMessage', { username: profile.username, url }),
+    });
+  }
+
   function confirmLogout() {
     Alert.alert(t('profile.logoutConfirmTitle'), undefined, [
       { text: t('common.cancel'), style: 'cancel' },
@@ -346,6 +382,20 @@ export default function ProfileScreen() {
               ) : null}
             </Pressable>
             <ThemedText type="title">@{profile.username}</ThemedText>
+            <FollowCounts userId={profile.id} />
+
+            <Pressable
+              onPress={handleShareProfile}
+              style={[styles.shareButton, { backgroundColor: theme.backgroundElement, borderColor: theme.border }]}>
+              <SymbolView
+                name={{ ios: 'square.and.arrow.up', android: 'share', web: 'share' }}
+                tintColor={theme.tint}
+                size={16}
+              />
+              <ThemedText type="small" themeColor="tint">
+                {t('profile.shareProfile')}
+              </ThemedText>
+            </Pressable>
           </View>
 
           {profileError ? (
@@ -560,6 +610,16 @@ const styles = StyleSheet.create({
   },
   avatarWrapper: {
     position: 'relative',
+  },
+  shareButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    borderRadius: Spacing.five,
+    borderWidth: 1,
+    marginTop: Spacing.one,
   },
   avatarEditBadge: {
     position: 'absolute',
