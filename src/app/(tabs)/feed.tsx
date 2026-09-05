@@ -2,7 +2,7 @@ import { SymbolView } from 'expo-symbols';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { Alert, FlatList, Pressable, RefreshControl, StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,6 +14,7 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/lib/supabase';
+import { loadWorkoutSummaries, type WorkoutSummary } from '@/lib/workout-summary';
 import type { WorkoutWithAuthor } from '@/types';
 
 export default function FeedScreen() {
@@ -22,6 +23,7 @@ export default function FeedScreen() {
   const theme = useTheme();
   const { user } = useAuth();
   const [workouts, setWorkouts] = useState<WorkoutWithAuthor[]>([]);
+  const [summaries, setSummaries] = useState<Record<string, WorkoutSummary>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasPendingRequests, setHasPendingRequests] = useState(false);
@@ -100,6 +102,7 @@ export default function FeedScreen() {
         avatar_url: profileById[workout.user_id]?.avatar_url ?? null,
       })),
     );
+    setSummaries(await loadWorkoutSummaries((workoutRows ?? []).map((workout) => workout.id)));
     setIsLoading(false);
   }, [user]);
 
@@ -141,19 +144,30 @@ export default function FeedScreen() {
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
         <ThemedView style={styles.headerRow}>
-          <ThemedText type="title">{t('feed.title')}</ThemedText>
-          <ThemedView style={styles.headerActions}>
-            <HeaderIconButton
-              onPress={() => router.push('/follow-requests')}
-              symbol={{ ios: 'person.crop.circle.badge.checkmark', android: 'person_add', web: 'person_add' }}
-              hasBadge={hasPendingRequests}
+          {/* Opens the real search screen, which autofocuses its input — a live search here would
+              mean duplicating its debounce/follow-state logic into the feed. */}
+          <Pressable
+            onPress={() => router.push('/search-users')}
+            style={({ pressed }) => [
+              styles.searchBar,
+              { backgroundColor: theme.backgroundElement, borderColor: theme.border },
+              pressed && styles.pressed,
+            ]}>
+            <SymbolView
+              name={{ ios: 'magnifyingglass', android: 'search', web: 'search' }}
+              tintColor={theme.textSecondary}
+              size={16}
             />
-            <HeaderIconButton
-              onPress={() => router.push('/search-users')}
-              symbol={{ ios: 'magnifyingglass', android: 'search', web: 'search' }}
-              accent
-            />
-          </ThemedView>
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('search.placeholder')}
+            </ThemedText>
+          </Pressable>
+
+          <HeaderIconButton
+            onPress={() => router.push('/follow-requests')}
+            symbol={{ ios: 'person.crop.circle.badge.checkmark', android: 'person_add', web: 'person_add' }}
+            hasBadge={hasPendingRequests}
+          />
         </ThemedView>
 
         {error ? (
@@ -185,6 +199,7 @@ export default function FeedScreen() {
             <Animated.View entering={FadeInDown.delay(Math.min(index, 8) * 40).springify().damping(16)}>
               <WorkoutCard
                 workout={item}
+                summary={summaries[item.id]}
                 onPress={() => router.push(`/workout/${item.id}`)}
                 onReport={() => handleReport(item)}
                 onPressAuthor={
@@ -206,14 +221,23 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: Spacing.two,
     paddingHorizontal: Spacing.four,
     paddingTop: Spacing.two,
     paddingBottom: Spacing.three,
   },
-  headerActions: {
+  searchBar: {
+    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
     gap: Spacing.two,
+    height: 40,
+    paddingHorizontal: Spacing.three,
+    borderRadius: Spacing.five,
+    borderWidth: 1,
+  },
+  pressed: {
+    opacity: 0.7,
   },
   message: {
     paddingHorizontal: Spacing.four,

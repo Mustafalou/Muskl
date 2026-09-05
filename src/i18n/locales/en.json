@@ -86,7 +86,11 @@
       "exercisesTitle": "Exercises",
       "noExercises": "No catalog exercises logged yet.",
       "personalRecord": "Personal record",
-      "noHistory": "No history yet for this exercise."
+      "noHistory": "No history yet for this exercise.",
+      "period_30d": "30 d",
+      "period_3m": "3 mo",
+      "period_1y": "1 yr",
+      "period_all": "All"
     }
   },
   "stats": {
@@ -100,11 +104,24 @@
     "weeksLabel_other": "week streak",
     "longestLabel_one": "Longest: {{count}} week",
     "longestLabel_other": "Longest: {{count}} weeks",
-    "noGoalSet": "Set your weekly goal in Profile to activate your streak."
+    "noGoalSet": "Set your weekly goal in Profile to activate your streak.",
+    "legendWorkout": "Workout",
+    "legendToday": "Today",
+    "legendGoalMet": "Goal met"
   },
   "myWorkouts": {
     "title": "My Workouts",
-    "empty": "No workouts yet. Get started!"
+    "empty": "No workouts yet. Get started!",
+    "greetingMorning": "Good morning",
+    "greetingAfternoon": "Good afternoon",
+    "greetingEvening": "Good evening"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} exercise",
+    "exercises_other": "{{count}} exercises",
+    "sets_one": "{{count}} set",
+    "sets_other": "{{count}} sets",
+    "volume": "{{value}} kg"
   },
   "workout": {
     "new": {
@@ -112,6 +129,7 @@
       "nameLabel": "Workout name",
       "namePlaceholder": "e.g. Push day",
       "dateLabel": "Date (YYYY-MM-DD)",
+      "fromTemplate": "Start from a template",
       "submit": "Create",
       "createFailed": "Couldn't create the workout."
     },
@@ -156,8 +174,13 @@
   },
   "exercise": {
     "noSets": "No sets yet.",
+    "addSet": "Add a set",
     "addDrop": "+ Add a drop (drop set)",
-    "notesPlaceholder": "Note (optional)"
+    "notesPlaceholder": "Note (optional)",
+    "colSet": "#",
+    "colWeight": "Weight",
+    "colReps": "Reps",
+    "colRpe": "RPE"
   },
   "templates": {
     "title": "My Templates",
@@ -197,9 +220,16 @@
     "weeklyGoalSubtitle": "Used to calculate your streak",
     "weeklyGoalChip_one": "{{count}} workout / week",
     "weeklyGoalChip_other": "{{count}} workouts / week",
+    "weeklyGoalNotSet": "No goal set",
+    "weeklyGoalLight": "Light",
+    "weeklyGoalRegular": "Regular",
+    "weeklyGoalIntense": "Intense",
+    "weeklyGoalDaily": "Every day — don't skip recovery",
     "weightLabel": "Weight",
     "weighToday": "Weigh in today",
     "noWeightLogs": "No weigh-ins logged yet.",
+    "showAllWeights": "See all {{count}} weigh-ins",
+    "showLessWeights": "Show less",
     "logout": "Log out",
     "logoutConfirmTitle": "Log out?",
     "logoutConfirmButton": "Log out",

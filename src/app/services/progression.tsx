@@ -17,11 +17,23 @@ import {
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
+import { loadLoggedExerciseStats, type LoggedExerciseStat } from '@/lib/exercise-history';
 import { supabase } from '@/lib/supabase';
 
 function formatShortDate(dateStr: string, language: string) {
   return new Date(dateStr).toLocaleDateString(language, { day: 'numeric', month: 'short' });
 }
+
+const PERIODS = [
+  { key: '30d', days: 30 },
+  { key: '3m', days: 90 },
+  { key: '1y', days: 365 },
+  { key: 'all', days: null },
+] as const;
+
+type PeriodKey = (typeof PERIODS)[number]['key'];
+
+type WeightLog = { weightKg: number; loggedAt: string };
 
 export default function ProgressionScreen() {
   const { t, i18n } = useTranslation();
@@ -30,46 +42,34 @@ export default function ProgressionScreen() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const [weightPoints, setWeightPoints] = useState<LineChartPoint[]>([]);
-  const [loggedCatalogKeys, setLoggedCatalogKeys] = useState<Set<string>>(new Set());
+  const [weightLogs, setWeightLogs] = useState<WeightLog[]>([]);
+  const [exerciseStats, setExerciseStats] = useState<Record<string, LoggedExerciseStat>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [muscle, setMuscle] = useState<string | null>(null);
+  const [period, setPeriod] = useState<PeriodKey>('3m');
+  // Reference instant for the period windows, captured when the data was fetched: reading the
+  // clock during render is impure and would make the memo unstable across re-renders.
+  const [loadedAt, setLoadedAt] = useState(0);
 
   const loadData = useCallback(async () => {
     if (!user) return;
 
-    const [weightResult, workoutsResult] = await Promise.all([
+    const [weightResult, stats] = await Promise.all([
       supabase
         .from('body_weight_logs')
         .select('weight_kg, logged_at')
         .eq('user_id', user.id)
         .order('logged_at', { ascending: true }),
-      supabase.from('workouts').select('id').eq('user_id', user.id),
+      loadLoggedExerciseStats(user.id),
     ]);
 
-    setWeightPoints(
-      (weightResult.data ?? []).map((log) => ({
-        label: formatShortDate(log.logged_at, language),
-        value: log.weight_kg,
-      })),
+    setWeightLogs(
+      (weightResult.data ?? []).map((log) => ({ weightKg: log.weight_kg, loggedAt: log.logged_at })),
     );
-
-    const workoutIds = (workoutsResult.data ?? []).map((workout) => workout.id);
-    if (workoutIds.length > 0) {
-      const { data: exerciseRows } = await supabase
-        .from('exercises')
-        .select('catalog_key')
-        .in('workout_id', workoutIds)
-        .not('catalog_key', 'is', null);
-
-      setLoggedCatalogKeys(new Set((exerciseRows ?? []).map((row) => row.catalog_key as string)));
-    } else {
-      setLoggedCatalogKeys(new Set());
-    }
-
+    setExerciseStats(stats);
+    setLoadedAt(Date.now());
     setIsLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- language only affects date-label formatting, not what to fetch
   }, [user]);
 
   useFocusEffect(
@@ -80,10 +80,25 @@ export default function ProgressionScreen() {
 
   const muscleGroups = getMuscleGroups(language);
 
+  const periodDays = PERIODS.find((entry) => entry.key === period)?.days ?? null;
+
+  const weightPoints = useMemo<LineChartPoint[]>(() => {
+    const cutoff = periodDays != null && loadedAt > 0 ? loadedAt - periodDays * 86_400_000 : null;
+    return weightLogs
+      .filter((log) => cutoff == null || new Date(log.loggedAt).getTime() >= cutoff)
+      .map((log) => ({ label: formatShortDate(log.loggedAt, language), value: log.weightKg }));
+  }, [weightLogs, periodDays, language, loadedAt]);
+
+  // Latest weight overall (not just within the period) — it's "your weight today", while the delta
+  // is what the selected window actually changed.
+  const currentWeight = weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weightKg : null;
+  const weightDelta =
+    weightPoints.length > 1 ? weightPoints[weightPoints.length - 1].value - weightPoints[0].value : null;
+
   const loggedExercises = useMemo(() => {
     const catalog = getExerciseCatalog(language);
-    return catalog.filter((exercise) => loggedCatalogKeys.has(exercise.catalogKey));
-  }, [language, loggedCatalogKeys]);
+    return catalog.filter((exercise) => exerciseStats[exercise.catalogKey]);
+  }, [language, exerciseStats]);
 
   const filteredExercises = useMemo(() => {
     const normalizedQuery = normalize(query.trim());
@@ -108,8 +123,37 @@ export default function ProgressionScreen() {
           keyboardShouldPersistTaps="handled"
           ListHeaderComponent={
             <View style={styles.header}>
-              <ThemedView type="backgroundElement" style={styles.section}>
-                <ThemedText type="smallBold">{t('services.progression.bodyWeightTitle')}</ThemedText>
+              <ThemedView
+                type="backgroundElement"
+                style={[styles.section, { borderColor: theme.border }]}>
+                <View style={styles.weightHeader}>
+                  <View>
+                    <ThemedText type="small" themeColor="textSecondary">
+                      {t('services.progression.bodyWeightTitle')}
+                    </ThemedText>
+                    <ThemedText type="subtitle">
+                      {currentWeight != null ? `${currentWeight} kg` : '–'}
+                    </ThemedText>
+                  </View>
+                  {weightDelta != null && Math.abs(weightDelta) >= 0.05 ? (
+                    <ThemedText type="smallBold" themeColor={weightDelta > 0 ? 'text' : 'tint'}>
+                      {weightDelta > 0 ? '+' : ''}
+                      {weightDelta.toFixed(1)} kg
+                    </ThemedText>
+                  ) : null}
+                </View>
+
+                <View style={styles.periodRow}>
+                  {PERIODS.map((entry) => (
+                    <Chip
+                      key={entry.key}
+                      label={t(`services.progression.period_${entry.key}`)}
+                      active={period === entry.key}
+                      onPress={() => setPeriod(entry.key)}
+                    />
+                  ))}
+                </View>
+
                 {weightPoints.length > 0 ? (
                   <LineChart points={weightPoints} unit=" kg" />
                 ) : (
@@ -119,7 +163,7 @@ export default function ProgressionScreen() {
                 )}
               </ThemedView>
 
-              <ThemedText type="smallBold">{t('services.progression.exercisesTitle')}</ThemedText>
+              <ThemedText type="sectionTitle">{t('services.progression.exercisesTitle')}</ThemedText>
 
               {loggedExercises.length > 0 ? (
                 <>
@@ -163,6 +207,11 @@ export default function ProgressionScreen() {
                   {item.muscle}
                 </ThemedText>
               </View>
+              {exerciseStats[item.catalogKey] ? (
+                <ThemedText type="smallBold" themeColor="tint">
+                  {exerciseStats[item.catalogKey].lastWeightKg} kg
+                </ThemedText>
+              ) : null}
               <SymbolView
                 name={{ ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' }}
                 tintColor={theme.textSecondary}
@@ -197,8 +246,19 @@ const styles = StyleSheet.create({
   },
   section: {
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
     gap: Spacing.two,
+  },
+  weightHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  periodRow: {
+    flexDirection: 'row',
+    gap: Spacing.one,
+    flexWrap: 'wrap',
   },
   searchInput: {
     borderWidth: 1,

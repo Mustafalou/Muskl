@@ -10,6 +10,7 @@ import { ThemedView } from '@/components/themed-view';
 import { translateCatalogExerciseName, type SupportedLanguage } from '@/constants/exercise-catalog';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/lib/supabase';
 
 function formatShortDate(dateStr: string, language: string) {
@@ -20,6 +21,7 @@ export default function ExerciseProgressScreen() {
   const { catalogKey } = useLocalSearchParams<{ catalogKey: string }>();
   const { t, i18n } = useTranslation();
   const language = i18n.language as SupportedLanguage;
+  const theme = useTheme();
   const { user } = useAuth();
 
   const [points, setPoints] = useState<LineChartPoint[]>([]);
@@ -103,7 +105,7 @@ export default function ExerciseProgressScreen() {
       <SafeAreaView style={styles.flex} edges={['bottom']}>
         <ScrollView contentContainerStyle={styles.content}>
           {personalRecord != null ? (
-            <ThemedView type="backgroundElement" style={styles.prCard}>
+            <ThemedView type="backgroundElement" style={[styles.prCard, { borderColor: theme.border }]}>
               <ThemedText type="small" themeColor="textSecondary">
                 {t('services.progression.personalRecord')}
               </ThemedText>
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
   },
   prCard: {
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
     gap: 2,
     alignItems: 'center',

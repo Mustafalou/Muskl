@@ -86,7 +86,11 @@
       "exercisesTitle": "Ejercicios",
       "noExercises": "Todavía no hay ejercicios del catálogo registrados.",
       "personalRecord": "Récord personal",
-      "noHistory": "Todavía no hay historial para este ejercicio."
+      "noHistory": "Todavía no hay historial para este ejercicio.",
+      "period_30d": "30 d",
+      "period_3m": "3 meses",
+      "period_1y": "1 año",
+      "period_all": "Todo"
     }
   },
   "stats": {
@@ -100,11 +104,24 @@
     "weeksLabel_other": "semanas seguidas",
     "longestLabel_one": "Récord: {{count}} semana",
     "longestLabel_other": "Récord: {{count}} semanas",
-    "noGoalSet": "Define tu objetivo semanal en el Perfil para activar tu racha."
+    "noGoalSet": "Define tu objetivo semanal en el Perfil para activar tu racha.",
+    "legendWorkout": "Sesión",
+    "legendToday": "Hoy",
+    "legendGoalMet": "Objetivo cumplido"
   },
   "myWorkouts": {
     "title": "Mis sesiones",
-    "empty": "Todavía no hay sesiones. ¡Empieza ya!"
+    "empty": "Todavía no hay sesiones. ¡Empieza ya!",
+    "greetingMorning": "Buenos días",
+    "greetingAfternoon": "Buenas tardes",
+    "greetingEvening": "Buenas noches"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} ejercicio",
+    "exercises_other": "{{count}} ejercicios",
+    "sets_one": "{{count}} serie",
+    "sets_other": "{{count}} series",
+    "volume": "{{value}} kg"
   },
   "workout": {
     "new": {
@@ -112,6 +129,7 @@
       "nameLabel": "Nombre de la sesión",
       "namePlaceholder": "Ej: Push day",
       "dateLabel": "Fecha (AAAA-MM-DD)",
+      "fromTemplate": "Partir de una plantilla",
       "submit": "Crear",
       "createFailed": "No se pudo crear la sesión."
     },
@@ -156,8 +174,13 @@
   },
   "exercise": {
     "noSets": "Todavía no hay series.",
+    "addSet": "Añadir una serie",
     "addDrop": "+ Añadir un drop (serie descendente)",
-    "notesPlaceholder": "Nota (opcional)"
+    "notesPlaceholder": "Nota (opcional)",
+    "colSet": "#",
+    "colWeight": "Peso",
+    "colReps": "Reps",
+    "colRpe": "RPE"
   },
   "templates": {
     "title": "Mis plantillas",
@@ -197,9 +220,16 @@
     "weeklyGoalSubtitle": "Se usa para calcular tu racha",
     "weeklyGoalChip_one": "{{count}} sesión / semana",
     "weeklyGoalChip_other": "{{count}} sesiones / semana",
+    "weeklyGoalNotSet": "Sin objetivo definido",
+    "weeklyGoalLight": "Ligero",
+    "weeklyGoalRegular": "Regular",
+    "weeklyGoalIntense": "Intenso",
+    "weeklyGoalDaily": "Todos los días — cuida la recuperación",
     "weightLabel": "Peso",
     "weighToday": "Pesarme hoy",
     "noWeightLogs": "Todavía no hay pesajes registrados.",
+    "showAllWeights": "Ver los {{count}} pesajes",
+    "showLessWeights": "Ver menos",
     "logout": "Cerrar sesión",
     "logoutConfirmTitle": "¿Cerrar sesión?",
     "logoutConfirmButton": "Cerrar sesión",

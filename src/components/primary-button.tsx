@@ -12,6 +12,9 @@ type PrimaryButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   variant?: 'primary' | 'secondary';
+  // 'large' is for the one action a screen is built around — currently "set done" in Live mode,
+  // which has to be hittable mid-set without looking.
+  size?: 'normal' | 'large';
 };
 
 export function PrimaryButton({
@@ -20,6 +23,7 @@ export function PrimaryButton({
   loading = false,
   disabled = false,
   variant = 'primary',
+  size = 'normal',
 }: PrimaryButtonProps) {
   const theme = useTheme();
   const isSecondary = variant === 'secondary';
@@ -44,6 +48,7 @@ export function PrimaryButton({
       disabled={isDisabled}
       style={[
         styles.button,
+        size === 'large' && styles.buttonLarge,
         isSecondary
           ? { backgroundColor: 'transparent', borderWidth: 1, borderColor: theme.tint }
           : { backgroundColor: theme.tint },
@@ -53,7 +58,12 @@ export function PrimaryButton({
       {loading ? (
         <ActivityIndicator color={isSecondary ? theme.tint : theme.background} />
       ) : (
-        <Text style={[styles.label, { color: isSecondary ? theme.tint : theme.background }]}>
+        <Text
+          style={[
+            styles.label,
+            size === 'large' && styles.labelLarge,
+            { color: isSecondary ? theme.tint : theme.background },
+          ]}>
           {title}
         </Text>
       )}
@@ -69,11 +79,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  buttonLarge: {
+    paddingVertical: Spacing.four,
+  },
   disabled: {
     opacity: 0.5,
   },
   label: {
     fontSize: 16,
     fontWeight: '700',
+  },
+  labelLarge: {
+    fontSize: 18,
   },
 });

@@ -4,7 +4,19 @@ import { Fonts, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ThemedTextProps = TextProps & {
-  type?: 'default' | 'title' | 'small' | 'smallBold' | 'subtitle' | 'link' | 'linkPrimary' | 'code';
+  type?:
+    | 'default'
+    | 'title'
+    | 'small'
+    | 'smallBold'
+    | 'subtitle'
+    // Section heading inside a screen — the step between `title` and body text.
+    | 'sectionTitle'
+    // Title of a card/list row: the level that used to be forced into `smallBold`.
+    | 'cardTitle'
+    | 'link'
+    | 'linkPrimary'
+    | 'code';
   themeColor?: ThemeColor;
 };
 
@@ -20,6 +32,8 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
         type === 'small' && styles.small,
         type === 'smallBold' && styles.smallBold,
         type === 'subtitle' && styles.subtitle,
+        type === 'sectionTitle' && styles.sectionTitle,
+        type === 'cardTitle' && styles.cardTitle,
         type === 'link' && styles.link,
         type === 'linkPrimary' && styles.linkPrimary,
         type === 'code' && styles.code,
@@ -47,13 +61,23 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
   title: {
-    fontSize: 48,
-    fontWeight: 600,
-    lineHeight: 52,
+    fontSize: 30,
+    fontWeight: 700,
+    lineHeight: 36,
   },
   subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
+    fontSize: 26,
+    lineHeight: 32,
+    fontWeight: 700,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    lineHeight: 26,
+    fontWeight: 700,
+  },
+  cardTitle: {
+    fontSize: 17,
+    lineHeight: 22,
     fontWeight: 600,
   },
   link: {

@@ -16,6 +16,13 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascApiKeyPath": "./secrets/AuthKey_UHC93TVBV3.p8",
+        "ascApiKeyIssuerId": "4abe1992-a121-4129-84d6-3e22619b959a",
+        "ascApiKeyId": "UHC93TVBV3",
+        "ascAppId": "6807889761"
+      }
+    }
   }
 }

@@ -14,10 +14,13 @@ export async function startTemplate(
   templateId: string,
   templateName: string,
   userId: string,
+  // Defaults to today; passed explicitly when backfilling a session that was forgotten on an
+  // earlier day (from the streak calendar).
+  date: string = todayISODate(),
 ): Promise<StartTemplateResult> {
   const { data: workout, error: workoutError } = await supabase
     .from('workouts')
-    .insert({ user_id: userId, name: templateName, date: todayISODate() })
+    .insert({ user_id: userId, name: templateName, date })
     .select('id')
     .single();
 

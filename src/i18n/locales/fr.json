@@ -86,7 +86,11 @@
       "exercisesTitle": "Exercices",
       "noExercises": "Aucun exercice du catalogue enregistré pour l'instant.",
       "personalRecord": "Record personnel",
-      "noHistory": "Pas encore d'historique pour cet exercice."
+      "noHistory": "Pas encore d'historique pour cet exercice.",
+      "period_30d": "30 j",
+      "period_3m": "3 mois",
+      "period_1y": "1 an",
+      "period_all": "Tout"
     }
   },
   "stats": {
@@ -100,11 +104,24 @@
     "weeksLabel_other": "semaines d'affilée",
     "longestLabel_one": "Record : {{count}} semaine",
     "longestLabel_other": "Record : {{count}} semaines",
-    "noGoalSet": "Définis ton objectif hebdomadaire dans le Profil pour activer ton streak."
+    "noGoalSet": "Définis ton objectif hebdomadaire dans le Profil pour activer ton streak.",
+    "legendWorkout": "Séance",
+    "legendToday": "Aujourd'hui",
+    "legendGoalMet": "Objectif atteint"
   },
   "myWorkouts": {
     "title": "Mes séances",
-    "empty": "Pas encore de séance. Lance-toi !"
+    "empty": "Pas encore de séance. Lance-toi !",
+    "greetingMorning": "Bonjour",
+    "greetingAfternoon": "Bon après-midi",
+    "greetingEvening": "Bonsoir"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} exercice",
+    "exercises_other": "{{count}} exercices",
+    "sets_one": "{{count}} série",
+    "sets_other": "{{count}} séries",
+    "volume": "{{value}} kg"
   },
   "workout": {
     "new": {
@@ -112,6 +129,7 @@
       "nameLabel": "Nom de la séance",
       "namePlaceholder": "Ex : Push day",
       "dateLabel": "Date (AAAA-MM-JJ)",
+      "fromTemplate": "Partir d'un modèle",
       "submit": "Créer",
       "createFailed": "Impossible de créer la séance."
     },
@@ -156,8 +174,13 @@
   },
   "exercise": {
     "noSets": "Aucune série pour l'instant.",
+    "addSet": "Ajouter une série",
     "addDrop": "+ Ajouter un drop (poids dégressif)",
-    "notesPlaceholder": "Note (facultatif)"
+    "notesPlaceholder": "Note (facultatif)",
+    "colSet": "#",
+    "colWeight": "Poids",
+    "colReps": "Reps",
+    "colRpe": "RPE"
   },
   "templates": {
     "title": "Mes modèles",
@@ -197,9 +220,16 @@
     "weeklyGoalSubtitle": "Utilisé pour calculer ton streak",
     "weeklyGoalChip_one": "{{count}} séance / semaine",
     "weeklyGoalChip_other": "{{count}} séances / semaine",
+    "weeklyGoalNotSet": "Aucun objectif défini",
+    "weeklyGoalLight": "Léger",
+    "weeklyGoalRegular": "Régulier",
+    "weeklyGoalIntense": "Intensif",
+    "weeklyGoalDaily": "Tous les jours — pense à la récupération",
     "weightLabel": "Poids",
     "weighToday": "Peser aujourd'hui",
     "noWeightLogs": "Aucune pesée enregistrée.",
+    "showAllWeights": "Voir les {{count}} pesées",
+    "showLessWeights": "Voir moins",
     "logout": "Se déconnecter",
     "logoutConfirmTitle": "Se déconnecter ?",
     "logoutConfirmButton": "Déconnexion",

@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import type { WorkoutSummary } from '@/lib/workout-summary';
 import type { Workout } from '@/types';
 
 type WorkoutCardProps = {
@@ -15,6 +16,7 @@ type WorkoutCardProps = {
   showAuthor?: boolean;
   onReport?: () => void;
   onPressAuthor?: () => void;
+  summary?: WorkoutSummary | null;
 };
 
 function formatDate(date: string, language: string) {
@@ -25,13 +27,51 @@ function formatDate(date: string, language: string) {
   });
 }
 
-export function WorkoutCard({ workout, onPress, showAuthor = true, onReport, onPressAuthor }: WorkoutCardProps) {
-  const { i18n } = useTranslation();
+export function WorkoutCard({
+  workout,
+  onPress,
+  showAuthor = true,
+  onReport,
+  onPressAuthor,
+  summary,
+}: WorkoutCardProps) {
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
+
+  // Only the parts that actually carry information: a workout with no sets logged yet shouldn't
+  // advertise "0 séries · 0 kg".
+  const summaryParts = summary
+    ? [
+        summary.exerciseCount > 0
+          ? t('workoutCard.exercises', { count: summary.exerciseCount })
+          : null,
+        summary.setCount > 0 ? t('workoutCard.sets', { count: summary.setCount }) : null,
+        summary.volumeKg > 0
+          ? t('workoutCard.volume', {
+              value: Math.round(summary.volumeKg).toLocaleString(i18n.language),
+            })
+          : null,
+      ].filter(Boolean)
+    : [];
+
+  const meta = (
+    <>
+      <ThemedText type="small" themeColor="textSecondary">
+        {formatDate(workout.date, i18n.language)}
+      </ThemedText>
+      {summaryParts.length > 0 ? (
+        <ThemedText type="small" themeColor="textSecondary">
+          {summaryParts.join(' · ')}
+        </ThemedText>
+      ) : null}
+    </>
+  );
 
   return (
     <Pressable onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
-      <ThemedView type="backgroundElement" style={styles.card}>
+      <ThemedView
+        type="backgroundElement"
+        style={[styles.card, { borderColor: theme.border }]}>
         {showAuthor ? (
           <View style={styles.row}>
             <Pressable
@@ -49,12 +89,10 @@ export function WorkoutCard({ workout, onPress, showAuthor = true, onReport, onP
                   </ThemedText>
                 </Pressable>
               ) : null}
-              <ThemedText type="smallBold" numberOfLines={1}>
+              <ThemedText type="cardTitle" numberOfLines={1}>
                 {workout.name}
               </ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                {formatDate(workout.date, i18n.language)}
-              </ThemedText>
+              {meta}
             </View>
             {onReport ? (
               <Pressable onPress={onReport} hitSlop={8} style={styles.reportButton}>
@@ -68,12 +106,10 @@ export function WorkoutCard({ workout, onPress, showAuthor = true, onReport, onP
           </View>
         ) : (
           <>
-            <ThemedText type="smallBold" numberOfLines={1}>
+            <ThemedText type="cardTitle" numberOfLines={1}>
               {workout.name}
             </ThemedText>
-            <ThemedText type="small" themeColor="textSecondary">
-              {formatDate(workout.date, i18n.language)}
-            </ThemedText>
+            {meta}
           </>
         )}
       </ThemedView>
@@ -87,6 +123,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
     gap: Spacing.half,
   },

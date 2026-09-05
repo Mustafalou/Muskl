@@ -8,7 +8,10 @@
     "scheme": "muskl",
     "userInterfaceStyle": "dark",
     "ios": {
-      "bundleIdentifier": "com.muskl.app"
+      "bundleIdentifier": "com.muskl.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.muskl.app",

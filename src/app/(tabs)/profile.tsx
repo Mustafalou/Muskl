@@ -25,7 +25,16 @@ const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   es: 'Español',
 };
 
-const WEEKLY_GOAL_OPTIONS = [2, 3, 4, 5, 6];
+const WEEKLY_GOAL_OPTIONS = [1, 2, 3, 4, 5, 6, 7];
+
+// Describes the chosen volume instead of grading it: what's "optimal" depends on the person's
+// level and schedule, so the only thing worth flagging is that 7 days leaves no recovery day.
+function weeklyGoalCaptionKey(goal: number) {
+  if (goal <= 2) return 'profile.weeklyGoalLight';
+  if (goal <= 4) return 'profile.weeklyGoalRegular';
+  if (goal <= 6) return 'profile.weeklyGoalIntense';
+  return 'profile.weeklyGoalDaily';
+}
 
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
@@ -46,6 +55,9 @@ export default function ProfileScreen() {
   const [isAddingWeight, setIsAddingWeight] = useState(false);
   const [isTogglingPrivacy, setIsTogglingPrivacy] = useState(false);
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
+  // A year of weigh-ins used to render as one endless list; show the recent ones and let the user
+  // ask for the rest.
+  const [showAllWeights, setShowAllWeights] = useState(false);
 
   const loadProfile = useCallback(async () => {
     if (!user) return;
@@ -347,10 +359,10 @@ export default function ProfileScreen() {
             </ThemedText>
           ) : null}
 
-          <ThemedView type="backgroundElement" style={styles.section}>
+          <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
             <View style={styles.privacyRow}>
               <View style={styles.privacyText}>
-                <ThemedText type="smallBold">{t('profile.publicToggleTitle')}</ThemedText>
+                <ThemedText type="cardTitle">{t('profile.publicToggleTitle')}</ThemedText>
                 <ThemedText type="small" themeColor="textSecondary">
                   {t('profile.publicToggleSubtitle')}
                 </ThemedText>
@@ -364,8 +376,8 @@ export default function ProfileScreen() {
             </View>
           </ThemedView>
 
-          <ThemedView type="backgroundElement" style={styles.section}>
-            <ThemedText type="smallBold">{t('profile.heightLabel')}</ThemedText>
+          <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
+            <ThemedText type="cardTitle">{t('profile.heightLabel')}</ThemedText>
             <View style={styles.inlineRow}>
               <TextInput
                 style={[
@@ -387,33 +399,49 @@ export default function ProfileScreen() {
             </View>
           </ThemedView>
 
-          <ThemedView type="backgroundElement" style={styles.section}>
-            <ThemedText type="smallBold">{t('profile.weeklyGoalLabel')}</ThemedText>
+          <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
+            <ThemedText type="cardTitle">{t('profile.weeklyGoalLabel')}</ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
               {t('profile.weeklyGoalSubtitle')}
             </ThemedText>
-            <View style={styles.weeklyGoalRow}>
-              {WEEKLY_GOAL_OPTIONS.map((goal) => (
-                <Pressable
-                  key={goal}
-                  onPress={() => handleSetWeeklyGoal(goal)}
-                  disabled={isSavingWeeklyGoal}
-                  style={[
-                    styles.weeklyGoalChip,
-                    { backgroundColor: stats?.weekly_goal === goal ? theme.tint : theme.backgroundSelected },
-                  ]}>
-                  <ThemedText
-                    type="small"
-                    style={{ color: stats?.weekly_goal === goal ? theme.background : theme.text }}>
-                    {t('profile.weeklyGoalChip', { count: goal })}
-                  </ThemedText>
-                </Pressable>
-              ))}
+            <View style={styles.weeklyGoalValue}>
+              <ThemedText type="cardTitle" themeColor={stats?.weekly_goal ? 'tint' : 'textSecondary'}>
+                {stats?.weekly_goal
+                  ? t('profile.weeklyGoalChip', { count: stats.weekly_goal })
+                  : t('profile.weeklyGoalNotSet')}
+              </ThemedText>
+              {stats?.weekly_goal ? (
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t(weeklyGoalCaptionKey(stats.weekly_goal))}
+                </ThemedText>
+              ) : null}
+            </View>
+
+            <View style={styles.gaugeRow}>
+              {WEEKLY_GOAL_OPTIONS.map((goal) => {
+                const isFilled = (stats?.weekly_goal ?? 0) >= goal;
+                return (
+                  <Pressable
+                    key={goal}
+                    onPress={() => handleSetWeeklyGoal(goal)}
+                    disabled={isSavingWeeklyGoal}
+                    style={[
+                      styles.gaugeSegment,
+                      { backgroundColor: isFilled ? theme.tint : theme.backgroundSelected },
+                    ]}>
+                    <ThemedText
+                      type="smallBold"
+                      style={{ color: isFilled ? theme.background : theme.textSecondary }}>
+                      {goal}
+                    </ThemedText>
+                  </Pressable>
+                );
+              })}
             </View>
           </ThemedView>
 
-          <ThemedView type="backgroundElement" style={styles.section}>
-            <ThemedText type="smallBold">{t('profile.weightLabel')}</ThemedText>
+          <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
+            <ThemedText type="cardTitle">{t('profile.weightLabel')}</ThemedText>
             <View style={styles.inlineRow}>
               <TextInput
                 style={[
@@ -440,7 +468,7 @@ export default function ProfileScreen() {
               </ThemedText>
             ) : (
               <View style={styles.weightList}>
-                {weightLogs.map((log) => (
+                {(showAllWeights ? weightLogs : weightLogs.slice(0, 5)).map((log) => (
                   <View key={log.id} style={styles.weightRow}>
                     <ThemedText type="small">
                       {log.weight_kg} kg ·{' '}
@@ -459,12 +487,21 @@ export default function ProfileScreen() {
                     </Pressable>
                   </View>
                 ))}
+                {weightLogs.length > 5 ? (
+                  <Pressable onPress={() => setShowAllWeights((previous) => !previous)} hitSlop={8}>
+                    <ThemedText type="small" themeColor="tint">
+                      {showAllWeights
+                        ? t('profile.showLessWeights')
+                        : t('profile.showAllWeights', { count: weightLogs.length })}
+                    </ThemedText>
+                  </Pressable>
+                ) : null}
               </View>
             )}
           </ThemedView>
 
-          <ThemedView type="backgroundElement" style={styles.section}>
-            <ThemedText type="smallBold">{t('profile.language')}</ThemedText>
+          <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
+            <ThemedText type="cardTitle">{t('profile.language')}</ThemedText>
             <View style={styles.languageRow}>
               {SUPPORTED_LANGUAGES.map((language) => (
                 <Pressable
@@ -543,6 +580,7 @@ const styles = StyleSheet.create({
   },
   section: {
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
     gap: Spacing.two,
   },
@@ -587,15 +625,19 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.two,
     borderRadius: Spacing.five,
   },
-  weeklyGoalRow: {
-    flexDirection: 'row',
-    gap: Spacing.two,
-    flexWrap: 'wrap',
+  weeklyGoalValue: {
+    gap: 2,
   },
-  weeklyGoalChip: {
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
+  gaugeRow: {
+    flexDirection: 'row',
+    gap: Spacing.half,
+  },
+  gaugeSegment: {
+    flex: 1,
+    height: 44,
+    borderRadius: Spacing.two,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   legalLink: {
     alignSelf: 'center',

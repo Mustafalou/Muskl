@@ -335,9 +335,54 @@ export default function WorkoutDetailScreen() {
         </ThemedView>
       ) : workout ? (
         <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          {/* Rapport/Live is the most important control on this screen, so it comes first rather
+              than sitting below the date and notes. */}
+          {isOwner ? (
+            <View style={styles.modeSwitch}>
+              <Pressable
+                onPress={() => setViewMode('report')}
+                style={[
+                  styles.modeButton,
+                  { backgroundColor: viewMode === 'report' ? theme.tint : theme.backgroundElement },
+                ]}>
+                <ThemedText
+                  type="smallBold"
+                  style={{ color: viewMode === 'report' ? theme.background : theme.text }}>
+                  {t('workout.detail.reportMode')}
+                </ThemedText>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  // Only reset to the very first exercise/set the first time Live mode is
+                  // entered — switching Report -> Live afterwards should resume where the
+                  // session actually is, not restart it.
+                  if (!hasEnteredLiveRef.current) {
+                    hasEnteredLiveRef.current = true;
+                    setCurrentExerciseIndex(0);
+                    setInitialSetIndex(0);
+                    if (exercises[0]?.rest_seconds) {
+                      restTimer.setDuration(exercises[0].rest_seconds);
+                    }
+                  }
+                  setViewMode('live');
+                }}
+                style={[
+                  styles.modeButton,
+                  { backgroundColor: viewMode === 'live' ? theme.tint : theme.backgroundElement },
+                ]}>
+                <ThemedText
+                  type="smallBold"
+                  style={{ color: viewMode === 'live' ? theme.background : theme.text }}>
+                  {t('workout.detail.liveMode')}
+                </ThemedText>
+              </Pressable>
+            </View>
+          ) : null}
+
           {viewMode !== 'live' ? (
             <>
-              <ThemedText type="title">{workout.name}</ThemedText>
+              {/* The workout name is already the native header title — repeating it here was pure
+                  duplication, so only the date/author/notes live in the body now. */}
               <ThemedText themeColor="textSecondary">
                 {new Date(workout.date).toLocaleDateString(i18n.language, {
                   day: 'numeric',
@@ -382,48 +427,6 @@ export default function WorkoutDetailScreen() {
             <ThemedText themeColor="danger" type="small">
               {error}
             </ThemedText>
-          ) : null}
-
-          {isOwner ? (
-            <View style={styles.modeSwitch}>
-              <Pressable
-                onPress={() => setViewMode('report')}
-                style={[
-                  styles.modeButton,
-                  { backgroundColor: viewMode === 'report' ? theme.tint : theme.backgroundElement },
-                ]}>
-                <ThemedText
-                  type="smallBold"
-                  style={{ color: viewMode === 'report' ? theme.background : theme.text }}>
-                  {t('workout.detail.reportMode')}
-                </ThemedText>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  // Only reset to the very first exercise/set the first time Live mode is
-                  // entered — switching Report -> Live afterwards should resume where the
-                  // session actually is, not restart it.
-                  if (!hasEnteredLiveRef.current) {
-                    hasEnteredLiveRef.current = true;
-                    setCurrentExerciseIndex(0);
-                    setInitialSetIndex(0);
-                    if (exercises[0]?.rest_seconds) {
-                      restTimer.setDuration(exercises[0].rest_seconds);
-                    }
-                  }
-                  setViewMode('live');
-                }}
-                style={[
-                  styles.modeButton,
-                  { backgroundColor: viewMode === 'live' ? theme.tint : theme.backgroundElement },
-                ]}>
-                <ThemedText
-                  type="smallBold"
-                  style={{ color: viewMode === 'live' ? theme.background : theme.text }}>
-                  {t('workout.detail.liveMode')}
-                </ThemedText>
-              </Pressable>
-            </View>
           ) : null}
 
           {viewMode === 'live' && isOwner && exercises.length > 0 ? (
@@ -540,6 +543,71 @@ type LiveWorkoutViewProps = {
   onUpdateSet: (updates: { id: string; weight: number; reps: number }[]) => Promise<void>;
   restTimer: ReturnType<typeof useRestTimer>;
 };
+
+// Big, labelled ± field for the set being logged right now: typing an exact number mid-set with
+// sweaty hands is the friction this removes (2.5 kg = the smallest plate pair on most bars).
+function StepperField({
+  label,
+  value,
+  onChangeText,
+  step,
+  allowDecimals = false,
+}: {
+  label: string;
+  value: string;
+  onChangeText: (value: string) => void;
+  step: number;
+  allowDecimals?: boolean;
+}) {
+  const theme = useTheme();
+
+  function adjust(delta: number) {
+    const current = parseFloat(value.replace(',', '.'));
+    const base = Number.isFinite(current) ? current : 0;
+    const next = Math.max(0, Math.round((base + delta) * 100) / 100);
+    onChangeText(allowDecimals ? String(next) : String(Math.round(next)));
+  }
+
+  return (
+    <View style={styles.stepperField}>
+      <ThemedText type="small" themeColor="textSecondary">
+        {label}
+      </ThemedText>
+      <View style={styles.stepperControls}>
+        <Pressable
+          onPress={() => adjust(-step)}
+          style={[styles.stepperButton, { backgroundColor: theme.backgroundSelected }]}>
+          <SymbolView
+            name={{ ios: 'minus', android: 'remove', web: 'remove' }}
+            tintColor={theme.text}
+            size={16}
+            weight="bold"
+          />
+        </Pressable>
+        <TextInput
+          style={[
+            styles.stepperInput,
+            { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+          ]}
+          keyboardType={allowDecimals ? 'decimal-pad' : 'number-pad'}
+          value={value}
+          onChangeText={onChangeText}
+          selectTextOnFocus
+        />
+        <Pressable
+          onPress={() => adjust(step)}
+          style={[styles.stepperButton, { backgroundColor: theme.backgroundSelected }]}>
+          <SymbolView
+            name={{ ios: 'plus', android: 'add', web: 'add' }}
+            tintColor={theme.text}
+            size={16}
+            weight="bold"
+          />
+        </Pressable>
+      </View>
+    </View>
+  );
+}
 
 function seedActiveValues(group: SetGroup | undefined) {
   if (group && group.sets.length === 1) {
@@ -760,37 +828,28 @@ function LiveWorkoutView({
                 return (
                   <View
                     key={group.order}
-                    style={[styles.setRow, styles.activeSetRow, { borderColor: theme.tint }]}>
-                    <ThemedText type="smallBold" style={styles.setIndex}>
+                    style={[styles.activeSetBlock, { borderColor: theme.tint }]}>
+                    <ThemedText type="smallBold" themeColor="tint">
                       {setIdx + 1}
                     </ThemedText>
                     {group.sets.length === 1 ? (
-                      <View style={styles.editGroup}>
-                        <TextInput
-                          style={[
-                            styles.input,
-                            { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
-                          ]}
-                          placeholder="kg"
-                          placeholderTextColor={theme.textSecondary}
-                          keyboardType="decimal-pad"
+                      <View style={styles.stepperRow}>
+                        <StepperField
+                          label={t('exercise.colWeight')}
                           value={activeValues.weight}
                           onChangeText={(value) => setActiveValues((prev) => ({ ...prev, weight: value }))}
+                          step={2.5}
+                          allowDecimals
                         />
-                        <TextInput
-                          style={[
-                            styles.input,
-                            { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
-                          ]}
-                          placeholder="reps"
-                          placeholderTextColor={theme.textSecondary}
-                          keyboardType="number-pad"
+                        <StepperField
+                          label={t('exercise.colReps')}
                           value={activeValues.reps}
                           onChangeText={(value) => setActiveValues((prev) => ({ ...prev, reps: value }))}
+                          step={1}
                         />
                       </View>
                     ) : (
-                      <ThemedText type="small" style={styles.setContent}>
+                      <ThemedText style={styles.setContent}>
                         {group.sets
                           .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
                           .join('')}
@@ -926,6 +985,7 @@ function LiveWorkoutView({
               onPress={handleCompleteSet}
               disabled={!canCompleteSet}
               loading={isSubmitting}
+              size="large"
             />
           )}
   
@@ -1027,7 +1087,7 @@ const styles = StyleSheet.create({
   modeSwitch: {
     flexDirection: 'row',
     gap: Spacing.two,
-    marginTop: Spacing.three,
+    marginBottom: Spacing.two,
   },
   modeButton: {
     flex: 1,
@@ -1063,10 +1123,40 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
     paddingVertical: Spacing.one,
   },
-  activeSetRow: {
+  activeSetBlock: {
+    borderWidth: 1,
+    borderRadius: Spacing.three,
+    padding: Spacing.two,
+    gap: Spacing.one,
+  },
+  stepperRow: {
+    flexDirection: 'row',
+    gap: Spacing.two,
+  },
+  stepperField: {
+    flex: 1,
+    gap: Spacing.half,
+  },
+  stepperControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
+  },
+  stepperButton: {
+    width: 44,
+    height: 52,
+    borderRadius: Spacing.two,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stepperInput: {
+    flex: 1,
+    height: 52,
     borderWidth: 1,
     borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.two,
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '700',
   },
   setIndex: {
     width: 16,

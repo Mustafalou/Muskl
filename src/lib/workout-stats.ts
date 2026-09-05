@@ -123,6 +123,7 @@ export type CalendarDay = {
 export type CalendarWeek = {
   weekStart: string;
   days: CalendarDay[];
+  sessionCount: number;
   metGoal: boolean;
 };
 
@@ -168,6 +169,7 @@ export function buildMonthCalendar(
     weeks.push({
       weekStart,
       days,
+      sessionCount: sessionsThisWeek,
       metGoal: weeklyGoal != null && sessionsThisWeek >= weeklyGoal,
     });
 

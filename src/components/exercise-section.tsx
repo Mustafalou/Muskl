@@ -46,6 +46,9 @@ export function ExerciseSection({
   const [editingOrder, setEditingOrder] = useState<number | null>(null);
   const [editValues, setEditValues] = useState<{ weight: string; reps: string }[]>([]);
   const [notesDraft, setNotesDraft] = useState(() => exercise.notes ?? '');
+  // The add-a-set form used to be permanently expanded on every exercise card, which turned a
+  // 5-exercise report into 5 stacked forms; it now opens on demand and stays open while logging.
+  const [isComposerOpen, setIsComposerOpen] = useState(false);
 
   const displayName = getExerciseDisplayName(exercise, i18n.language as SupportedLanguage);
 
@@ -176,9 +179,11 @@ export function ExerciseSection({
   const groupedSets = groupSetsByOrder(exercise.sets);
 
   return (
-    <ThemedView type="backgroundElement" style={styles.card}>
+    <ThemedView type="backgroundElement" style={[styles.card, { borderColor: theme.border }]}>
       <View style={styles.header}>
-        <ThemedText type="smallBold">{displayName}</ThemedText>
+        <ThemedText type="cardTitle" style={styles.exerciseName} numberOfLines={2}>
+          {displayName}
+        </ThemedText>
         {editable ? (
           <Pressable onPress={() => onDeleteExercise(exercise.id)} hitSlop={8}>
             <SymbolView
@@ -214,22 +219,32 @@ export function ExerciseSection({
           {t('exercise.noSets')}
         </ThemedText>
       ) : (
-        groupedSets.map(({ order, sets }) => (
-          <View key={order} style={styles.setRow}>
-            <ThemedText type="small" themeColor="textSecondary" style={styles.setIndex}>
-              {order + 1}
+        <View>
+          <View style={styles.setRow}>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.colIndex}>
+              {t('exercise.colSet')}
             </ThemedText>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
+              {t('exercise.colWeight')}
+            </ThemedText>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
+              {t('exercise.colReps')}
+            </ThemedText>
+            <ThemedText type="small" themeColor="textSecondary" style={styles.colRpe}>
+              {t('exercise.colRpe')}
+            </ThemedText>
+            {editable ? <View style={styles.colAction} /> : null}
+          </View>
 
-            {editingOrder === order ? (
-              <>
-                <View style={styles.editGroup}>
+          {groupedSets.map(({ order, sets }) =>
+            editingOrder === order ? (
+              <View key={order} style={styles.setRow}>
+                <ThemedText type="small" themeColor="textSecondary" style={styles.colIndex}>
+                  {order + 1}
+                </ThemedText>
+                <View style={styles.editColumns}>
                   {sets.map((set, index) => (
-                    <View key={set.id} style={styles.dropRow}>
-                      {index > 0 ? (
-                        <ThemedText type="small" themeColor="textSecondary">
-                          →
-                        </ThemedText>
-                      ) : null}
+                    <View key={set.id} style={styles.editDropRow}>
                       <TextInput
                         style={[
                           styles.input,
@@ -259,39 +274,44 @@ export function ExerciseSection({
                     </View>
                   ))}
                 </View>
-                <Pressable onPress={() => saveEditing(sets)} hitSlop={8}>
+                <Pressable onPress={() => saveEditing(sets)} hitSlop={8} style={styles.colAction}>
                   <SymbolView
                     name={{ ios: 'checkmark', android: 'check', web: 'check' }}
                     tintColor={theme.tint}
-                    size={14}
+                    size={16}
                   />
                 </Pressable>
-                <Pressable onPress={cancelEditing} hitSlop={8} style={styles.deleteSet}>
+                <Pressable onPress={cancelEditing} hitSlop={8} style={styles.colAction}>
                   <SymbolView
                     name={{ ios: 'xmark', android: 'close', web: 'close' }}
                     tintColor={theme.textSecondary}
-                    size={12}
+                    size={14}
                   />
                 </Pressable>
-              </>
+              </View>
             ) : (
-              <>
-                <Pressable
-                  disabled={!editable}
-                  onPress={() => startEditing(order, sets)}
-                  style={styles.setContent}>
-                  <ThemedText type="small">
-                    {sets
-                      .map((set, index) => `${index > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
-                      .join('')}
-                    {sets[0].rpe !== null ? ` · RPE ${sets[0].rpe}` : ''}
-                  </ThemedText>
-                </Pressable>
+              <Pressable
+                key={order}
+                disabled={!editable}
+                onPress={() => startEditing(order, sets)}
+                style={styles.setRow}>
+                <ThemedText type="small" themeColor="textSecondary" style={styles.colIndex}>
+                  {order + 1}
+                </ThemedText>
+                <ThemedText style={styles.colValue}>
+                  {sets.map((set) => set.weight).join(' → ')}
+                </ThemedText>
+                <ThemedText style={styles.colValue}>
+                  {sets.map((set) => set.reps).join(' → ')}
+                </ThemedText>
+                <ThemedText themeColor="textSecondary" style={styles.colRpe}>
+                  {sets[0].rpe !== null ? sets[0].rpe : '–'}
+                </ThemedText>
                 {editable ? (
                   <Pressable
                     onPress={() => onDeleteSet(sets.map((set) => set.id))}
                     hitSlop={8}
-                    style={styles.deleteSet}>
+                    style={styles.colAction}>
                     <SymbolView
                       name={{ ios: 'xmark', android: 'close', web: 'close' }}
                       tintColor={theme.textSecondary}
@@ -299,13 +319,27 @@ export function ExerciseSection({
                     />
                   </Pressable>
                 ) : null}
-              </>
-            )}
-          </View>
-        ))
+              </Pressable>
+            ),
+          )}
+        </View>
       )}
 
-      {editable ? (
+      {editable && !isComposerOpen ? (
+        <Pressable onPress={() => setIsComposerOpen(true)} style={styles.openComposerRow}>
+          <SymbolView
+            name={{ ios: 'plus', android: 'add', web: 'add' }}
+            tintColor={theme.tint}
+            size={14}
+            weight="bold"
+          />
+          <ThemedText type="small" themeColor="tint">
+            {t('exercise.addSet')}
+          </ThemedText>
+        </Pressable>
+      ) : null}
+
+      {editable && isComposerOpen ? (
         <View style={styles.composer}>
           {drops.map((drop, index) => (
             <View key={index} style={styles.dropRow}>
@@ -348,11 +382,18 @@ export function ExerciseSection({
             </View>
           ))}
 
-          <Pressable onPress={addDrop} hitSlop={8} style={styles.addDropRow}>
-            <ThemedText type="small" themeColor="tint">
-              {t('exercise.addDrop')}
-            </ThemedText>
-          </Pressable>
+          <View style={styles.composerLinks}>
+            <Pressable onPress={addDrop} hitSlop={8}>
+              <ThemedText type="small" themeColor="tint">
+                {t('exercise.addDrop')}
+              </ThemedText>
+            </Pressable>
+            <Pressable onPress={() => setIsComposerOpen(false)} hitSlop={8}>
+              <ThemedText type="small" themeColor="textSecondary">
+                {t('common.cancel')}
+              </ThemedText>
+            </Pressable>
+          </View>
 
           <View style={styles.addSetRow}>
             <TextInput
@@ -387,6 +428,7 @@ export function ExerciseSection({
 const styles = StyleSheet.create({
   card: {
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
     gap: Spacing.two,
   },
@@ -394,24 +436,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: Spacing.two,
+  },
+  exerciseName: {
+    flexShrink: 1,
   },
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.two,
+    paddingVertical: Spacing.one,
   },
-  setIndex: {
-    width: 16,
+  colIndex: {
+    width: 20,
   },
-  setContent: {
+  colValue: {
     flex: 1,
   },
-  editGroup: {
+  colRpe: {
+    width: 36,
+    textAlign: 'right',
+  },
+  colAction: {
+    width: 20,
+    alignItems: 'flex-end',
+  },
+  editColumns: {
     flex: 1,
     gap: Spacing.half,
   },
-  deleteSet: {
-    marginLeft: 'auto',
+  editDropRow: {
+    flexDirection: 'row',
+    gap: Spacing.one,
+    alignItems: 'center',
+  },
+  openComposerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
+    alignSelf: 'flex-start',
+    paddingVertical: Spacing.one,
   },
   composer: {
     marginTop: Spacing.one,
@@ -422,8 +486,10 @@ const styles = StyleSheet.create({
     gap: Spacing.one,
     alignItems: 'center',
   },
-  addDropRow: {
-    alignSelf: 'flex-start',
+  composerLinks: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   addSetRow: {
     flexDirection: 'row',

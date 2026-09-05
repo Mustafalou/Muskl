@@ -1,5 +1,5 @@
 import { SymbolView } from 'expo-symbols';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -27,12 +27,16 @@ function getWeekdayLabels(language: string): string[] {
 export default function StreakScreen() {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
   const { user } = useAuth();
   const [workoutDates, setWorkoutDates] = useState<string[]>([]);
   const [weeklyGoal, setWeeklyGoal] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const today = new Date();
+  // Same UTC-based convention as workout-stats' own "today", so this matches the calendar's
+  // `isToday` flags rather than drifting by a day near midnight.
+  const todayISO = today.toISOString().slice(0, 10);
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
 
@@ -118,7 +122,9 @@ export default function StreakScreen() {
             </ThemedView>
           ) : null}
 
-          <ThemedView type="backgroundElement" style={styles.calendarCard}>
+          <ThemedView
+            type="backgroundElement"
+            style={[styles.calendarCard, { borderColor: theme.border }]}>
             <View style={styles.monthHeader}>
               <Pressable onPress={goToPreviousMonth} hitSlop={8}>
                 <SymbolView
@@ -139,20 +145,39 @@ export default function StreakScreen() {
               </Pressable>
             </View>
 
-            <View style={styles.weekdayRow}>
+            <View style={styles.weekRow}>
+              <View style={styles.weekAccent} />
               {weekdayLabels.map((label) => (
                 <ThemedText key={label} type="small" themeColor="textSecondary" style={styles.weekdayLabel}>
                   {label}
                 </ThemedText>
               ))}
+              <View style={styles.weekCount} />
             </View>
 
             {weeks.map((week) => (
-              <View
-                key={week.weekStart}
-                style={[styles.weekRow, week.metGoal && { backgroundColor: theme.backgroundSelected }]}>
+              <View key={week.weekStart} style={styles.weekRow}>
+                {/* A filled edge bar reads at a glance; the old full-row tint was too subtle to
+                    notice, and nothing said *why* a row was highlighted. */}
+                <View
+                  style={[
+                    styles.weekAccent,
+                    { backgroundColor: week.metGoal ? theme.tint : 'transparent' },
+                  ]}
+                />
                 {week.days.map((day) => (
-                  <View key={day.date} style={styles.dayCell}>
+                  <Pressable
+                    key={day.date}
+                    // Future days can't have been trained yet; everything up to today can be
+                    // backfilled if a session was logged late.
+                    disabled={day.date > todayISO}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/workout/new',
+                        params: { date: day.date, from: 'calendar' },
+                      })
+                    }
+                    style={styles.dayCell}>
                     <View
                       style={[
                         styles.dayCircle,
@@ -168,10 +193,37 @@ export default function StreakScreen() {
                         {day.dayOfMonth}
                       </ThemedText>
                     </View>
-                  </View>
+                  </Pressable>
                 ))}
+                <ThemedText
+                  type="small"
+                  themeColor={week.metGoal ? 'tint' : 'textSecondary'}
+                  style={styles.weekCount}>
+                  {weeklyGoal ? `${week.sessionCount}/${weeklyGoal}` : week.sessionCount}
+                </ThemedText>
               </View>
             ))}
+
+            <View style={styles.legend}>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, { backgroundColor: theme.tint }]} />
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('streak.legendWorkout')}
+                </ThemedText>
+              </View>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, { borderColor: theme.tint, borderWidth: 2 }]} />
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('streak.legendToday')}
+                </ThemedText>
+              </View>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendBar, { backgroundColor: theme.tint }]} />
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('streak.legendGoalMet')}
+                </ThemedText>
+              </View>
+            </View>
           </ThemedView>
         </ScrollView>
       </SafeAreaView>
@@ -204,6 +256,7 @@ const styles = StyleSheet.create({
   },
   calendarCard: {
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
     gap: Spacing.two,
   },
@@ -215,9 +268,6 @@ const styles = StyleSheet.create({
   monthLabel: {
     textTransform: 'capitalize',
   },
-  weekdayRow: {
-    flexDirection: 'row',
-  },
   weekdayLabel: {
     flex: 1,
     textAlign: 'center',
@@ -225,7 +275,39 @@ const styles = StyleSheet.create({
   },
   weekRow: {
     flexDirection: 'row',
-    borderRadius: Spacing.two,
+    alignItems: 'center',
+    gap: Spacing.one,
+  },
+  weekAccent: {
+    width: 3,
+    alignSelf: 'stretch',
+    borderRadius: 2,
+    marginVertical: Spacing.one,
+  },
+  weekCount: {
+    width: 28,
+    textAlign: 'right',
+  },
+  legend: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.three,
+    marginTop: Spacing.two,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
+  },
+  legendDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  legendBar: {
+    width: 3,
+    height: 14,
+    borderRadius: 2,
   },
   dayCell: {
     flex: 1,

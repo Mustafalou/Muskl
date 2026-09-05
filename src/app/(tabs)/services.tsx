@@ -17,13 +17,9 @@ export default function ServicesScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
-        <View style={styles.headerRow}>
-          <ThemedText type="title">{t('tabs.services')}</ThemedText>
-        </View>
-
         <View style={styles.list}>
           <Pressable onPress={() => router.push('/services/progression')} style={({ pressed }) => pressed && styles.pressed}>
-            <ThemedView type="backgroundElement" style={styles.card}>
+            <ThemedView type="backgroundElement" style={[styles.card, { borderColor: theme.border }]}>
               <View style={[styles.iconBadge, { backgroundColor: theme.tint }]}>
                 <SymbolView
                   name={{ ios: 'chart.line.uptrend.xyaxis', android: 'show_chart', web: 'show_chart' }}
@@ -52,13 +48,9 @@ export default function ServicesScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  headerRow: {
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.two,
-    paddingBottom: Spacing.three,
-  },
   list: {
     paddingHorizontal: Spacing.four,
+    paddingTop: Spacing.three,
     gap: Spacing.two,
   },
   pressed: {
@@ -69,6 +61,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.three,
     borderRadius: Spacing.three,
+    borderWidth: 1,
     padding: Spacing.three,
   },
   iconBadge: {

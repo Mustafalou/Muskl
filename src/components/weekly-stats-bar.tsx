@@ -45,7 +45,9 @@ export function WeeklyStatsBar({ workoutDates, weeklyGoal, interactive = true }:
   return (
     <View style={styles.row}>
       <Pressable onPress={() => router.push('/streak')} disabled={!interactive}>
-        <ThemedView type="backgroundElement" style={[styles.streakPill, !weeklyGoal && styles.disabledPill]}>
+        <ThemedView
+          type="backgroundElement"
+          style={[styles.streakPill, { borderColor: theme.border }, !weeklyGoal && styles.disabledPill]}>
           <SymbolView
             name={{ ios: 'flame.fill', android: 'whatshot', web: 'whatshot' }}
             tintColor={stats.streak.current > 0 ? theme.tint : theme.textSecondary}
@@ -55,14 +57,14 @@ export function WeeklyStatsBar({ workoutDates, weeklyGoal, interactive = true }:
         </ThemedView>
       </Pressable>
 
-      <ThemedView type="backgroundElement" style={styles.statTile}>
+      <ThemedView type="backgroundElement" style={[styles.statTile, { borderColor: theme.border }]}>
         <ThemedText type="small" themeColor="textSecondary">
           {t('stats.last30Days')}
         </ThemedText>
         <ThemedText type="smallBold">{t('stats.perWeek', { value: formatRate(stats.avg30) })}</ThemedText>
       </ThemedView>
 
-      <ThemedView type="backgroundElement" style={styles.statTile}>
+      <ThemedView type="backgroundElement" style={[styles.statTile, { borderColor: theme.border }]}>
         <ThemedText type="small" themeColor="textSecondary">
           {t('stats.thisYear')}
         </ThemedText>
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
     gap: Spacing.one,
     paddingHorizontal: Spacing.three,
     borderRadius: Spacing.five,
+    borderWidth: 1,
     justifyContent: 'center',
   },
   disabledPill: {
@@ -94,6 +97,7 @@ const styles = StyleSheet.create({
   statTile: {
     flex: 1,
     borderRadius: Spacing.three,
+    borderWidth: 1,
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
     gap: 2,
