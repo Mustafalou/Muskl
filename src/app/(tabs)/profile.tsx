@@ -20,12 +20,25 @@ import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import { setAppLanguage, SUPPORTED_LANGUAGES, type SupportedLanguage } from '@/i18n';
 import { supabase } from '@/lib/supabase';
+import {
+  formatWeight,
+  heightFromFeetInches,
+  toDisplayHeight,
+  toStorageWeight,
+  weightUnitLabel,
+} from '@/lib/units';
+import { useUnits } from '@/providers/units-provider';
 import type { BodyWeightLog, Profile, ProfileStats } from '@/types';
 
+// Each language names itself: someone who picked the wrong one must still recognise their own.
 const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   fr: 'Français',
   en: 'English',
   es: 'Español',
+  de: 'Deutsch',
+  nl: 'Nederlands',
+  pt: 'Português',
+  tr: 'Türkçe',
 };
 
 // Avatars are never rendered larger than 96pt (this screen); everywhere else they're 40-44pt.
@@ -48,6 +61,7 @@ export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const { user, logout, profileError } = useAuth();
+  const { unitSystem, setUnitSystem } = useUnits();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [stats, setStats] = useState<ProfileStats | null>(null);
@@ -56,6 +70,8 @@ export default function ProfileScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const [heightInput, setHeightInput] = useState('');
+  const [feetInput, setFeetInput] = useState('');
+  const [inchesInput, setInchesInput] = useState('');
   const [newWeightInput, setNewWeightInput] = useState('');
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isSavingHeight, setIsSavingHeight] = useState(false);
@@ -102,7 +118,13 @@ export default function ProfileScreen() {
 
     setProfile(profileResult.data);
     setStats(statsResult.data);
-    setHeightInput(statsResult.data?.height_cm != null ? String(statsResult.data.height_cm) : '');
+    const storedHeight = statsResult.data?.height_cm ?? null;
+    setHeightInput(storedHeight != null ? String(storedHeight) : '');
+    const imperialHeight = storedHeight != null ? toDisplayHeight(storedHeight, 'imperial') : null;
+    if (imperialHeight && typeof imperialHeight !== 'number') {
+      setFeetInput(String(imperialHeight.feet));
+      setInchesInput(String(imperialHeight.inches));
+    }
     setWeightLogs(weightResult.data ?? []);
     setIsLoading(false);
   }, [user]);
@@ -207,10 +229,19 @@ export default function ProfileScreen() {
     setProfile((prev) => (prev ? { ...prev, is_public: value } : prev));
   }
 
+  // Height is stored in centimetres whatever the user types; imperial input arrives as feet+inches.
+  const typedHeightCm =
+    unitSystem === 'imperial'
+      ? heightFromFeetInches(parseInt(feetInput, 10) || 0, parseInt(inchesInput, 10) || 0)
+      : parseFloat(heightInput);
+
+  const canSaveHeight =
+    Number.isFinite(typedHeightCm) && typedHeightCm > 0 && typedHeightCm !== stats?.height_cm;
+
   async function handleSaveHeight() {
     if (!user) return;
-    const heightValue = parseFloat(heightInput);
-    if (!Number.isFinite(heightValue)) return;
+    const heightValue = typedHeightCm;
+    if (!Number.isFinite(heightValue) || heightValue <= 0) return;
 
     setIsSavingHeight(true);
     setError(null);
@@ -260,8 +291,9 @@ export default function ProfileScreen() {
 
   async function handleAddWeight() {
     if (!user) return;
-    const weightValue = parseFloat(newWeightInput);
-    if (!Number.isFinite(weightValue)) return;
+    const typedWeight = parseFloat(newWeightInput);
+    if (!Number.isFinite(typedWeight)) return;
+    const weightValue = toStorageWeight(typedWeight, unitSystem);
 
     setIsAddingWeight(true);
     setError(null);
@@ -427,24 +459,75 @@ export default function ProfileScreen() {
           </ThemedView>
 
           <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
+            <ThemedText type="cardTitle">{t('profile.unitsLabel')}</ThemedText>
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('profile.unitsSubtitle')}
+            </ThemedText>
+            <View style={styles.languageRow}>
+              {(['metric', 'imperial'] as const).map((system) => (
+                <Pressable
+                  key={system}
+                  onPress={() => setUnitSystem(system)}
+                  style={[
+                    styles.languageChip,
+                    { backgroundColor: unitSystem === system ? theme.tint : theme.backgroundSelected },
+                  ]}>
+                  <ThemedText
+                    type="small"
+                    style={{ color: unitSystem === system ? theme.background : theme.text }}>
+                    {t(`profile.units.${system}`)}
+                  </ThemedText>
+                </Pressable>
+              ))}
+            </View>
+          </ThemedView>
+
+          <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
             <ThemedText type="cardTitle">{t('profile.heightLabel')}</ThemedText>
             <View style={styles.inlineRow}>
-              <TextInput
-                style={[
-                  styles.inlineInput,
-                  { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
-                ]}
-                placeholder="cm"
-                placeholderTextColor={theme.textSecondary}
-                keyboardType="decimal-pad"
-                value={heightInput}
-                onChangeText={setHeightInput}
-              />
+              {unitSystem === 'imperial' ? (
+                <>
+                  <TextInput
+                    style={[
+                      styles.inlineInput,
+                      { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                    ]}
+                    placeholder="ft"
+                    placeholderTextColor={theme.textSecondary}
+                    keyboardType="number-pad"
+                    value={feetInput}
+                    onChangeText={setFeetInput}
+                  />
+                  <TextInput
+                    style={[
+                      styles.inlineInput,
+                      { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                    ]}
+                    placeholder="in"
+                    placeholderTextColor={theme.textSecondary}
+                    keyboardType="number-pad"
+                    value={inchesInput}
+                    onChangeText={setInchesInput}
+                  />
+                </>
+              ) : (
+                <TextInput
+                  style={[
+                    styles.inlineInput,
+                    { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                  ]}
+                  placeholder="cm"
+                  placeholderTextColor={theme.textSecondary}
+                  keyboardType="decimal-pad"
+                  value={heightInput}
+                  onChangeText={setHeightInput}
+                />
+              )}
               <PrimaryButton
                 title={t('common.save')}
                 onPress={handleSaveHeight}
                 loading={isSavingHeight}
-                disabled={!heightInput.trim() || heightInput === (stats?.height_cm != null ? String(stats.height_cm) : '')}
+                disabled={!canSaveHeight}
               />
             </View>
           </ThemedView>
@@ -498,7 +581,7 @@ export default function ProfileScreen() {
                   styles.inlineInput,
                   { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
                 ]}
-                placeholder="kg"
+                placeholder={weightUnitLabel(unitSystem)}
                 placeholderTextColor={theme.textSecondary}
                 keyboardType="decimal-pad"
                 value={newWeightInput}
@@ -521,7 +604,7 @@ export default function ProfileScreen() {
                 {(showAllWeights ? weightLogs : weightLogs.slice(0, 5)).map((log) => (
                   <View key={log.id} style={styles.weightRow}>
                     <ThemedText type="small">
-                      {log.weight_kg} kg ·{' '}
+                      {formatWeight(log.weight_kg, unitSystem)} ·{' '}
                       {new Date(log.logged_at).toLocaleDateString(i18n.language, {
                         day: 'numeric',
                         month: 'long',

@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { loadLiveSession } from '@/lib/live-session';
 import { supabase } from '@/lib/supabase';
 import { AuthProvider } from '@/providers/auth-provider';
+import { UnitsProvider } from '@/providers/units-provider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -118,8 +119,10 @@ export default function RootLayout() {
     <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthProvider>
-          <AnimatedSplashOverlay />
-          <RootNavigator />
+          <UnitsProvider>
+            <AnimatedSplashOverlay />
+            <RootNavigator />
+          </UnitsProvider>
         </AuthProvider>
       </ThemeProvider>
     </KeyboardProvider>

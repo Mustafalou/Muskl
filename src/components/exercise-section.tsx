@@ -12,6 +12,8 @@ import { useTheme } from '@/hooks/use-theme';
 import type { SupportedLanguage } from '@/i18n';
 import { groupSetsByOrder } from '@/lib/group-sets';
 import { supabase } from '@/lib/supabase';
+import { toDisplayWeight, toStorageWeight, weightUnitLabel } from '@/lib/units';
+import { useUnits } from '@/providers/units-provider';
 import type { ExerciseWithSets } from '@/types';
 
 type SetDrop = { weight: number; reps: number };
@@ -40,6 +42,7 @@ export function ExerciseSection({
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const { user } = useAuth();
+  const { unitSystem } = useUnits();
   const [drops, setDrops] = useState([{ weight: '', reps: '' }]);
   const [rpe, setRpe] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,7 +109,11 @@ export function ExerciseSection({
 
       if (!isCancelled && lastSet) {
         setDrops((prev) =>
-          prev.map((drop, index) => (index === 0 ? { ...drop, weight: String(lastSet.weight) } : drop)),
+          prev.map((drop, index) =>
+            index === 0
+              ? { ...drop, weight: String(toDisplayWeight(lastSet.weight, unitSystem)) }
+              : drop,
+          ),
         );
       }
     }
@@ -118,8 +125,11 @@ export function ExerciseSection({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run only when a set is added/removed here or the user identity changes, not on every keystroke
   }, [exercise.sets.length, exercise.id, exercise.name, user?.id]);
 
+  // Typed values are in the user's chosen unit; everything below this line is kilograms.
   const parsedDrops = drops.map((drop) => ({
-    weight: parseFloat(drop.weight),
+    weight: Number.isFinite(parseFloat(drop.weight))
+      ? toStorageWeight(parseFloat(drop.weight), unitSystem)
+      : Number.NaN,
     reps: parseInt(drop.reps, 10),
   }));
   const canAddSet =
@@ -139,7 +149,12 @@ export function ExerciseSection({
 
   function startEditing(order: number, sets: ExerciseWithSets['sets']) {
     setEditingOrder(order);
-    setEditValues(sets.map((set) => ({ weight: String(set.weight), reps: String(set.reps) })));
+    setEditValues(
+      sets.map((set) => ({
+        weight: String(toDisplayWeight(set.weight, unitSystem)),
+        reps: String(set.reps),
+      })),
+    );
   }
 
   function cancelEditing() {
@@ -152,11 +167,14 @@ export function ExerciseSection({
   }
 
   async function saveEditing(sets: ExerciseWithSets['sets']) {
-    const updates = sets.map((set, index) => ({
-      id: set.id,
-      weight: parseFloat(editValues[index]?.weight ?? String(set.weight)),
-      reps: parseInt(editValues[index]?.reps ?? String(set.reps), 10),
-    }));
+    const updates = sets.map((set, index) => {
+      const typed = parseFloat(editValues[index]?.weight ?? '');
+      return {
+        id: set.id,
+        weight: Number.isFinite(typed) ? toStorageWeight(typed, unitSystem) : set.weight,
+        reps: parseInt(editValues[index]?.reps ?? String(set.reps), 10),
+      };
+    });
 
     if (updates.some((update) => !Number.isFinite(update.weight) || !Number.isFinite(update.reps))) {
       return;
@@ -172,7 +190,8 @@ export function ExerciseSection({
     setIsSubmitting(true);
     await onAddSet(exercise.id, parsedDrops, Number.isFinite(rpeValue) ? rpeValue : null);
     setIsSubmitting(false);
-    setDrops([{ weight: String(parsedDrops[0].weight), reps: '' }]);
+    // Keeps the weight for the next set, converted back to what the user actually typed.
+    setDrops([{ weight: String(toDisplayWeight(parsedDrops[0].weight, unitSystem)), reps: '' }]);
     setRpe('');
   }
 
@@ -225,7 +244,7 @@ export function ExerciseSection({
               {t('exercise.colSet')}
             </ThemedText>
             <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
-              {t('exercise.colWeight')}
+              {`${t('exercise.colWeight')} (${weightUnitLabel(unitSystem)})`}
             </ThemedText>
             <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
               {t('exercise.colReps')}
@@ -299,7 +318,7 @@ export function ExerciseSection({
                   {order + 1}
                 </ThemedText>
                 <ThemedText style={styles.colValue}>
-                  {sets.map((set) => set.weight).join(' → ')}
+                  {sets.map((set) => toDisplayWeight(set.weight, unitSystem)).join(' → ')}
                 </ThemedText>
                 <ThemedText style={styles.colValue}>
                   {sets.map((set) => set.reps).join(' → ')}
@@ -353,7 +372,7 @@ export function ExerciseSection({
                   styles.input,
                   { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
                 ]}
-                placeholder="kg"
+                placeholder={weightUnitLabel(unitSystem)}
                 placeholderTextColor={theme.textSecondary}
                 keyboardType="decimal-pad"
                 value={drop.weight}

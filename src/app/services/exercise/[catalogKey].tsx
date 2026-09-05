@@ -12,6 +12,8 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/lib/supabase';
+import { formatWeight, toDisplayWeight, weightUnitLabel } from '@/lib/units';
+import { useUnits } from '@/providers/units-provider';
 
 function formatShortDate(dateStr: string, language: string) {
   return new Date(dateStr).toLocaleDateString(language, { day: 'numeric', month: 'short' });
@@ -23,6 +25,7 @@ export default function ExerciseProgressScreen() {
   const language = i18n.language as SupportedLanguage;
   const theme = useTheme();
   const { user } = useAuth();
+  const { unitSystem } = useUnits();
 
   const [points, setPoints] = useState<LineChartPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -109,7 +112,7 @@ export default function ExerciseProgressScreen() {
               <ThemedText type="small" themeColor="textSecondary">
                 {t('services.progression.personalRecord')}
               </ThemedText>
-              <ThemedText type="subtitle">{personalRecord} kg</ThemedText>
+              <ThemedText type="subtitle">{formatWeight(personalRecord, unitSystem)}</ThemedText>
             </ThemedView>
           ) : null}
 
@@ -117,7 +120,16 @@ export default function ExerciseProgressScreen() {
             <ThemedText themeColor="textSecondary">{t('services.progression.noHistory')}</ThemedText>
           ) : null}
 
-          {points.length > 0 ? <LineChart points={points} unit=" kg" height={220} /> : null}
+          {points.length > 0 ? (
+            <LineChart
+              points={points.map((point) => ({
+                ...point,
+                value: toDisplayWeight(point.value, unitSystem),
+              }))}
+              unit={` ${weightUnitLabel(unitSystem)}`}
+              height={220}
+            />
+          ) : null}
         </ScrollView>
       </SafeAreaView>
     </ThemedView>

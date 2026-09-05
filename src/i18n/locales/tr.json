@@ -1,0 +1,377 @@
+{
+  "common": {
+    "cancel": "İptal",
+    "delete": "Sil",
+    "save": "Kaydet",
+    "back": "Geri"
+  },
+  "tabs": {
+    "feed": "Akış",
+    "myWorkouts": "Antrenmanlarım",
+    "services": "Servisler",
+    "profile": "Profil"
+  },
+  "auth": {
+    "networkError": "Sunucuya ulaşılamadı. İnternet bağlantını kontrol edip tekrar dene.",
+    "login": {
+      "title": "Muskl",
+      "subtitle": "Kendi antrenmanlarını ve topluluğunkileri görmek için giriş yap.",
+      "emailLabel": "E-posta",
+      "passwordLabel": "Şifre",
+      "submit": "Giriş yap",
+      "forgotPassword": "Şifreni mi unuttun?",
+      "noAccount": "Hesabın yok mu? Kayıt ol"
+    },
+    "signup": {
+      "title": "Muskl'a katıl",
+      "subtitle": "Antrenmanlarını kaydetmeye başlamak için hesabını oluştur.",
+      "usernameLabel": "Kullanıcı adı",
+      "usernamePlaceholder": "örn. gigachad_du_92",
+      "emailLabel": "E-posta",
+      "passwordLabel": "Şifre",
+      "submit": "Hesabımı oluştur",
+      "hasAccount": "Zaten hesabın var mı? Giriş yap",
+      "chooseUsername": "Bir kullanıcı adı seç.",
+      "signupFailed": "Kayıt başarısız oldu, tekrar dene.",
+      "needsConfirmation": "Hesap oluşturuldu. E-postandan adresini onayla, sonra giriş yap."
+    },
+    "forgotPassword": {
+      "title": "Şifremi unuttum",
+      "subtitle": "E-postanı gir, sıfırlama bağlantısı gönderelim.",
+      "submit": "Bağlantı gönder",
+      "backToLogin": "Girişe dön",
+      "successMessage": "Bu e-posta ile bir hesap varsa, sıfırlama bağlantısı az önce gönderildi."
+    },
+    "resetPassword": {
+      "title": "Yeni şifre",
+      "subtitle": "Hesabın için yeni bir şifre seç.",
+      "passwordLabel": "Yeni şifre",
+      "submit": "Kaydet",
+      "tooShort": "Şifre en az 6 karakter olmalı."
+    }
+  },
+  "feed": {
+    "title": "Akış",
+    "empty": "Akışın boş. Antrenmanlarını görmek için insanları takip et.",
+    "reportTitle": "Bu antrenman şikayet edilsin mi?",
+    "reportMessage": "@{{username}} kullanıcısının antrenmanını şikayet et.",
+    "reportConfirm": "Şikayet et",
+    "reportReason": "Akıştan şikayet edildi",
+    "thanksTitle": "Teşekkürler",
+    "thanksMessage": "Şikayetin gönderildi."
+  },
+  "search": {
+    "title": "Ara",
+    "placeholder": "Kullanıcı adı ara...",
+    "empty": "Sonuç yok.",
+    "follow": "Takip et",
+    "requested": "İstek gönderildi",
+    "following": "Takip ediliyor"
+  },
+  "followRequests": {
+    "title": "Takip istekleri",
+    "empty": "Şu an takip isteği yok."
+  },
+  "comments": {
+    "title_zero": "Yorumlar",
+    "title_one": "{{count}} yorum",
+    "title_other": "{{count}} yorum",
+    "placeholder": "Yorum yaz..."
+  },
+  "follows": {
+    "title": "Bağlantılar",
+    "followers": "Takipçiler",
+    "following": "Takip edilenler",
+    "empty": "Henüz kimse yok."
+  },
+  "userProfile": {
+    "notFound": "Profil bulunamadı.",
+    "lockedMessage": "Antrenmanlarını ve istatistiklerini görmek için @{{username}} kullanıcısını takip et.",
+    "noWorkouts": "Henüz antrenman yok.",
+    "blockUser": "@{{username}} kullanıcısını engelle",
+    "block": "Engelle",
+    "unblock": "Engeli kaldır",
+    "blockedMessage": "@{{username}} kullanıcısını engelledin. Birbirinizin içeriğini artık göremezsiniz.",
+    "blockConfirmTitle": "@{{username}} engellensin mi?",
+    "blockConfirmMessage": "Birbirinizin içeriğini göremezsiniz ve aranızdaki takipler kaldırılır."
+  },
+  "services": {
+    "progression": {
+      "title": "Gelişim",
+      "subtitle": "Zaman içinde ağırlık ve hareketler",
+      "bodyWeightTitle": "Vücut ağırlığı",
+      "noBodyWeightData": "Henüz tartım kaydı yok.",
+      "exercisesTitle": "Hareketler",
+      "noExercises": "Katalogdan henüz hareket kaydedilmedi.",
+      "personalRecord": "Kişisel rekor",
+      "noHistory": "Bu hareket için henüz geçmiş yok.",
+      "period_30d": "30 gün",
+      "period_3m": "3 ay",
+      "period_1y": "1 yıl",
+      "period_all": "Tümü"
+    }
+  },
+  "stats": {
+    "last30Days": "Son 30 gün",
+    "thisYear": "Bu yıl",
+    "perWeek": "{{value}}/hafta"
+  },
+  "streak": {
+    "title": "Seri",
+    "weeksLabel_one": "hafta üst üste",
+    "weeksLabel_other": "hafta üst üste",
+    "longestLabel_one": "Rekor: {{count}} hafta",
+    "longestLabel_other": "Rekor: {{count}} hafta",
+    "noGoalSet": "Serini başlatmak için Profil'den haftalık hedefini belirle.",
+    "legendWorkout": "Antrenman",
+    "legendToday": "Bugün",
+    "legendGoalMet": "Hedef tuttu"
+  },
+  "onboarding": {
+    "title": "Muskl'a hoş geldin",
+    "subtitle": "Üç soru, ve sana hazır antrenmanlar oluşturalım.",
+    "unitsQuestion": "Hangi birimleri kullanıyorsun?",
+    "levelQuestion": "Seviyen nedir?",
+    "levels": {
+      "beginner": "Başlangıç",
+      "intermediate": "Orta",
+      "advanced": "İleri"
+    },
+    "levelHints": {
+      "beginner": "Bir yıldan az düzenli antrenman",
+      "intermediate": "Bir ila üç yıl, temel hareketleri biliyorsun",
+      "advanced": "Üç yıldan fazla, kendi hacmini yönetiyorsun"
+    },
+    "frequencyQuestion": "Haftada kaç antrenman?",
+    "splitPreview": "Sana {{split}} programı hazırlayacağız",
+    "splits": {
+      "fullBody": "full body",
+      "upperLower": "üst / alt vücut",
+      "hybrid": "push / pull / bacak + üst / alt",
+      "pushPullLegs": "push / pull / bacak"
+    },
+    "goalQuestion": "Ana hedefin?",
+    "goals": {
+      "hypertrophy": "Kas kütlesi",
+      "strength": "Kuvvet",
+      "general": "Genel form"
+    },
+    "goalHints": {
+      "hypertrophy": "10'luk setler, orta dinlenme",
+      "strength": "Ağır 5'lik setler, uzun dinlenme",
+      "general": "12'lik setler, kısa dinlenme"
+    },
+    "sessions": {
+      "fullBodyA": "Full body A",
+      "fullBodyB": "Full body B",
+      "fullBodyC": "Full body C",
+      "upperA": "Üst vücut A",
+      "lowerA": "Alt vücut A",
+      "upperB": "Üst vücut B",
+      "lowerB": "Alt vücut B",
+      "pushA": "Push A",
+      "pullA": "Pull A",
+      "legsA": "Bacak A",
+      "pushB": "Push B",
+      "pullB": "Pull B",
+      "legsB": "Bacak B"
+    },
+    "submit": "Antrenmanlarımı oluştur",
+    "skip": "Atla, kendim oluştururum"
+  },
+  "myWorkouts": {
+    "title": "Antrenmanlarım",
+    "empty": "Henüz antrenman yok. Hadi başla!",
+    "greetingMorning": "Günaydın",
+    "greetingAfternoon": "İyi günler",
+    "greetingEvening": "İyi akşamlar"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} hareket",
+    "exercises_other": "{{count}} hareket",
+    "sets_one": "{{count}} set",
+    "sets_other": "{{count}} set",
+    "volume": "{{value}} kg"
+  },
+  "workout": {
+    "new": {
+      "title": "Yeni antrenman",
+      "nameLabel": "Antrenman adı",
+      "namePlaceholder": "örn. Push day",
+      "dateLabel": "Tarih (YYYY-AA-GG)",
+      "fromTemplate": "Bir şablondan başla",
+      "submit": "Oluştur",
+      "createFailed": "Antrenman oluşturulamadı."
+    },
+    "addExercise": {
+      "title": "Hareket ekle",
+      "searchPlaceholder": "Hareket ara...",
+      "all": "Tümü",
+      "addCustom": "\"{{query}}\" hareketini özel olarak ekle",
+      "addSelected": "Ekle ({{count}})"
+    },
+    "detail": {
+      "notFound": "Antrenman bulunamadı.",
+      "noExercises": "Henüz hareket yok.",
+      "addExercise": "+ Hareket ekle",
+      "deleteWorkout": "Bu antrenmanı sil",
+      "deleteConfirmTitle": "Bu antrenman silinsin mi?",
+      "deleteConfirmMessage": "Bu işlem geri alınamaz: ilgili hareketler ve setler de silinir.",
+      "addSetFailed": "Set eklenemedi.",
+      "reportMode": "Rapor",
+      "liveMode": "Canlı",
+      "exerciseCounter": "Hareket {{current}} / {{total}}",
+      "setCounter": "Set {{current}} / {{total}}",
+      "setDone": "Set tamam",
+      "noSetsPlanned": "Bu hareket için planlanmış set yok. İlerledikçe ekle.",
+      "noMoreSets": "Bu hareket için başka set planlanmadı.",
+      "addExtraSet": "Set ekle",
+      "nextExercise": "Sonraki hareket",
+      "rest": "Dinlenme",
+      "cancelRest": "Dinlenmeyi iptal et",
+      "finish": "Bitir",
+      "addToTemplates": "Şablonlarıma ekle",
+      "saveAsTemplateFailed": "Şablonlara eklenemedi.",
+      "notesLabel": "Antrenman notu",
+      "notesPlaceholder": "Bu antrenman hakkında not ekle (isteğe bağlı)",
+      "resumeLive": "Antrenmana devam et"
+    }
+  },
+  "restTimer": {
+    "channelName": "Dinlenme sayacı",
+    "notificationTitle": "Dinlenme bitti",
+    "notificationBody": "Sonraki sete hazır mısın?"
+  },
+  "exercise": {
+    "noSets": "Henüz set yok.",
+    "addSet": "Set ekle",
+    "addDrop": "+ Drop set ekle",
+    "notesPlaceholder": "Not (isteğe bağlı)",
+    "colSet": "#",
+    "colWeight": "Ağırlık",
+    "colReps": "Tekrar",
+    "colRpe": "RPE"
+  },
+  "templates": {
+    "title": "Şablonlarım",
+    "empty": "Henüz şablon yok. Sonra tekrar başlatabileceğin bir antrenman oluştur.",
+    "deleteConfirmTitle": "Bu şablon silinsin mi?",
+    "exerciseCount_one": "{{count}} hareket",
+    "exerciseCount_other": "{{count}} hareket",
+    "new": {
+      "title": "Yeni şablon",
+      "nameLabel": "Şablon adı",
+      "namePlaceholder": "örn. Push day",
+      "submit": "Oluştur",
+      "createFailed": "Şablon oluşturulamadı."
+    },
+    "detail": {
+      "notFound": "Şablon bulunamadı.",
+      "nameLabel": "Şablon adı",
+      "saving": "Kaydediliyor...",
+      "noExercises": "Henüz hareket yok.",
+      "addExercise": "+ Hareket ekle",
+      "launch": "Bu antrenmanı başlat",
+      "deleteTemplate": "Bu şablonu sil",
+      "deleteConfirmTitle": "Bu şablon silinsin mi?",
+      "addSetFailed": "Hedef set eklenemedi."
+    },
+    "exerciseSection": {
+      "noTargetSets": "Hedef set yok (isteğe bağlı).",
+      "rest": "Dinlenme",
+      "noRest": "Yok"
+    }
+  },
+  "profile": {
+    "shareProfile": "Profilimi paylaş",
+    "shareMessage": "Muskl'da bana katıl — profilim: @{{username}}\n{{url}}",
+    "publicToggleTitle": "Herkese açık profil",
+    "publicToggleSubtitle": "Diğerleri boyunu ve tartımlarını görebilir",
+    "unitsLabel": "Birimler",
+    "unitsSubtitle": "Uygulamanın tamamında ağırlık ve boy",
+    "units": {
+      "metric": "kg / cm",
+      "imperial": "lb / feet"
+    },
+    "heightLabel": "Boy",
+    "weeklyGoalLabel": "Haftalık hedef",
+    "weeklyGoalSubtitle": "Serini hesaplamak için kullanılır",
+    "weeklyGoalChip_one": "Haftada {{count}} antrenman",
+    "weeklyGoalChip_other": "Haftada {{count}} antrenman",
+    "weeklyGoalNotSet": "Hedef belirlenmedi",
+    "weeklyGoalLight": "Hafif",
+    "weeklyGoalRegular": "Düzenli",
+    "weeklyGoalIntense": "Yoğun",
+    "weeklyGoalDaily": "Her gün — toparlanmayı ihmal etme",
+    "weightLabel": "Kilo",
+    "weighToday": "Bugün tartıl",
+    "noWeightLogs": "Henüz tartım kaydı yok.",
+    "showAllWeights": "{{count}} tartımın tümünü gör",
+    "showLessWeights": "Daha az göster",
+    "logout": "Çıkış yap",
+    "logoutConfirmTitle": "Çıkış yapılsın mı?",
+    "logoutConfirmButton": "Çıkış yap",
+    "privacy": "Gizlilik",
+    "language": "Dil",
+    "deleteAccount": "Hesabımı sil",
+    "deletingAccount": "Siliniyor...",
+    "deleteAccountConfirmTitle": "Hesabın silinsin mi?",
+    "deleteAccountConfirmMessage": "Bu işlem geri alınamaz: tüm antrenmanların, fotoğrafların ve verilerin kalıcı olarak silinir.",
+    "deleteAccountConfirmButton": "Kalıcı olarak sil",
+    "photoPermissionDenied": "Profil fotoğrafını değiştirmek için fotoğraflara erişime izin ver.",
+    "createProfileError": "Profilin (\"{{username}}\") oluşturulamadı: {{message}}",
+    "addWeightFailed": "Tartım eklenemedi.",
+    "deleteAccountGenericError": "Hesap silinirken bir hata oluştu."
+  },
+  "legal": {
+    "privacy": {
+      "lastUpdated": "Son güncelleme: 10 Ağustos 2026",
+      "sections": [
+        {
+          "title": "1. Verilerinden kim sorumlu",
+          "body": "Muskl bağımsız olarak geliştirilen ve işletilen bir projedir. Her türlü soru için mustafaliiyilmaz@gmail.com adresine yazabilirsin."
+        },
+        {
+          "title": "2. Toplanan veriler",
+          "body": "• Hesap: e-posta ve şifre (Supabase Auth tarafından yönetilir, asla düz metin olarak saklanmaz)\n• Profil: kullanıcı adı, profil fotoğrafı (isteğe bağlı)\n• Vücut verileri (isteğe bağlı): boy, kilo geçmişi\n• Antrenmanlar: ad, tarih, hareketler, setler (tekrar, ağırlık, RPE)\n• Şikayetler: hangi antrenman, kim tarafından"
+        },
+        {
+          "title": "3. Verilerinin görünürlüğü",
+          "body": "Muskl sosyal bir uygulamadır: kullanıcı adın, fotoğrafın ve antrenmanların varsayılan olarak akışta herkese görünür. Boyun ve kilo geçmişin için ayrı bir gizlilik ayarı vardır (Profil sekmesi → \"Herkese açık profil\"), varsayılan olarak açıktır — istediğin zaman kapatabilirsin."
+        },
+        {
+          "title": "4. Veri işleyen",
+          "body": "Veriler Avrupa Birliği'nde, Supabase üzerinde barındırılır (veritabanı, kimlik doğrulama, fotoğraf depolama). Hiçbir veri satılmaz veya reklam amacıyla paylaşılmaz — Muskl reklam göstermez ve üçüncü taraf analiz araçları kullanmaz."
+        },
+        {
+          "title": "5. Saklama süresi",
+          "body": "Verilerin hesabın var olduğu sürece saklanır. Hesabını silmek her şeyi kalıcı olarak siler."
+        },
+        {
+          "title": "6. Hesabını silme",
+          "body": "Profil sekmesi → Hesabımı sil. Geri alınamaz işlem: hesabını, profilini, fotoğrafını, antrenmanlarını, hareketlerini, setlerini, kilo geçmişini ve şikayetlerini anında siler."
+        },
+        {
+          "title": "7. Haklarım",
+          "body": "GDPR kapsamında: erişim, düzeltme, silme, taşınabilirlik. Çoğu doğrudan uygulamada mevcuttur. Diğer talepler için bize yaz."
+        },
+        {
+          "title": "8. İçerik şikayeti",
+          "body": "Akıştan bir antrenmanı şikayet edebilirsin. Şikayetler yalnızca sana ve Muskl ekibine görünür."
+        },
+        {
+          "title": "9. Güvenlik",
+          "body": "Verilere erişim, veritabanındaki satır düzeyi güvenlik kurallarıyla korunur (Row Level Security). İletişim şifrelenir (HTTPS)."
+        },
+        {
+          "title": "10. Yaş sınırı",
+          "body": "Muskl 16 yaşından küçükler için tasarlanmamıştır."
+        },
+        {
+          "title": "11. İletişim",
+          "body": "mustafaliiyilmaz@gmail.com"
+        }
+      ]
+    }
+  }
+}

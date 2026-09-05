@@ -18,6 +18,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import { seedStarterTemplates } from '@/lib/seed-starter-templates';
 import { supabase } from '@/lib/supabase';
+import { useUnits } from '@/providers/units-provider';
 
 const LEVELS: TrainingLevel[] = ['beginner', 'intermediate', 'advanced'];
 const GOALS: TrainingGoal[] = ['hypertrophy', 'strength', 'general'];
@@ -27,6 +28,8 @@ export default function OnboardingScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
   const { user } = useAuth();
+  // Pre-selected from the device locale, so most people never touch it.
+  const { unitSystem, setUnitSystem } = useUnits();
 
   const [level, setLevel] = useState<TrainingLevel | null>(null);
   const [frequency, setFrequency] = useState<number | null>(null);
@@ -79,6 +82,30 @@ export default function OnboardingScreen() {
         <ScrollView contentContainerStyle={styles.content}>
           <ThemedText type="title">{t('onboarding.title')}</ThemedText>
           <ThemedText themeColor="textSecondary">{t('onboarding.subtitle')}</ThemedText>
+
+          <View style={styles.question}>
+            <ThemedText type="cardTitle">{t('onboarding.unitsQuestion')}</ThemedText>
+            <View style={styles.frequencyRow}>
+              {(['metric', 'imperial'] as const).map((system) => (
+                <Pressable
+                  key={system}
+                  onPress={() => setUnitSystem(system)}
+                  style={[
+                    styles.unitChip,
+                    {
+                      backgroundColor: unitSystem === system ? theme.tint : theme.backgroundElement,
+                      borderColor: theme.border,
+                    },
+                  ]}>
+                  <ThemedText
+                    type="smallBold"
+                    style={{ color: unitSystem === system ? theme.background : theme.text }}>
+                    {t(`profile.units.${system}`)}
+                  </ThemedText>
+                </Pressable>
+              ))}
+            </View>
+          </View>
 
           <View style={styles.question}>
             <ThemedText type="cardTitle">{t('onboarding.levelQuestion')}</ThemedText>
@@ -219,6 +246,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  unitChip: {
+    flex: 1,
+    height: 48,
+    borderRadius: Spacing.two,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: Spacing.two,
   },
   skip: {
     alignSelf: 'center',

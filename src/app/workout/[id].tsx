@@ -23,6 +23,15 @@ import { createTemplateFromWorkout } from '@/lib/create-template-from-workout';
 import { groupSetsByOrder, type SetGroup } from '@/lib/group-sets';
 import { clearLiveSession, loadLiveSession, saveLiveSession } from '@/lib/live-session';
 import { supabase } from '@/lib/supabase';
+import {
+  formatWeight,
+  toDisplayWeight,
+  toStorageWeight,
+  weightStep,
+  weightUnitLabel,
+  type UnitSystem,
+} from '@/lib/units';
+import { useUnits } from '@/providers/units-provider';
 import type { ExerciseWithSets, Workout } from '@/types';
 
 function formatCountdown(totalSeconds: number) {
@@ -612,9 +621,12 @@ function StepperField({
   );
 }
 
-function seedActiveValues(group: SetGroup | undefined) {
+function seedActiveValues(group: SetGroup | undefined, unitSystem: UnitSystem) {
   if (group && group.sets.length === 1) {
-    return { weight: String(group.sets[0].weight), reps: String(group.sets[0].reps) };
+    return {
+      weight: String(toDisplayWeight(group.sets[0].weight, unitSystem)),
+      reps: String(group.sets[0].reps),
+    };
   }
   return { weight: '', reps: '' };
 }
@@ -636,8 +648,11 @@ function LiveWorkoutView({
   const exercise = exercises[currentIndex];
   const groups = groupSetsByOrder(exercise.sets);
 
+  const { unitSystem } = useUnits();
   const [currentSetIndex, setCurrentSetIndex] = useState(initialSetIndex);
-  const [activeValues, setActiveValues] = useState(() => seedActiveValues(groups[initialSetIndex]));
+  const [activeValues, setActiveValues] = useState(() =>
+    seedActiveValues(groups[initialSetIndex], unitSystem),
+  );
   const [editingOrder, setEditingOrder] = useState<number | null>(null);
   const [editValues, setEditValues] = useState({ weight: '', reps: '' });
   const [extraValues, setExtraValues] = useState({ weight: '', reps: '' });
@@ -685,7 +700,7 @@ function LiveWorkoutView({
     setEditingOrder(null);
     setExtraValues({ weight: '', reps: '' });
     setCurrentSetIndex(0);
-    setActiveValues(seedActiveValues(groupSetsByOrder(exercises[index]?.sets ?? [])[0]));
+    setActiveValues(seedActiveValues(groupSetsByOrder(exercises[index]?.sets ?? [])[0], unitSystem));
     if (exercises[index]?.rest_seconds) {
       restTimer.setDuration(exercises[index].rest_seconds!);
     }
@@ -698,8 +713,11 @@ function LiveWorkoutView({
 
     setIsSubmitting(true);
     if (group.sets.length === 1) {
-      const weight = parseFloat(activeValues.weight);
+      const typedWeight = parseFloat(activeValues.weight);
       const reps = parseInt(activeValues.reps, 10);
+      const weight = Number.isFinite(typedWeight)
+        ? toStorageWeight(typedWeight, unitSystem)
+        : Number.NaN;
       if (
         Number.isFinite(weight) &&
         Number.isFinite(reps) &&
@@ -714,7 +732,7 @@ function LiveWorkoutView({
 
     const nextIndex = currentSetIndex + 1;
     setCurrentSetIndex(nextIndex);
-    setActiveValues(seedActiveValues(groups[nextIndex]));
+    setActiveValues(seedActiveValues(groups[nextIndex], unitSystem));
     persistSession(currentIndex, nextIndex, endTime);
   }
 
@@ -726,21 +744,27 @@ function LiveWorkoutView({
   function startEditing(group: SetGroup) {
     if (group.sets.length !== 1) return;
     setEditingOrder(group.order);
-    setEditValues({ weight: String(group.sets[0].weight), reps: String(group.sets[0].reps) });
+    setEditValues({
+      weight: String(toDisplayWeight(group.sets[0].weight, unitSystem)),
+      reps: String(group.sets[0].reps),
+    });
   }
 
   async function saveEditing(group: SetGroup) {
-    const weight = parseFloat(editValues.weight);
+    const typedWeight = parseFloat(editValues.weight);
     const reps = parseInt(editValues.reps, 10);
-    if (!Number.isFinite(weight) || !Number.isFinite(reps)) return;
-    await onUpdateSet([{ id: group.sets[0].id, weight, reps }]);
+    if (!Number.isFinite(typedWeight) || !Number.isFinite(reps)) return;
+    await onUpdateSet([
+      { id: group.sets[0].id, weight: toStorageWeight(typedWeight, unitSystem), reps },
+    ]);
     setEditingOrder(null);
   }
 
   async function handleAddExtraSet() {
-    const weight = parseFloat(extraValues.weight);
+    const typedWeight = parseFloat(extraValues.weight);
     const reps = parseInt(extraValues.reps, 10);
-    if (!Number.isFinite(weight) || !Number.isFinite(reps)) return;
+    if (!Number.isFinite(typedWeight) || !Number.isFinite(reps)) return;
+    const weight = toStorageWeight(typedWeight, unitSystem);
     setIsSubmitting(true);
     const endTime = await onAddSet(exercise.id, [{ weight, reps }], null);
     setIsSubmitting(false);
@@ -838,10 +862,10 @@ function LiveWorkoutView({
                     {group.sets.length === 1 ? (
                       <View style={styles.stepperRow}>
                         <StepperField
-                          label={t('exercise.colWeight')}
+                          label={`${t('exercise.colWeight')} (${weightUnitLabel(unitSystem)})`}
                           value={activeValues.weight}
                           onChangeText={(value) => setActiveValues((prev) => ({ ...prev, weight: value }))}
-                          step={2.5}
+                          step={weightStep(unitSystem)}
                           allowDecimals
                         />
                         <StepperField
@@ -854,7 +878,7 @@ function LiveWorkoutView({
                     ) : (
                       <ThemedText style={styles.setContent}>
                         {group.sets
-                          .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
+                          .map((set, i) => `${i > 0 ? ' → ' : ''}${formatWeight(set.weight, unitSystem)} × ${set.reps}`)
                           .join('')}
                       </ThemedText>
                     )}
@@ -907,7 +931,7 @@ function LiveWorkoutView({
                         style={styles.setContent}>
                         <ThemedText type="small" themeColor="textSecondary">
                           {group.sets
-                            .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
+                            .map((set, i) => `${i > 0 ? ' → ' : ''}${formatWeight(set.weight, unitSystem)} × ${set.reps}`)
                             .join('')}
                         </ThemedText>
                       </Pressable>
@@ -923,7 +947,7 @@ function LiveWorkoutView({
                   </ThemedText>
                   <ThemedText type="small" themeColor="textSecondary" style={styles.setContent}>
                     {group.sets
-                      .map((set, i) => `${i > 0 ? ' → ' : ''}${set.weight} kg × ${set.reps}`)
+                      .map((set, i) => `${i > 0 ? ' → ' : ''}${formatWeight(set.weight, unitSystem)} × ${set.reps}`)
                       .join('')}
                   </ThemedText>
                 </View>
@@ -942,7 +966,7 @@ function LiveWorkoutView({
                     styles.input,
                     { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
                   ]}
-                  placeholder="kg"
+                  placeholder={weightUnitLabel(unitSystem)}
                   placeholderTextColor={theme.textSecondary}
                   keyboardType="decimal-pad"
                   value={extraValues.weight}

@@ -19,6 +19,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import { loadLoggedExerciseStats, type LoggedExerciseStat } from '@/lib/exercise-history';
 import { supabase } from '@/lib/supabase';
+import { formatWeight, toDisplayWeight, weightUnitLabel } from '@/lib/units';
+import { useUnits } from '@/providers/units-provider';
 
 function formatShortDate(dateStr: string, language: string) {
   return new Date(dateStr).toLocaleDateString(language, { day: 'numeric', month: 'short' });
@@ -41,6 +43,7 @@ export default function ProgressionScreen() {
   const theme = useTheme();
   const router = useRouter();
   const { user } = useAuth();
+  const { unitSystem } = useUnits();
 
   const [weightLogs, setWeightLogs] = useState<WeightLog[]>([]);
   const [exerciseStats, setExerciseStats] = useState<Record<string, LoggedExerciseStat>>({});
@@ -86,8 +89,11 @@ export default function ProgressionScreen() {
     const cutoff = periodDays != null && loadedAt > 0 ? loadedAt - periodDays * 86_400_000 : null;
     return weightLogs
       .filter((log) => cutoff == null || new Date(log.loggedAt).getTime() >= cutoff)
-      .map((log) => ({ label: formatShortDate(log.loggedAt, language), value: log.weightKg }));
-  }, [weightLogs, periodDays, language, loadedAt]);
+      .map((log) => ({
+        label: formatShortDate(log.loggedAt, language),
+        value: toDisplayWeight(log.weightKg, unitSystem),
+      }));
+  }, [weightLogs, periodDays, language, loadedAt, unitSystem]);
 
   // Latest weight overall (not just within the period) — it's "your weight today", while the delta
   // is what the selected window actually changed.
@@ -132,13 +138,14 @@ export default function ProgressionScreen() {
                       {t('services.progression.bodyWeightTitle')}
                     </ThemedText>
                     <ThemedText type="subtitle">
-                      {currentWeight != null ? `${currentWeight} kg` : '–'}
+                      {currentWeight != null ? formatWeight(currentWeight, unitSystem) : '–'}
                     </ThemedText>
                   </View>
                   {weightDelta != null && Math.abs(weightDelta) >= 0.05 ? (
                     <ThemedText type="smallBold" themeColor={weightDelta > 0 ? 'text' : 'tint'}>
-                      {weightDelta > 0 ? '+' : ''}
-                      {weightDelta.toFixed(1)} kg
+                      {/* Already in display units: it's derived from the chart's own points. */}
+                      {weightDelta > 0 ? '+' : '−'}
+                      {Math.abs(weightDelta).toFixed(1)} {weightUnitLabel(unitSystem)}
                     </ThemedText>
                   ) : null}
                 </View>
@@ -155,7 +162,7 @@ export default function ProgressionScreen() {
                 </View>
 
                 {weightPoints.length > 0 ? (
-                  <LineChart points={weightPoints} unit=" kg" />
+                  <LineChart points={weightPoints} unit={` ${weightUnitLabel(unitSystem)}`} />
                 ) : (
                   <ThemedText type="small" themeColor="textSecondary">
                     {t('services.progression.noBodyWeightData')}
@@ -209,7 +216,7 @@ export default function ProgressionScreen() {
               </View>
               {exerciseStats[item.catalogKey] ? (
                 <ThemedText type="smallBold" themeColor="tint">
-                  {exerciseStats[item.catalogKey].lastWeightKg} kg
+                  {formatWeight(exerciseStats[item.catalogKey].lastWeightKg, unitSystem)}
                 </ThemedText>
               ) : null}
               <SymbolView

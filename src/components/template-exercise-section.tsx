@@ -10,6 +10,8 @@ import { Spacing } from '@/constants/theme';
 import { REST_DURATIONS } from '@/hooks/use-rest-timer';
 import { useTheme } from '@/hooks/use-theme';
 import type { SupportedLanguage } from '@/i18n';
+import { formatWeight, toStorageWeight, weightUnitLabel } from '@/lib/units';
+import { useUnits } from '@/providers/units-provider';
 import type { TemplateExerciseWithSets } from '@/types';
 
 type TemplateExerciseSectionProps = {
@@ -29,13 +31,18 @@ export function TemplateExerciseSection({
 }: TemplateExerciseSectionProps) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
+  const { unitSystem } = useUnits();
   const [reps, setReps] = useState('');
   const [weight, setWeight] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const displayName = getExerciseDisplayName(exercise, i18n.language as SupportedLanguage);
 
   const repsValue = parseInt(reps, 10);
-  const weightValue = parseFloat(weight);
+  const typedWeight = parseFloat(weight);
+  // Target weights are stored in kilograms like every other weight in the app.
+  const weightValue = Number.isFinite(typedWeight)
+    ? toStorageWeight(typedWeight, unitSystem)
+    : Number.NaN;
   const canAddSet = !isSubmitting && Number.isFinite(repsValue) && Number.isFinite(weightValue);
 
   async function handleAddSet() {
@@ -71,7 +78,7 @@ export function TemplateExerciseSection({
               {index + 1}
             </ThemedText>
             <ThemedText type="small" style={styles.setContent}>
-              {set.weight} kg × {set.reps}
+              {formatWeight(set.weight, unitSystem)} × {set.reps}
             </ThemedText>
             <Pressable onPress={() => onDeleteSet(set.id)} hitSlop={8}>
               <SymbolView
@@ -90,7 +97,7 @@ export function TemplateExerciseSection({
             styles.input,
             { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
           ]}
-          placeholder="kg"
+          placeholder={weightUnitLabel(unitSystem)}
           placeholderTextColor={theme.textSecondary}
           keyboardType="decimal-pad"
           value={weight}

@@ -1,0 +1,377 @@
+{
+  "common": {
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "save": "Opslaan",
+    "back": "Terug"
+  },
+  "tabs": {
+    "feed": "Feed",
+    "myWorkouts": "Mijn trainingen",
+    "services": "Services",
+    "profile": "Profiel"
+  },
+  "auth": {
+    "networkError": "Kan de server niet bereiken. Controleer je internetverbinding en probeer het opnieuw.",
+    "login": {
+      "title": "Muskl",
+      "subtitle": "Log in om je trainingen en die van de community te bekijken.",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Wachtwoord",
+      "submit": "Inloggen",
+      "forgotPassword": "Wachtwoord vergeten?",
+      "noAccount": "Nog geen account? Registreren"
+    },
+    "signup": {
+      "title": "Word lid van Muskl",
+      "subtitle": "Maak je account aan om je trainingen bij te houden.",
+      "usernameLabel": "Gebruikersnaam",
+      "usernamePlaceholder": "bijv. gigachad_du_92",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Wachtwoord",
+      "submit": "Account aanmaken",
+      "hasAccount": "Al een account? Inloggen",
+      "chooseUsername": "Kies een gebruikersnaam.",
+      "signupFailed": "Registratie mislukt, probeer het opnieuw.",
+      "needsConfirmation": "Account aangemaakt. Bevestig je adres via de e-mail en log daarna in."
+    },
+    "forgotPassword": {
+      "title": "Wachtwoord vergeten",
+      "subtitle": "Vul je e-mail in, we sturen je een link om het opnieuw in te stellen.",
+      "submit": "Link versturen",
+      "backToLogin": "Terug naar inloggen",
+      "successMessage": "Als er een account met dat adres bestaat, is er zojuist een link verstuurd."
+    },
+    "resetPassword": {
+      "title": "Nieuw wachtwoord",
+      "subtitle": "Kies een nieuw wachtwoord voor je account.",
+      "passwordLabel": "Nieuw wachtwoord",
+      "submit": "Opslaan",
+      "tooShort": "Het wachtwoord moet minstens 6 tekens bevatten."
+    }
+  },
+  "feed": {
+    "title": "Feed",
+    "empty": "Je feed is leeg. Volg mensen om hun trainingen hier te zien.",
+    "reportTitle": "Deze training melden?",
+    "reportMessage": "Training van @{{username}} melden.",
+    "reportConfirm": "Melden",
+    "reportReason": "Gemeld vanuit de feed",
+    "thanksTitle": "Bedankt",
+    "thanksMessage": "Je melding is verstuurd."
+  },
+  "search": {
+    "title": "Zoeken",
+    "placeholder": "Zoek een gebruikersnaam...",
+    "empty": "Geen resultaten.",
+    "follow": "Volgen",
+    "requested": "Aangevraagd",
+    "following": "Volgend"
+  },
+  "followRequests": {
+    "title": "Volgverzoeken",
+    "empty": "Momenteel geen volgverzoeken."
+  },
+  "comments": {
+    "title_zero": "Reacties",
+    "title_one": "{{count}} reactie",
+    "title_other": "{{count}} reacties",
+    "placeholder": "Schrijf een reactie..."
+  },
+  "follows": {
+    "title": "Connecties",
+    "followers": "Volgers",
+    "following": "Volgend",
+    "empty": "Nog niemand."
+  },
+  "userProfile": {
+    "notFound": "Profiel niet gevonden.",
+    "lockedMessage": "Volg @{{username}} om trainingen en statistieken te zien.",
+    "noWorkouts": "Nog geen trainingen.",
+    "blockUser": "@{{username}} blokkeren",
+    "block": "Blokkeren",
+    "unblock": "Deblokkeren",
+    "blockedMessage": "Je hebt @{{username}} geblokkeerd. Jullie zien elkaars content niet meer.",
+    "blockConfirmTitle": "@{{username}} blokkeren?",
+    "blockConfirmMessage": "Jullie zien elkaars content niet meer en bestaande connecties worden verwijderd."
+  },
+  "services": {
+    "progression": {
+      "title": "Progressie",
+      "subtitle": "Gewicht en oefeningen door de tijd",
+      "bodyWeightTitle": "Lichaamsgewicht",
+      "noBodyWeightData": "Nog geen wegingen vastgelegd.",
+      "exercisesTitle": "Oefeningen",
+      "noExercises": "Nog geen oefeningen uit de catalogus vastgelegd.",
+      "personalRecord": "Persoonlijk record",
+      "noHistory": "Nog geen geschiedenis voor deze oefening.",
+      "period_30d": "30 d",
+      "period_3m": "3 mnd",
+      "period_1y": "1 jr",
+      "period_all": "Alles"
+    }
+  },
+  "stats": {
+    "last30Days": "Laatste 30 dagen",
+    "thisYear": "Dit jaar",
+    "perWeek": "{{value}}/wk"
+  },
+  "streak": {
+    "title": "Reeks",
+    "weeksLabel_one": "week op rij",
+    "weeksLabel_other": "weken op rij",
+    "longestLabel_one": "Record: {{count}} week",
+    "longestLabel_other": "Record: {{count}} weken",
+    "noGoalSet": "Stel je weekdoel in bij Profiel om je reeks te starten.",
+    "legendWorkout": "Training",
+    "legendToday": "Vandaag",
+    "legendGoalMet": "Doel gehaald"
+  },
+  "onboarding": {
+    "title": "Welkom bij Muskl",
+    "subtitle": "Drie vragen, en we zetten kant-en-klare trainingen voor je klaar.",
+    "unitsQuestion": "Welke eenheden gebruik je?",
+    "levelQuestion": "Wat is je niveau?",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Gevorderd",
+      "advanced": "Ervaren"
+    },
+    "levelHints": {
+      "beginner": "Minder dan een jaar regelmatig trainen",
+      "intermediate": "Eén tot drie jaar, je kent de basisoefeningen",
+      "advanced": "Meer dan drie jaar, je stuurt je eigen volume"
+    },
+    "frequencyQuestion": "Hoeveel trainingen per week?",
+    "splitPreview": "We zetten een {{split}}-schema voor je klaar",
+    "splits": {
+      "fullBody": "full body",
+      "upperLower": "upper / lower",
+      "hybrid": "push / pull / benen + upper / lower",
+      "pushPullLegs": "push / pull / benen"
+    },
+    "goalQuestion": "Je belangrijkste doel?",
+    "goals": {
+      "hypertrophy": "Spiermassa",
+      "strength": "Kracht",
+      "general": "Algemene fitheid"
+    },
+    "goalHints": {
+      "hypertrophy": "Sets van 10, gemiddelde rust",
+      "strength": "Zware sets van 5, lange rust",
+      "general": "Sets van 12, korte rust"
+    },
+    "sessions": {
+      "fullBodyA": "Full body A",
+      "fullBodyB": "Full body B",
+      "fullBodyC": "Full body C",
+      "upperA": "Bovenlichaam A",
+      "lowerA": "Onderlichaam A",
+      "upperB": "Bovenlichaam B",
+      "lowerB": "Onderlichaam B",
+      "pushA": "Push A",
+      "pullA": "Pull A",
+      "legsA": "Benen A",
+      "pushB": "Push B",
+      "pullB": "Pull B",
+      "legsB": "Benen B"
+    },
+    "submit": "Mijn trainingen aanmaken",
+    "skip": "Overslaan, ik maak ze zelf"
+  },
+  "myWorkouts": {
+    "title": "Mijn trainingen",
+    "empty": "Nog geen trainingen. Ga ervoor!",
+    "greetingMorning": "Goedemorgen",
+    "greetingAfternoon": "Goedemiddag",
+    "greetingEvening": "Goedenavond"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} oefening",
+    "exercises_other": "{{count}} oefeningen",
+    "sets_one": "{{count}} set",
+    "sets_other": "{{count}} sets",
+    "volume": "{{value}} kg"
+  },
+  "workout": {
+    "new": {
+      "title": "Nieuwe training",
+      "nameLabel": "Naam van de training",
+      "namePlaceholder": "bijv. Push day",
+      "dateLabel": "Datum (JJJJ-MM-DD)",
+      "fromTemplate": "Starten vanaf een sjabloon",
+      "submit": "Aanmaken",
+      "createFailed": "Kon de training niet aanmaken."
+    },
+    "addExercise": {
+      "title": "Oefening toevoegen",
+      "searchPlaceholder": "Zoek een oefening...",
+      "all": "Alle",
+      "addCustom": "\"{{query}}\" als eigen oefening toevoegen",
+      "addSelected": "Toevoegen ({{count}})"
+    },
+    "detail": {
+      "notFound": "Training niet gevonden.",
+      "noExercises": "Nog geen oefeningen.",
+      "addExercise": "+ Oefening toevoegen",
+      "deleteWorkout": "Deze training verwijderen",
+      "deleteConfirmTitle": "Deze training verwijderen?",
+      "deleteConfirmMessage": "Deze actie is onomkeerbaar: de bijbehorende oefeningen en sets worden ook verwijderd.",
+      "addSetFailed": "Kon de set niet toevoegen.",
+      "reportMode": "Rapport",
+      "liveMode": "Live",
+      "exerciseCounter": "Oefening {{current}} / {{total}}",
+      "setCounter": "Set {{current}} / {{total}}",
+      "setDone": "Set klaar",
+      "noSetsPlanned": "Geen sets gepland voor deze oefening. Voeg ze onderweg toe.",
+      "noMoreSets": "Geen sets meer gepland voor deze oefening.",
+      "addExtraSet": "Set toevoegen",
+      "nextExercise": "Volgende oefening",
+      "rest": "Rust",
+      "cancelRest": "Rust annuleren",
+      "finish": "Afronden",
+      "addToTemplates": "Aan mijn sjablonen toevoegen",
+      "saveAsTemplateFailed": "Kon niet aan de sjablonen worden toegevoegd.",
+      "notesLabel": "Notitie bij de training",
+      "notesPlaceholder": "Voeg een notitie toe over deze training (optioneel)",
+      "resumeLive": "Training hervatten"
+    }
+  },
+  "restTimer": {
+    "channelName": "Rusttimer",
+    "notificationTitle": "Rust voorbij",
+    "notificationBody": "Klaar voor de volgende set?"
+  },
+  "exercise": {
+    "noSets": "Nog geen sets.",
+    "addSet": "Set toevoegen",
+    "addDrop": "+ Dropset toevoegen",
+    "notesPlaceholder": "Notitie (optioneel)",
+    "colSet": "#",
+    "colWeight": "Gewicht",
+    "colReps": "Herh.",
+    "colRpe": "RPE"
+  },
+  "templates": {
+    "title": "Mijn sjablonen",
+    "empty": "Nog geen sjablonen. Maak een vaste training die je later opnieuw kunt starten.",
+    "deleteConfirmTitle": "Dit sjabloon verwijderen?",
+    "exerciseCount_one": "{{count}} oefening",
+    "exerciseCount_other": "{{count}} oefeningen",
+    "new": {
+      "title": "Nieuw sjabloon",
+      "nameLabel": "Naam van het sjabloon",
+      "namePlaceholder": "bijv. Push day",
+      "submit": "Aanmaken",
+      "createFailed": "Kon het sjabloon niet aanmaken."
+    },
+    "detail": {
+      "notFound": "Sjabloon niet gevonden.",
+      "nameLabel": "Naam van het sjabloon",
+      "saving": "Bezig met opslaan...",
+      "noExercises": "Nog geen oefeningen.",
+      "addExercise": "+ Oefening toevoegen",
+      "launch": "Deze training starten",
+      "deleteTemplate": "Dit sjabloon verwijderen",
+      "deleteConfirmTitle": "Dit sjabloon verwijderen?",
+      "addSetFailed": "Kon de doelset niet toevoegen."
+    },
+    "exerciseSection": {
+      "noTargetSets": "Geen doelsets (optioneel).",
+      "rest": "Rust",
+      "noRest": "Geen"
+    }
+  },
+  "profile": {
+    "shareProfile": "Mijn profiel delen",
+    "shareMessage": "Kom bij me op Muskl — mijn profiel: @{{username}}\n{{url}}",
+    "publicToggleTitle": "Openbaar profiel",
+    "publicToggleSubtitle": "Anderen zien je lengte en je wegingen",
+    "unitsLabel": "Eenheden",
+    "unitsSubtitle": "Gewicht en lengte in de hele app",
+    "units": {
+      "metric": "kg / cm",
+      "imperial": "lb / voet"
+    },
+    "heightLabel": "Lengte",
+    "weeklyGoalLabel": "Weekdoel",
+    "weeklyGoalSubtitle": "Wordt gebruikt voor je reeks",
+    "weeklyGoalChip_one": "{{count}} training / week",
+    "weeklyGoalChip_other": "{{count}} trainingen / week",
+    "weeklyGoalNotSet": "Geen doel ingesteld",
+    "weeklyGoalLight": "Licht",
+    "weeklyGoalRegular": "Regelmatig",
+    "weeklyGoalIntense": "Intensief",
+    "weeklyGoalDaily": "Elke dag — vergeet je herstel niet",
+    "weightLabel": "Gewicht",
+    "weighToday": "Vandaag wegen",
+    "noWeightLogs": "Nog geen wegingen vastgelegd.",
+    "showAllWeights": "Alle {{count}} wegingen tonen",
+    "showLessWeights": "Minder tonen",
+    "logout": "Uitloggen",
+    "logoutConfirmTitle": "Uitloggen?",
+    "logoutConfirmButton": "Uitloggen",
+    "privacy": "Privacy",
+    "language": "Taal",
+    "deleteAccount": "Mijn account verwijderen",
+    "deletingAccount": "Bezig met verwijderen...",
+    "deleteAccountConfirmTitle": "Je account verwijderen?",
+    "deleteAccountConfirmMessage": "Deze actie is onomkeerbaar: al je trainingen, foto's en gegevens worden definitief verwijderd.",
+    "deleteAccountConfirmButton": "Definitief verwijderen",
+    "photoPermissionDenied": "Geef toegang tot je foto's om je profielfoto te wijzigen.",
+    "createProfileError": "Kon je profiel (\"{{username}}\") niet aanmaken: {{message}}",
+    "addWeightFailed": "Kon de weging niet toevoegen.",
+    "deleteAccountGenericError": "Er is iets misgegaan bij het verwijderen van je account."
+  },
+  "legal": {
+    "privacy": {
+      "lastUpdated": "Laatst bijgewerkt: 10 augustus 2026",
+      "sections": [
+        {
+          "title": "1. Wie verantwoordelijk is voor je gegevens",
+          "body": "Muskl is een onafhankelijk ontwikkeld en beheerd project. Voor vragen kun je contact opnemen via mustafaliiyilmaz@gmail.com."
+        },
+        {
+          "title": "2. Verzamelde gegevens",
+          "body": "• Account: e-mail en wachtwoord (beheerd door Supabase Auth, nooit als platte tekst opgeslagen)\n• Profiel: gebruikersnaam, profielfoto (optioneel)\n• Lichaamsgegevens (optioneel): lengte, gewichtsgeschiedenis\n• Trainingen: naam, datum, oefeningen, sets (herhalingen, gewicht, RPE)\n• Meldingen: welke training, door wie"
+        },
+        {
+          "title": "3. Zichtbaarheid van je gegevens",
+          "body": "Muskl is een sociale app: je gebruikersnaam, foto en trainingen zijn standaard voor iedereen zichtbaar in de feed. Je lengte en gewichtsgeschiedenis hebben een aparte instelling (tabblad Profiel → \"Openbaar profiel\"), standaard ingeschakeld — je kunt die altijd uitzetten."
+        },
+        {
+          "title": "4. Verwerker",
+          "body": "De gegevens worden gehost bij Supabase (database, authenticatie, fotoopslag), binnen de Europese Unie. Er worden geen gegevens verkocht of gedeeld voor advertentiedoeleinden — Muskl toont geen advertenties en gebruikt geen analysetools van derden."
+        },
+        {
+          "title": "5. Bewaartermijn",
+          "body": "Je gegevens worden bewaard zolang je account bestaat. Bij het verwijderen van je account wordt alles definitief gewist."
+        },
+        {
+          "title": "6. Je account verwijderen",
+          "body": "Tabblad Profiel → Mijn account verwijderen. Onomkeerbare actie: verwijdert direct je account, profiel, foto, trainingen, oefeningen, sets, gewichtsgeschiedenis en meldingen."
+        },
+        {
+          "title": "7. Je rechten",
+          "body": "Volgens de AVG: inzage, correctie, verwijdering, overdraagbaarheid. Het meeste is direct in de app beschikbaar. Neem voor andere verzoeken contact met ons op."
+        },
+        {
+          "title": "8. Content melden",
+          "body": "Je kunt een training melden vanuit de feed. Meldingen zijn alleen zichtbaar voor jou en het Muskl-team."
+        },
+        {
+          "title": "9. Beveiliging",
+          "body": "De toegang tot gegevens is beveiligd met beveiligingsregels op rijniveau in de database (Row Level Security). Het verkeer is versleuteld (HTTPS)."
+        },
+        {
+          "title": "10. Minimumleeftijd",
+          "body": "Muskl is niet bedoeld voor personen jonger dan 16 jaar."
+        },
+        {
+          "title": "11. Contact",
+          "body": "mustafaliiyilmaz@gmail.com"
+        }
+      ]
+    }
+  }
+}

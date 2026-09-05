@@ -1,0 +1,377 @@
+{
+  "common": {
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "save": "Speichern",
+    "back": "Zurück"
+  },
+  "tabs": {
+    "feed": "Feed",
+    "myWorkouts": "Meine Workouts",
+    "services": "Services",
+    "profile": "Profil"
+  },
+  "auth": {
+    "networkError": "Der Server ist nicht erreichbar. Prüfe deine Internetverbindung und versuche es erneut.",
+    "login": {
+      "title": "Muskl",
+      "subtitle": "Melde dich an, um deine Workouts und die der Community zu sehen.",
+      "emailLabel": "E-Mail",
+      "passwordLabel": "Passwort",
+      "submit": "Anmelden",
+      "forgotPassword": "Passwort vergessen?",
+      "noAccount": "Noch kein Konto? Registrieren"
+    },
+    "signup": {
+      "title": "Werde Teil von Muskl",
+      "subtitle": "Erstelle dein Konto, um deine Workouts aufzuzeichnen.",
+      "usernameLabel": "Benutzername",
+      "usernamePlaceholder": "z. B. gigachad_du_92",
+      "emailLabel": "E-Mail",
+      "passwordLabel": "Passwort",
+      "submit": "Konto erstellen",
+      "hasAccount": "Schon ein Konto? Anmelden",
+      "chooseUsername": "Wähle einen Benutzernamen.",
+      "signupFailed": "Registrierung fehlgeschlagen, versuche es erneut.",
+      "needsConfirmation": "Konto erstellt. Bestätige deine Adresse über die E-Mail und melde dich dann an."
+    },
+    "forgotPassword": {
+      "title": "Passwort vergessen",
+      "subtitle": "Gib deine E-Mail ein, wir schicken dir einen Link zum Zurücksetzen.",
+      "submit": "Link senden",
+      "backToLogin": "Zurück zur Anmeldung",
+      "successMessage": "Falls ein Konto mit dieser Adresse existiert, wurde gerade ein Link verschickt."
+    },
+    "resetPassword": {
+      "title": "Neues Passwort",
+      "subtitle": "Wähle ein neues Passwort für dein Konto.",
+      "passwordLabel": "Neues Passwort",
+      "submit": "Speichern",
+      "tooShort": "Das Passwort muss mindestens 6 Zeichen lang sein."
+    }
+  },
+  "feed": {
+    "title": "Feed",
+    "empty": "Dein Feed ist leer. Folge anderen, um ihre Workouts hier zu sehen.",
+    "reportTitle": "Dieses Workout melden?",
+    "reportMessage": "Workout von @{{username}} melden.",
+    "reportConfirm": "Melden",
+    "reportReason": "Aus dem Feed gemeldet",
+    "thanksTitle": "Danke",
+    "thanksMessage": "Deine Meldung wurde übermittelt."
+  },
+  "search": {
+    "title": "Suchen",
+    "placeholder": "Benutzernamen suchen...",
+    "empty": "Keine Ergebnisse.",
+    "follow": "Folgen",
+    "requested": "Angefragt",
+    "following": "Folgt"
+  },
+  "followRequests": {
+    "title": "Folgeanfragen",
+    "empty": "Zurzeit keine Folgeanfragen."
+  },
+  "comments": {
+    "title_zero": "Kommentare",
+    "title_one": "{{count}} Kommentar",
+    "title_other": "{{count}} Kommentare",
+    "placeholder": "Kommentar schreiben..."
+  },
+  "follows": {
+    "title": "Kontakte",
+    "followers": "Follower",
+    "following": "Folgt",
+    "empty": "Noch niemand."
+  },
+  "userProfile": {
+    "notFound": "Profil nicht gefunden.",
+    "lockedMessage": "Folge @{{username}}, um Workouts und Statistiken zu sehen.",
+    "noWorkouts": "Noch keine Workouts.",
+    "blockUser": "@{{username}} blockieren",
+    "block": "Blockieren",
+    "unblock": "Blockierung aufheben",
+    "blockedMessage": "Du hast @{{username}} blockiert. Ihr seht die Inhalte des anderen nicht mehr.",
+    "blockConfirmTitle": "@{{username}} blockieren?",
+    "blockConfirmMessage": "Ihr seht die Inhalte des anderen nicht mehr, und bestehende Verbindungen werden entfernt."
+  },
+  "services": {
+    "progression": {
+      "title": "Fortschritt",
+      "subtitle": "Gewicht und Übungen im Zeitverlauf",
+      "bodyWeightTitle": "Körpergewicht",
+      "noBodyWeightData": "Noch keine Wiegungen erfasst.",
+      "exercisesTitle": "Übungen",
+      "noExercises": "Noch keine Katalog-Übungen erfasst.",
+      "personalRecord": "Persönlicher Rekord",
+      "noHistory": "Für diese Übung gibt es noch keinen Verlauf.",
+      "period_30d": "30 T",
+      "period_3m": "3 Mon.",
+      "period_1y": "1 J.",
+      "period_all": "Alle"
+    }
+  },
+  "stats": {
+    "last30Days": "Letzte 30 Tage",
+    "thisYear": "Dieses Jahr",
+    "perWeek": "{{value}}/Wo."
+  },
+  "streak": {
+    "title": "Serie",
+    "weeksLabel_one": "Woche in Folge",
+    "weeksLabel_other": "Wochen in Folge",
+    "longestLabel_one": "Rekord: {{count}} Woche",
+    "longestLabel_other": "Rekord: {{count}} Wochen",
+    "noGoalSet": "Lege im Profil dein Wochenziel fest, um deine Serie zu starten.",
+    "legendWorkout": "Workout",
+    "legendToday": "Heute",
+    "legendGoalMet": "Ziel erreicht"
+  },
+  "onboarding": {
+    "title": "Willkommen bei Muskl",
+    "subtitle": "Drei Fragen, und wir stellen dir fertige Workouts zusammen.",
+    "unitsQuestion": "Welche Einheiten nutzt du?",
+    "levelQuestion": "Wie ist dein Level?",
+    "levels": {
+      "beginner": "Anfänger",
+      "intermediate": "Fortgeschritten",
+      "advanced": "Sehr erfahren"
+    },
+    "levelHints": {
+      "beginner": "Weniger als ein Jahr regelmäßiges Training",
+      "intermediate": "Ein bis drei Jahre, du kennst die Grundübungen",
+      "advanced": "Über drei Jahre, du steuerst dein Volumen selbst"
+    },
+    "frequencyQuestion": "Wie viele Einheiten pro Woche?",
+    "splitPreview": "Wir stellen dir einen {{split}}-Plan zusammen",
+    "splits": {
+      "fullBody": "Ganzkörper",
+      "upperLower": "Ober-/Unterkörper",
+      "hybrid": "Push / Pull / Beine + Ober-/Unterkörper",
+      "pushPullLegs": "Push / Pull / Beine"
+    },
+    "goalQuestion": "Dein Hauptziel?",
+    "goals": {
+      "hypertrophy": "Muskelaufbau",
+      "strength": "Kraft",
+      "general": "Allgemeine Fitness"
+    },
+    "goalHints": {
+      "hypertrophy": "10er-Sätze, mittlere Pause",
+      "strength": "Schwere 5er-Sätze, lange Pause",
+      "general": "12er-Sätze, kurze Pause"
+    },
+    "sessions": {
+      "fullBodyA": "Ganzkörper A",
+      "fullBodyB": "Ganzkörper B",
+      "fullBodyC": "Ganzkörper C",
+      "upperA": "Oberkörper A",
+      "lowerA": "Unterkörper A",
+      "upperB": "Oberkörper B",
+      "lowerB": "Unterkörper B",
+      "pushA": "Push A",
+      "pullA": "Pull A",
+      "legsA": "Beine A",
+      "pushB": "Push B",
+      "pullB": "Pull B",
+      "legsB": "Beine B"
+    },
+    "submit": "Workouts erstellen",
+    "skip": "Überspringen, ich erstelle sie selbst"
+  },
+  "myWorkouts": {
+    "title": "Meine Workouts",
+    "empty": "Noch keine Workouts. Leg los!",
+    "greetingMorning": "Guten Morgen",
+    "greetingAfternoon": "Guten Tag",
+    "greetingEvening": "Guten Abend"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} Übung",
+    "exercises_other": "{{count}} Übungen",
+    "sets_one": "{{count}} Satz",
+    "sets_other": "{{count}} Sätze",
+    "volume": "{{value}} kg"
+  },
+  "workout": {
+    "new": {
+      "title": "Neues Workout",
+      "nameLabel": "Name des Workouts",
+      "namePlaceholder": "z. B. Push Day",
+      "dateLabel": "Datum (JJJJ-MM-TT)",
+      "fromTemplate": "Von einer Vorlage starten",
+      "submit": "Erstellen",
+      "createFailed": "Workout konnte nicht erstellt werden."
+    },
+    "addExercise": {
+      "title": "Übung hinzufügen",
+      "searchPlaceholder": "Übung suchen...",
+      "all": "Alle",
+      "addCustom": "„{{query}}“ als eigene Übung hinzufügen",
+      "addSelected": "Hinzufügen ({{count}})"
+    },
+    "detail": {
+      "notFound": "Workout nicht gefunden.",
+      "noExercises": "Noch keine Übungen.",
+      "addExercise": "+ Übung hinzufügen",
+      "deleteWorkout": "Dieses Workout löschen",
+      "deleteConfirmTitle": "Dieses Workout löschen?",
+      "deleteConfirmMessage": "Diese Aktion ist endgültig: Die zugehörigen Übungen und Sätze werden ebenfalls gelöscht.",
+      "addSetFailed": "Satz konnte nicht hinzugefügt werden.",
+      "reportMode": "Bericht",
+      "liveMode": "Live",
+      "exerciseCounter": "Übung {{current}} / {{total}}",
+      "setCounter": "Satz {{current}} / {{total}}",
+      "setDone": "Satz erledigt",
+      "noSetsPlanned": "Für diese Übung sind keine Sätze geplant. Trage sie unterwegs ein.",
+      "noMoreSets": "Keine weiteren Sätze für diese Übung geplant.",
+      "addExtraSet": "Satz hinzufügen",
+      "nextExercise": "Nächste Übung",
+      "rest": "Pause",
+      "cancelRest": "Pause abbrechen",
+      "finish": "Beenden",
+      "addToTemplates": "Zu meinen Vorlagen hinzufügen",
+      "saveAsTemplateFailed": "Konnte nicht zu den Vorlagen hinzugefügt werden.",
+      "notesLabel": "Notiz zum Workout",
+      "notesPlaceholder": "Notiz zu diesem Workout hinzufügen (optional)",
+      "resumeLive": "Workout fortsetzen"
+    }
+  },
+  "restTimer": {
+    "channelName": "Pausentimer",
+    "notificationTitle": "Pause vorbei",
+    "notificationBody": "Bereit für den nächsten Satz?"
+  },
+  "exercise": {
+    "noSets": "Noch keine Sätze.",
+    "addSet": "Satz hinzufügen",
+    "addDrop": "+ Dropsatz hinzufügen",
+    "notesPlaceholder": "Notiz (optional)",
+    "colSet": "#",
+    "colWeight": "Gewicht",
+    "colReps": "Wdh.",
+    "colRpe": "RPE"
+  },
+  "templates": {
+    "title": "Meine Vorlagen",
+    "empty": "Noch keine Vorlagen. Erstelle ein Standard-Workout, das du später wieder starten kannst.",
+    "deleteConfirmTitle": "Diese Vorlage löschen?",
+    "exerciseCount_one": "{{count}} Übung",
+    "exerciseCount_other": "{{count}} Übungen",
+    "new": {
+      "title": "Neue Vorlage",
+      "nameLabel": "Name der Vorlage",
+      "namePlaceholder": "z. B. Push Day",
+      "submit": "Erstellen",
+      "createFailed": "Vorlage konnte nicht erstellt werden."
+    },
+    "detail": {
+      "notFound": "Vorlage nicht gefunden.",
+      "nameLabel": "Name der Vorlage",
+      "saving": "Wird gespeichert...",
+      "noExercises": "Noch keine Übungen.",
+      "addExercise": "+ Übung hinzufügen",
+      "launch": "Dieses Workout starten",
+      "deleteTemplate": "Diese Vorlage löschen",
+      "deleteConfirmTitle": "Diese Vorlage löschen?",
+      "addSetFailed": "Zielsatz konnte nicht hinzugefügt werden."
+    },
+    "exerciseSection": {
+      "noTargetSets": "Keine Zielsätze (optional).",
+      "rest": "Pause",
+      "noRest": "Keine"
+    }
+  },
+  "profile": {
+    "shareProfile": "Mein Profil teilen",
+    "shareMessage": "Komm zu mir auf Muskl — mein Profil: @{{username}}\n{{url}}",
+    "publicToggleTitle": "Öffentliches Profil",
+    "publicToggleSubtitle": "Andere sehen deine Größe und deine Wiegungen",
+    "unitsLabel": "Einheiten",
+    "unitsSubtitle": "Gewicht und Größe in der gesamten App",
+    "units": {
+      "metric": "kg / cm",
+      "imperial": "lb / Fuß"
+    },
+    "heightLabel": "Größe",
+    "weeklyGoalLabel": "Wochenziel",
+    "weeklyGoalSubtitle": "Grundlage für deine Serie",
+    "weeklyGoalChip_one": "{{count}} Workout / Woche",
+    "weeklyGoalChip_other": "{{count}} Workouts / Woche",
+    "weeklyGoalNotSet": "Kein Ziel festgelegt",
+    "weeklyGoalLight": "Locker",
+    "weeklyGoalRegular": "Regelmäßig",
+    "weeklyGoalIntense": "Intensiv",
+    "weeklyGoalDaily": "Jeden Tag — denk an die Regeneration",
+    "weightLabel": "Gewicht",
+    "weighToday": "Heute wiegen",
+    "noWeightLogs": "Noch keine Wiegungen erfasst.",
+    "showAllWeights": "Alle {{count}} Wiegungen anzeigen",
+    "showLessWeights": "Weniger anzeigen",
+    "logout": "Abmelden",
+    "logoutConfirmTitle": "Abmelden?",
+    "logoutConfirmButton": "Abmelden",
+    "privacy": "Datenschutz",
+    "language": "Sprache",
+    "deleteAccount": "Mein Konto löschen",
+    "deletingAccount": "Wird gelöscht...",
+    "deleteAccountConfirmTitle": "Konto löschen?",
+    "deleteAccountConfirmMessage": "Diese Aktion ist endgültig: Alle deine Workouts, Fotos und Daten werden dauerhaft gelöscht.",
+    "deleteAccountConfirmButton": "Endgültig löschen",
+    "photoPermissionDenied": "Erlaube den Zugriff auf Fotos, um dein Profilbild zu ändern.",
+    "createProfileError": "Dein Profil („{{username}}“) konnte nicht erstellt werden: {{message}}",
+    "addWeightFailed": "Wiegung konnte nicht hinzugefügt werden.",
+    "deleteAccountGenericError": "Beim Löschen des Kontos ist ein Fehler aufgetreten."
+  },
+  "legal": {
+    "privacy": {
+      "lastUpdated": "Zuletzt aktualisiert: 10. August 2026",
+      "sections": [
+        {
+          "title": "1. Wer für deine Daten verantwortlich ist",
+          "body": "Muskl ist ein unabhängig entwickeltes und betriebenes Projekt. Bei Fragen wende dich an mustafaliiyilmaz@gmail.com."
+        },
+        {
+          "title": "2. Erhobene Daten",
+          "body": "• Konto: E-Mail und Passwort (verwaltet von Supabase Auth, nie im Klartext gespeichert)\n• Profil: Benutzername, Profilbild (optional)\n• Körperdaten (optional): Größe, Gewichtsverlauf\n• Workouts: Name, Datum, Übungen, Sätze (Wiederholungen, Gewicht, RPE)\n• Meldungen: welches Workout, von wem"
+        },
+        {
+          "title": "3. Sichtbarkeit deiner Daten",
+          "body": "Muskl ist eine soziale App: Benutzername, Foto und Workouts sind standardmäßig für alle im Feed sichtbar. Größe und Gewichtsverlauf haben eine eigene Einstellung (Tab Profil → „Öffentliches Profil“), standardmäßig aktiviert — du kannst sie jederzeit deaktivieren."
+        },
+        {
+          "title": "4. Auftragsverarbeiter",
+          "body": "Die Daten werden bei Supabase gehostet (Datenbank, Authentifizierung, Fotospeicher), in der Europäischen Union. Es werden keine Daten verkauft oder zu Werbezwecken weitergegeben — Muskl zeigt keine Werbung und nutzt keine Analyse-Tools von Drittanbietern."
+        },
+        {
+          "title": "5. Speicherdauer",
+          "body": "Deine Daten werden gespeichert, solange dein Konto besteht. Beim Löschen des Kontos wird alles endgültig entfernt."
+        },
+        {
+          "title": "6. Konto löschen",
+          "body": "Tab Profil → Mein Konto löschen. Endgültige Aktion: Konto, Profil, Foto, Workouts, Übungen, Sätze, Gewichtsverlauf und Meldungen werden sofort gelöscht."
+        },
+        {
+          "title": "7. Deine Rechte",
+          "body": "Gemäß DSGVO: Auskunft, Berichtigung, Löschung, Datenübertragbarkeit. Das meiste ist direkt in der App verfügbar. Für alles Weitere kontaktiere uns."
+        },
+        {
+          "title": "8. Inhalte melden",
+          "body": "Du kannst ein Workout aus dem Feed melden. Meldungen sind nur für dich und das Muskl-Team sichtbar."
+        },
+        {
+          "title": "9. Sicherheit",
+          "body": "Der Datenzugriff ist über Sicherheitsregeln auf Zeilenebene in der Datenbank geschützt (Row Level Security). Die Übertragung ist verschlüsselt (HTTPS)."
+        },
+        {
+          "title": "10. Mindestalter",
+          "body": "Muskl richtet sich nicht an Personen unter 16 Jahren."
+        },
+        {
+          "title": "11. Kontakt",
+          "body": "mustafaliiyilmaz@gmail.com"
+        }
+      ]
+    }
+  }
+}

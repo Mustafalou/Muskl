@@ -1,0 +1,377 @@
+{
+  "common": {
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "save": "Salvar",
+    "back": "Voltar"
+  },
+  "tabs": {
+    "feed": "Feed",
+    "myWorkouts": "Meus treinos",
+    "services": "Serviços",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "networkError": "Não foi possível contatar o servidor. Verifique sua conexão e tente novamente.",
+    "login": {
+      "title": "Muskl",
+      "subtitle": "Entre para ver seus treinos e os da comunidade.",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Senha",
+      "submit": "Entrar",
+      "forgotPassword": "Esqueceu a senha?",
+      "noAccount": "Ainda não tem conta? Cadastre-se"
+    },
+    "signup": {
+      "title": "Entre para o Muskl",
+      "subtitle": "Crie sua conta para começar a registrar seus treinos.",
+      "usernameLabel": "Nome de usuário",
+      "usernamePlaceholder": "ex.: gigachad_du_92",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Senha",
+      "submit": "Criar minha conta",
+      "hasAccount": "Já tem conta? Entre",
+      "chooseUsername": "Escolha um nome de usuário.",
+      "signupFailed": "O cadastro falhou, tente novamente.",
+      "needsConfirmation": "Conta criada. Confirme seu endereço pelo e-mail e depois faça login."
+    },
+    "forgotPassword": {
+      "title": "Esqueci a senha",
+      "subtitle": "Informe seu e-mail e enviaremos um link para redefini-la.",
+      "submit": "Enviar link",
+      "backToLogin": "Voltar ao login",
+      "successMessage": "Se existir uma conta com esse e-mail, um link de redefinição acaba de ser enviado."
+    },
+    "resetPassword": {
+      "title": "Nova senha",
+      "subtitle": "Escolha uma nova senha para sua conta.",
+      "passwordLabel": "Nova senha",
+      "submit": "Salvar",
+      "tooShort": "A senha deve ter pelo menos 6 caracteres."
+    }
+  },
+  "feed": {
+    "title": "Feed",
+    "empty": "Seu feed está vazio. Siga pessoas para ver os treinos delas aqui.",
+    "reportTitle": "Denunciar este treino?",
+    "reportMessage": "Denunciar o treino de @{{username}}.",
+    "reportConfirm": "Denunciar",
+    "reportReason": "Denunciado pelo feed",
+    "thanksTitle": "Obrigado",
+    "thanksMessage": "Sua denúncia foi enviada."
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "Buscar um usuário...",
+    "empty": "Nenhum resultado.",
+    "follow": "Seguir",
+    "requested": "Solicitado",
+    "following": "Seguindo"
+  },
+  "followRequests": {
+    "title": "Solicitações para seguir",
+    "empty": "Nenhuma solicitação no momento."
+  },
+  "comments": {
+    "title_zero": "Comentários",
+    "title_one": "{{count}} comentário",
+    "title_other": "{{count}} comentários",
+    "placeholder": "Escrever um comentário..."
+  },
+  "follows": {
+    "title": "Conexões",
+    "followers": "Seguidores",
+    "following": "Seguindo",
+    "empty": "Ninguém por enquanto."
+  },
+  "userProfile": {
+    "notFound": "Perfil não encontrado.",
+    "lockedMessage": "Siga @{{username}} para ver os treinos e as estatísticas.",
+    "noWorkouts": "Nenhum treino por enquanto.",
+    "blockUser": "Bloquear @{{username}}",
+    "block": "Bloquear",
+    "unblock": "Desbloquear",
+    "blockedMessage": "Você bloqueou @{{username}}. Vocês não veem mais o conteúdo um do outro.",
+    "blockConfirmTitle": "Bloquear @{{username}}?",
+    "blockConfirmMessage": "Vocês não verão mais o conteúdo um do outro, e qualquer conexão entre vocês será removida."
+  },
+  "services": {
+    "progression": {
+      "title": "Progressão",
+      "subtitle": "Peso e exercícios ao longo do tempo",
+      "bodyWeightTitle": "Peso corporal",
+      "noBodyWeightData": "Nenhuma pesagem registrada ainda.",
+      "exercisesTitle": "Exercícios",
+      "noExercises": "Nenhum exercício do catálogo registrado ainda.",
+      "personalRecord": "Recorde pessoal",
+      "noHistory": "Ainda não há histórico para este exercício.",
+      "period_30d": "30 d",
+      "period_3m": "3 meses",
+      "period_1y": "1 ano",
+      "period_all": "Tudo"
+    }
+  },
+  "stats": {
+    "last30Days": "Últimos 30 dias",
+    "thisYear": "Este ano",
+    "perWeek": "{{value}}/sem"
+  },
+  "streak": {
+    "title": "Sequência",
+    "weeksLabel_one": "semana seguida",
+    "weeksLabel_other": "semanas seguidas",
+    "longestLabel_one": "Recorde: {{count}} semana",
+    "longestLabel_other": "Recorde: {{count}} semanas",
+    "noGoalSet": "Defina sua meta semanal no Perfil para ativar sua sequência.",
+    "legendWorkout": "Treino",
+    "legendToday": "Hoje",
+    "legendGoalMet": "Meta batida"
+  },
+  "onboarding": {
+    "title": "Bem-vindo ao Muskl",
+    "subtitle": "Três perguntas e montamos treinos prontos para você.",
+    "unitsQuestion": "Quais unidades você usa?",
+    "levelQuestion": "Qual é o seu nível?",
+    "levels": {
+      "beginner": "Iniciante",
+      "intermediate": "Intermediário",
+      "advanced": "Avançado"
+    },
+    "levelHints": {
+      "beginner": "Menos de um ano treinando com regularidade",
+      "intermediate": "De um a três anos, você conhece os exercícios básicos",
+      "advanced": "Mais de três anos, você controla seu próprio volume"
+    },
+    "frequencyQuestion": "Quantos treinos por semana?",
+    "splitPreview": "Vamos montar um programa {{split}}",
+    "splits": {
+      "fullBody": "full body",
+      "upperLower": "superior / inferior",
+      "hybrid": "push / pull / pernas + superior / inferior",
+      "pushPullLegs": "push / pull / pernas"
+    },
+    "goalQuestion": "Seu objetivo principal?",
+    "goals": {
+      "hypertrophy": "Hipertrofia",
+      "strength": "Força",
+      "general": "Condicionamento geral"
+    },
+    "goalHints": {
+      "hypertrophy": "Séries de 10, descanso médio",
+      "strength": "Séries pesadas de 5, descanso longo",
+      "general": "Séries de 12, descanso curto"
+    },
+    "sessions": {
+      "fullBodyA": "Full body A",
+      "fullBodyB": "Full body B",
+      "fullBodyC": "Full body C",
+      "upperA": "Superiores A",
+      "lowerA": "Inferiores A",
+      "upperB": "Superiores B",
+      "lowerB": "Inferiores B",
+      "pushA": "Push A",
+      "pullA": "Pull A",
+      "legsA": "Pernas A",
+      "pushB": "Push B",
+      "pullB": "Pull B",
+      "legsB": "Pernas B"
+    },
+    "submit": "Criar meus treinos",
+    "skip": "Pular, eu monto os meus"
+  },
+  "myWorkouts": {
+    "title": "Meus treinos",
+    "empty": "Nenhum treino ainda. Bora começar!",
+    "greetingMorning": "Bom dia",
+    "greetingAfternoon": "Boa tarde",
+    "greetingEvening": "Boa noite"
+  },
+  "workoutCard": {
+    "exercises_one": "{{count}} exercício",
+    "exercises_other": "{{count}} exercícios",
+    "sets_one": "{{count}} série",
+    "sets_other": "{{count}} séries",
+    "volume": "{{value}} kg"
+  },
+  "workout": {
+    "new": {
+      "title": "Novo treino",
+      "nameLabel": "Nome do treino",
+      "namePlaceholder": "ex.: Push day",
+      "dateLabel": "Data (AAAA-MM-DD)",
+      "fromTemplate": "Começar a partir de um modelo",
+      "submit": "Criar",
+      "createFailed": "Não foi possível criar o treino."
+    },
+    "addExercise": {
+      "title": "Adicionar um exercício",
+      "searchPlaceholder": "Buscar um exercício...",
+      "all": "Todos",
+      "addCustom": "Adicionar \"{{query}}\" como exercício personalizado",
+      "addSelected": "Adicionar ({{count}})"
+    },
+    "detail": {
+      "notFound": "Treino não encontrado.",
+      "noExercises": "Nenhum exercício ainda.",
+      "addExercise": "+ Adicionar um exercício",
+      "deleteWorkout": "Excluir este treino",
+      "deleteConfirmTitle": "Excluir este treino?",
+      "deleteConfirmMessage": "Esta ação é irreversível: os exercícios e as séries associados também serão excluídos.",
+      "addSetFailed": "Não foi possível adicionar a série.",
+      "reportMode": "Relatório",
+      "liveMode": "Ao vivo",
+      "exerciseCounter": "Exercício {{current}} / {{total}}",
+      "setCounter": "Série {{current}} / {{total}}",
+      "setDone": "Série concluída",
+      "noSetsPlanned": "Nenhuma série prevista para este exercício. Adicione conforme for treinando.",
+      "noMoreSets": "Não há mais séries previstas para este exercício.",
+      "addExtraSet": "Adicionar uma série",
+      "nextExercise": "Próximo exercício",
+      "rest": "Descanso",
+      "cancelRest": "Cancelar descanso",
+      "finish": "Finalizar",
+      "addToTemplates": "Adicionar aos meus modelos",
+      "saveAsTemplateFailed": "Não foi possível adicionar aos modelos.",
+      "notesLabel": "Nota do treino",
+      "notesPlaceholder": "Adicione uma nota sobre este treino (opcional)",
+      "resumeLive": "Retomar o treino"
+    }
+  },
+  "restTimer": {
+    "channelName": "Cronômetro de descanso",
+    "notificationTitle": "Descanso terminado",
+    "notificationBody": "Pronto para a próxima série?"
+  },
+  "exercise": {
+    "noSets": "Nenhuma série ainda.",
+    "addSet": "Adicionar uma série",
+    "addDrop": "+ Adicionar um drop set",
+    "notesPlaceholder": "Nota (opcional)",
+    "colSet": "#",
+    "colWeight": "Carga",
+    "colReps": "Reps",
+    "colRpe": "RPE"
+  },
+  "templates": {
+    "title": "Meus modelos",
+    "empty": "Nenhum modelo ainda. Crie um treino padrão para repetir depois.",
+    "deleteConfirmTitle": "Excluir este modelo?",
+    "exerciseCount_one": "{{count}} exercício",
+    "exerciseCount_other": "{{count}} exercícios",
+    "new": {
+      "title": "Novo modelo",
+      "nameLabel": "Nome do modelo",
+      "namePlaceholder": "ex.: Push day",
+      "submit": "Criar",
+      "createFailed": "Não foi possível criar o modelo."
+    },
+    "detail": {
+      "notFound": "Modelo não encontrado.",
+      "nameLabel": "Nome do modelo",
+      "saving": "Salvando...",
+      "noExercises": "Nenhum exercício ainda.",
+      "addExercise": "+ Adicionar um exercício",
+      "launch": "Iniciar este treino",
+      "deleteTemplate": "Excluir este modelo",
+      "deleteConfirmTitle": "Excluir este modelo?",
+      "addSetFailed": "Não foi possível adicionar a série alvo."
+    },
+    "exerciseSection": {
+      "noTargetSets": "Sem séries alvo (opcional).",
+      "rest": "Descanso",
+      "noRest": "Nenhum"
+    }
+  },
+  "profile": {
+    "shareProfile": "Compartilhar meu perfil",
+    "shareMessage": "Vem treinar comigo no Muskl — meu perfil: @{{username}}\n{{url}}",
+    "publicToggleTitle": "Perfil público",
+    "publicToggleSubtitle": "Outras pessoas podem ver sua altura e suas pesagens",
+    "unitsLabel": "Unidades",
+    "unitsSubtitle": "Carga e altura em todo o aplicativo",
+    "units": {
+      "metric": "kg / cm",
+      "imperial": "lb / pés"
+    },
+    "heightLabel": "Altura",
+    "weeklyGoalLabel": "Meta semanal",
+    "weeklyGoalSubtitle": "Usada para calcular sua sequência",
+    "weeklyGoalChip_one": "{{count}} treino / semana",
+    "weeklyGoalChip_other": "{{count}} treinos / semana",
+    "weeklyGoalNotSet": "Nenhuma meta definida",
+    "weeklyGoalLight": "Leve",
+    "weeklyGoalRegular": "Regular",
+    "weeklyGoalIntense": "Intenso",
+    "weeklyGoalDaily": "Todos os dias — não esqueça a recuperação",
+    "weightLabel": "Peso",
+    "weighToday": "Pesar hoje",
+    "noWeightLogs": "Nenhuma pesagem registrada.",
+    "showAllWeights": "Ver todas as {{count}} pesagens",
+    "showLessWeights": "Ver menos",
+    "logout": "Sair",
+    "logoutConfirmTitle": "Sair da conta?",
+    "logoutConfirmButton": "Sair",
+    "privacy": "Privacidade",
+    "language": "Idioma",
+    "deleteAccount": "Excluir minha conta",
+    "deletingAccount": "Excluindo...",
+    "deleteAccountConfirmTitle": "Excluir sua conta?",
+    "deleteAccountConfirmMessage": "Esta ação é irreversível: todos os seus treinos, fotos e dados serão excluídos permanentemente.",
+    "deleteAccountConfirmButton": "Excluir definitivamente",
+    "photoPermissionDenied": "Permita o acesso às fotos para alterar sua foto de perfil.",
+    "createProfileError": "Não foi possível criar seu perfil (\"{{username}}\"): {{message}}",
+    "addWeightFailed": "Não foi possível adicionar a pesagem.",
+    "deleteAccountGenericError": "Ocorreu um erro ao excluir a conta."
+  },
+  "legal": {
+    "privacy": {
+      "lastUpdated": "Última atualização: 10 de agosto de 2026",
+      "sections": [
+        {
+          "title": "1. Quem é responsável pelos seus dados",
+          "body": "O Muskl é um projeto desenvolvido e operado de forma independente. Para qualquer dúvida, entre em contato pelo e-mail mustafaliiyilmaz@gmail.com."
+        },
+        {
+          "title": "2. Dados coletados",
+          "body": "• Conta: e-mail e senha (gerenciados pelo Supabase Auth, nunca armazenados em texto simples)\n• Perfil: nome de usuário, foto de perfil (opcional)\n• Dados corporais (opcionais): altura, histórico de peso\n• Treinos: nome, data, exercícios, séries (repetições, carga, RPE)\n• Denúncias: qual treino, por quem"
+        },
+        {
+          "title": "3. Visibilidade dos seus dados",
+          "body": "O Muskl é um aplicativo social: seu nome de usuário, sua foto e seus treinos são visíveis para todos no feed, por padrão. Sua altura e seu histórico de peso têm uma configuração separada (aba Perfil → \"Perfil público\"), ativada por padrão — você pode desativá-la a qualquer momento."
+        },
+        {
+          "title": "4. Operador dos dados",
+          "body": "Os dados são hospedados no Supabase (banco de dados, autenticação, armazenamento de fotos), na União Europeia. Nenhum dado é vendido nem compartilhado para fins publicitários — o Muskl não exibe anúncios e não usa ferramentas de análise de terceiros."
+        },
+        {
+          "title": "5. Prazo de retenção",
+          "body": "Seus dados são mantidos enquanto sua conta existir. Excluir a conta apaga tudo definitivamente."
+        },
+        {
+          "title": "6. Excluir sua conta",
+          "body": "Aba Perfil → Excluir minha conta. Ação irreversível: exclui imediatamente sua conta, perfil, foto, treinos, exercícios, séries, histórico de peso e denúncias."
+        },
+        {
+          "title": "7. Seus direitos",
+          "body": "Conforme o RGPD: acesso, retificação, exclusão, portabilidade. A maior parte está disponível diretamente no aplicativo. Para qualquer outra solicitação, entre em contato."
+        },
+        {
+          "title": "8. Denúncia de conteúdo",
+          "body": "Você pode denunciar um treino pelo feed. As denúncias são visíveis apenas para você e para a equipe do Muskl."
+        },
+        {
+          "title": "9. Segurança",
+          "body": "O acesso aos dados é protegido por regras de segurança em nível de linha no banco de dados (Row Level Security). As comunicações são criptografadas (HTTPS)."
+        },
+        {
+          "title": "10. Idade mínima",
+          "body": "O Muskl não se destina a pessoas com menos de 16 anos."
+        },
+        {
+          "title": "11. Contato",
+          "body": "mustafaliiyilmaz@gmail.com"
+        }
+      ]
+    }
+  }
+}

@@ -130,6 +130,7 @@
   "onboarding": {
     "title": "Bienvenue sur Muskl",
     "subtitle": "Trois questions, et on te prépare des séances prêtes à l'emploi.",
+    "unitsQuestion": "Tu mesures en quoi ?",
     "levelQuestion": "Quel est ton niveau ?",
     "levels": {
       "beginner": "Débutant",
@@ -286,6 +287,12 @@
     "shareMessage": "Rejoins-moi sur Muskl — mon profil : @{{username}}\n{{url}}",
     "publicToggleTitle": "Profil public",
     "publicToggleSubtitle": "Les autres peuvent voir ta taille et tes pesées",
+    "unitsLabel": "Unités",
+    "unitsSubtitle": "Poids et taille dans toute l'application",
+    "units": {
+      "metric": "kg / cm",
+      "imperial": "lb / pieds"
+    },
     "heightLabel": "Taille",
     "weeklyGoalLabel": "Objectif hebdomadaire",
     "weeklyGoalSubtitle": "Utilisé pour calculer ton streak",

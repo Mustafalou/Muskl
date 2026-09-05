@@ -7,8 +7,10 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { formatVolume } from '@/lib/units';
 import type { WorkoutSocial } from '@/lib/workout-social';
 import type { WorkoutSummary } from '@/lib/workout-summary';
+import { useUnits } from '@/providers/units-provider';
 import type { Workout } from '@/types';
 
 type WorkoutCardProps = {
@@ -42,6 +44,7 @@ export function WorkoutCard({
 }: WorkoutCardProps) {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
+  const { unitSystem } = useUnits();
 
   // Only the parts that actually carry information: a workout with no sets logged yet shouldn't
   // advertise "0 séries · 0 kg".
@@ -51,11 +54,7 @@ export function WorkoutCard({
           ? t('workoutCard.exercises', { count: summary.exerciseCount })
           : null,
         summary.setCount > 0 ? t('workoutCard.sets', { count: summary.setCount }) : null,
-        summary.volumeKg > 0
-          ? t('workoutCard.volume', {
-              value: Math.round(summary.volumeKg).toLocaleString(i18n.language),
-            })
-          : null,
+        summary.volumeKg > 0 ? formatVolume(summary.volumeKg, unitSystem, i18n.language) : null,
       ].filter(Boolean)
     : [];
 
