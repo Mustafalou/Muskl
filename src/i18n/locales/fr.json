@@ -184,7 +184,8 @@
     "empty": "Pas encore de séance. Lance-toi !",
     "greetingMorning": "Bonjour",
     "greetingAfternoon": "Bon après-midi",
-    "greetingEvening": "Bonsoir"
+    "greetingEvening": "Bonsoir",
+    "startFromTemplate": "Lance une de tes séances types"
   },
   "workoutCard": {
     "exercises_one": "{{count}} exercice",
@@ -280,7 +281,8 @@
       "noTargetSets": "Aucune série cible (facultatif).",
       "rest": "Repos",
       "noRest": "Aucun"
-    }
+    },
+    "shortTitle": "Modèles"
   },
   "profile": {
     "shareProfile": "Partager mon profil",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Passe en mode Live pendant ta séance : il affiche une série à la fois, avec le minuteur de repos.",
+    "streakCalendar": "Appuie sur la flamme pour voir ton calendrier.",
+    "calendarBackfill": "Appuie sur un jour pour ajouter une séance oubliée."
   }
 }

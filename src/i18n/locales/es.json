@@ -184,7 +184,8 @@
     "empty": "Todavía no hay sesiones. ¡Empieza ya!",
     "greetingMorning": "Buenos días",
     "greetingAfternoon": "Buenas tardes",
-    "greetingEvening": "Buenas noches"
+    "greetingEvening": "Buenas noches",
+    "startFromTemplate": "Empieza una de tus rutinas"
   },
   "workoutCard": {
     "exercises_one": "{{count}} ejercicio",
@@ -280,7 +281,8 @@
       "noTargetSets": "Sin series objetivo (opcional).",
       "rest": "Descanso",
       "noRest": "Ninguno"
-    }
+    },
+    "shortTitle": "Plantillas"
   },
   "profile": {
     "shareProfile": "Compartir mi perfil",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Cambia al modo En vivo durante la sesión: muestra una serie a la vez, con el temporizador de descanso.",
+    "streakCalendar": "Toca la llama para ver tu calendario.",
+    "calendarBackfill": "Toca un día para añadir una sesión olvidada."
   }
 }

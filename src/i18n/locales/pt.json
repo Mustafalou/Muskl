@@ -184,7 +184,8 @@
     "empty": "Nenhum treino ainda. Bora começar!",
     "greetingMorning": "Bom dia",
     "greetingAfternoon": "Boa tarde",
-    "greetingEvening": "Boa noite"
+    "greetingEvening": "Boa noite",
+    "startFromTemplate": "Comece um dos seus treinos"
   },
   "workoutCard": {
     "exercises_one": "{{count}} exercício",
@@ -280,7 +281,8 @@
       "noTargetSets": "Sem séries alvo (opcional).",
       "rest": "Descanso",
       "noRest": "Nenhum"
-    }
+    },
+    "shortTitle": "Modelos"
   },
   "profile": {
     "shareProfile": "Compartilhar meu perfil",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Use o modo Ao vivo durante o treino: ele mostra uma série por vez, com o cronômetro.",
+    "streakCalendar": "Toque na chama para ver seu calendário.",
+    "calendarBackfill": "Toque em um dia para adicionar um treino esquecido."
   }
 }

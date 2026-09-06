@@ -184,7 +184,8 @@
     "empty": "Henüz antrenman yok. Hadi başla!",
     "greetingMorning": "Günaydın",
     "greetingAfternoon": "İyi günler",
-    "greetingEvening": "İyi akşamlar"
+    "greetingEvening": "İyi akşamlar",
+    "startFromTemplate": "Antrenmanlarından birini başlat"
   },
   "workoutCard": {
     "exercises_one": "{{count}} hareket",
@@ -280,7 +281,8 @@
       "noTargetSets": "Hedef set yok (isteğe bağlı).",
       "rest": "Dinlenme",
       "noRest": "Yok"
-    }
+    },
+    "shortTitle": "Şablonlar"
   },
   "profile": {
     "shareProfile": "Profilimi paylaş",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Antrenman sırasında Canlı moda geç: setleri tek tek gösterir, dinlenme sayacıyla birlikte.",
+    "streakCalendar": "Takvimini görmek için aleve dokun.",
+    "calendarBackfill": "Unuttuğun bir antrenmanı eklemek için bir güne dokun."
   }
 }

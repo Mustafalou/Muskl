@@ -184,7 +184,8 @@
     "empty": "Nog geen trainingen. Ga ervoor!",
     "greetingMorning": "Goedemorgen",
     "greetingAfternoon": "Goedemiddag",
-    "greetingEvening": "Goedenavond"
+    "greetingEvening": "Goedenavond",
+    "startFromTemplate": "Start een van je schema’s"
   },
   "workoutCard": {
     "exercises_one": "{{count}} oefening",
@@ -280,7 +281,8 @@
       "noTargetSets": "Geen doelsets (optioneel).",
       "rest": "Rust",
       "noRest": "Geen"
-    }
+    },
+    "shortTitle": "Sjablonen"
   },
   "profile": {
     "shareProfile": "Mijn profiel delen",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Zet Live-modus aan tijdens je training: hij toont één set tegelijk, met rusttimer.",
+    "streakCalendar": "Tik op de vlam om je kalender te zien.",
+    "calendarBackfill": "Tik op een dag om een vergeten training toe te voegen."
   }
 }

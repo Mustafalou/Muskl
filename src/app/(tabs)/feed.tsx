@@ -12,6 +12,7 @@ import { ThemedView } from '@/components/themed-view';
 import { WorkoutCard } from '@/components/workout-card';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { useTabContentInset } from '@/hooks/use-tab-content-inset';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/lib/supabase';
 import { loadWorkoutSocial, setLiked, type WorkoutSocial } from '@/lib/workout-social';
@@ -23,6 +24,7 @@ export default function FeedScreen() {
   const router = useRouter();
   const theme = useTheme();
   const { user } = useAuth();
+  const tabInset = useTabContentInset();
   const [workouts, setWorkouts] = useState<WorkoutWithAuthor[]>([]);
   const [summaries, setSummaries] = useState<Record<string, WorkoutSummary>>({});
   const [social, setSocial] = useState<Record<string, WorkoutSocial>>({});
@@ -121,13 +123,13 @@ export default function FeedScreen() {
     }, [loadFeed, loadPendingRequestsIndicator]),
   );
 
-  function handleToggleLike(workoutId: string) {
+  async function handleToggleLike(workoutId: string) {
     if (!user) return;
     const current = social[workoutId];
     if (!current) return;
 
-    // Optimistic: the heart has to answer instantly, and a failed write just gets corrected on the
-    // next load rather than blocking the tap.
+    // Optimistic: the heart has to answer instantly. If the write fails we put it back rather than
+    // leaving a filled heart that silently isn't saved.
     const nextLiked = !current.likedByMe;
     setSocial((previous) => ({
       ...previous,
@@ -137,7 +139,11 @@ export default function FeedScreen() {
         likeCount: current.likeCount + (nextLiked ? 1 : -1),
       },
     }));
-    setLiked(workoutId, user.id, nextLiked);
+
+    const succeeded = await setLiked(workoutId, user.id, nextLiked);
+    if (!succeeded) {
+      setSocial((previous) => ({ ...previous, [workoutId]: current }));
+    }
   }
 
   function handleReport(workout: WorkoutWithAuthor) {
@@ -218,7 +224,7 @@ export default function FeedScreen() {
         <FlatList
           data={workouts}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, { paddingBottom: tabInset }]}
           refreshControl={
             <RefreshControl refreshing={isLoading} onRefresh={loadFeed} tintColor={theme.tint} />
           }
@@ -284,6 +290,5 @@ const styles = StyleSheet.create({
   list: {
     gap: Spacing.two,
     paddingHorizontal: Spacing.four,
-    paddingBottom: Spacing.six,
   },
 });

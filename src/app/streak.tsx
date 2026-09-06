@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { HintCard } from '@/components/hint-card';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
@@ -121,6 +122,8 @@ export default function StreakScreen() {
               <ThemedText type="small">{t('streak.noGoalSet')}</ThemedText>
             </ThemedView>
           ) : null}
+
+          <HintCard id="calendar-backfill" text={t('hints.calendarBackfill')} />
 
           <ThemedView
             type="backgroundElement"

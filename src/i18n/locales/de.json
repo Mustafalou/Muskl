@@ -184,7 +184,8 @@
     "empty": "Noch keine Workouts. Leg los!",
     "greetingMorning": "Guten Morgen",
     "greetingAfternoon": "Guten Tag",
-    "greetingEvening": "Guten Abend"
+    "greetingEvening": "Guten Abend",
+    "startFromTemplate": "Starte eines deiner Programme"
   },
   "workoutCard": {
     "exercises_one": "{{count}} Übung",
@@ -280,7 +281,8 @@
       "noTargetSets": "Keine Zielsätze (optional).",
       "rest": "Pause",
       "noRest": "Keine"
-    }
+    },
+    "shortTitle": "Vorlagen"
   },
   "profile": {
     "shareProfile": "Mein Profil teilen",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Wechsle im Training in den Live-Modus: er zeigt einen Satz nach dem anderen, mit Pausentimer.",
+    "streakCalendar": "Tippe auf die Flamme, um deinen Kalender zu sehen.",
+    "calendarBackfill": "Tippe auf einen Tag, um ein vergessenes Workout nachzutragen."
   }
 }

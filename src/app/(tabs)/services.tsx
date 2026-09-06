@@ -7,17 +7,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
+import { useTabContentInset } from '@/hooks/use-tab-content-inset';
 import { useTheme } from '@/hooks/use-theme';
 
 export default function ServicesScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
+  const tabInset = useTabContentInset();
 
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
-        <View style={styles.list}>
+        <View style={[styles.list, { paddingBottom: tabInset }]}>
           <Pressable onPress={() => router.push('/services/progression')} style={({ pressed }) => pressed && styles.pressed}>
             <ThemedView type="backgroundElement" style={[styles.card, { borderColor: theme.border }]}>
               <View style={[styles.iconBadge, { backgroundColor: theme.tint }]}>

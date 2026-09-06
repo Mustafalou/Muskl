@@ -6,6 +6,7 @@ import { ActivityIndicator, Alert, Pressable, StyleSheet, TextInput, View } from
 import Animated, { useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 
 import { ExerciseSection } from '@/components/exercise-section';
+import { HintCard } from '@/components/hint-card';
 import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { RestTimerRing } from '@/components/rest-timer-ring';
@@ -16,6 +17,7 @@ import { WorkoutComments } from '@/components/workout-comments';
 import { getExerciseDisplayName } from '@/constants/exercise-catalog';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { useHint } from '@/hooks/use-hint';
 import { REST_DURATIONS, useRestTimer } from '@/hooks/use-rest-timer';
 import { useTheme } from '@/hooks/use-theme';
 import type { SupportedLanguage } from '@/i18n';
@@ -330,6 +332,7 @@ export default function WorkoutDetailScreen() {
   }
 
   const isOwner = !!user && workout?.user_id === user.id;
+  const { dismiss: dismissLiveHint } = useHint('live-mode');
 
   return (
     <ThemedView style={styles.flex}>
@@ -345,6 +348,10 @@ export default function WorkoutDetailScreen() {
         </ThemedView>
       ) : workout ? (
         <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+          {isOwner && exercises.length > 0 ? (
+            <HintCard id="live-mode" text={t('hints.liveMode')} />
+          ) : null}
+
           {/* Rapport/Live is the most important control on this screen, so it comes first rather
               than sitting below the date and notes. */}
           {isOwner ? (
@@ -363,6 +370,9 @@ export default function WorkoutDetailScreen() {
               </Pressable>
               <Pressable
                 onPress={() => {
+                  // Using Live is proof the hint was understood, so retire it even if the card
+                  // was never explicitly closed.
+                  dismissLiveHint();
                   // Only reset to the very first exercise/set the first time Live mode is
                   // entered — switching Report -> Live afterwards should resume where the
                   // session actually is, not restart it.

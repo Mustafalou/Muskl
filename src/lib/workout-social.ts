@@ -56,11 +56,24 @@ export async function loadWorkoutSocial(
   return social;
 }
 
-export async function setLiked(workoutId: string, userId: string, liked: boolean) {
-  if (liked) {
-    // Ignores the duplicate-key error from double-tapping: the end state is what matters.
-    await supabase.from('workout_likes').upsert({ workout_id: workoutId, user_id: userId });
-  } else {
-    await supabase.from('workout_likes').delete().eq('workout_id', workoutId).eq('user_id', userId);
-  }
+/**
+ * Returns whether the write actually landed, so an optimistic heart can be rolled back instead of
+ * lying about a like that never reached the database.
+ *
+ * Plain insert rather than upsert on purpose: PostgREST turns upsert into
+ * `INSERT ... ON CONFLICT DO UPDATE`, which Postgres refuses without UPDATE privilege even when
+ * nothing conflicts — and this table only grants SELECT/INSERT/DELETE. A duplicate can't happen
+ * anyway, since the UI only inserts when the row isn't already liked.
+ */
+export async function setLiked(
+  workoutId: string,
+  userId: string,
+  liked: boolean,
+): Promise<boolean> {
+  const { error } = liked
+    ? await supabase.from('workout_likes').insert({ workout_id: workoutId, user_id: userId })
+    : await supabase.from('workout_likes').delete().eq('workout_id', workoutId).eq('user_id', userId);
+
+  // A duplicate means the end state is already what we wanted.
+  return !error || error.code === '23505';
 }

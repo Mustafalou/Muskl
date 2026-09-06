@@ -17,6 +17,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { useTabContentInset } from '@/hooks/use-tab-content-inset';
 import { useTheme } from '@/hooks/use-theme';
 import { setAppLanguage, SUPPORTED_LANGUAGES, type SupportedLanguage } from '@/i18n';
 import { supabase } from '@/lib/supabase';
@@ -62,6 +63,7 @@ export default function ProfileScreen() {
   const theme = useTheme();
   const { user, logout, profileError } = useAuth();
   const { unitSystem, setUnitSystem } = useUnits();
+  const tabInset = useTabContentInset();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [stats, setStats] = useState<ProfileStats | null>(null);
@@ -395,7 +397,9 @@ export default function ProfileScreen() {
   return (
     <ThemedView style={styles.flex}>
       <SafeAreaView style={styles.flex} edges={['top']}>
-        <KeyboardAwareForm style={styles.flex} contentContainerStyle={styles.content}>
+        <KeyboardAwareForm
+          style={styles.flex}
+          contentContainerStyle={[styles.content, { paddingBottom: tabInset }]}>
           <View style={styles.header}>
             <Pressable onPress={handlePickAvatar} style={styles.avatarWrapper}>
               <Avatar uri={profile.avatar_url} size={96} />

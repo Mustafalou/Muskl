@@ -2,22 +2,25 @@ import { SymbolView } from 'expo-symbols';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { FlatList, Pressable, RefreshControl, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Avatar } from '@/components/avatar';
 import { HeaderIconButton } from '@/components/header-icon-button';
+import { HintCard } from '@/components/hint-card';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WeeklyStatsBar } from '@/components/weekly-stats-bar';
 import { WorkoutCard } from '@/components/workout-card';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { useTabContentInset } from '@/hooks/use-tab-content-inset';
 import { useTheme } from '@/hooks/use-theme';
+import { startTemplate } from '@/lib/start-template';
 import { supabase } from '@/lib/supabase';
 import { loadWorkoutSummaries, type WorkoutSummary } from '@/lib/workout-summary';
-import type { Workout } from '@/types';
+import type { Workout, WorkoutTemplate } from '@/types';
 
 function greetingKey() {
   const hour = new Date().getHours();
@@ -31,9 +34,12 @@ export default function MyWorkoutsScreen() {
   const router = useRouter();
   const theme = useTheme();
   const { user } = useAuth();
+  const tabInset = useTabContentInset();
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [summaries, setSummaries] = useState<Record<string, WorkoutSummary>>({});
   const [weeklyGoal, setWeeklyGoal] = useState<number | null>(null);
+  const [templates, setTemplates] = useState<WorkoutTemplate[]>([]);
+  const [startingTemplateId, setStartingTemplateId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +49,7 @@ export default function MyWorkoutsScreen() {
     if (!user) return;
     setError(null);
 
-    const [workoutsResult, statsResult, profileResult] = await Promise.all([
+    const [workoutsResult, statsResult, profileResult, templatesResult] = await Promise.all([
       supabase
         .from('workouts')
         .select('id, user_id, name, date, notes, created_at')
@@ -52,6 +58,11 @@ export default function MyWorkoutsScreen() {
         .order('created_at', { ascending: false }),
       supabase.from('profile_stats').select('weekly_goal').eq('user_id', user.id).maybeSingle(),
       supabase.from('profiles').select('username, avatar_url').eq('id', user.id).maybeSingle(),
+      supabase
+        .from('workout_templates')
+        .select('id, user_id, name, created_at')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true }),
     ]);
 
     if (workoutsResult.error) {
@@ -64,6 +75,7 @@ export default function MyWorkoutsScreen() {
     setWeeklyGoal(statsResult.data?.weekly_goal ?? null);
     setUsername(profileResult.data?.username ?? null);
     setAvatarUrl(profileResult.data?.avatar_url ?? null);
+    setTemplates(templatesResult.data ?? []);
     setIsLoading(false);
   }, [user]);
 
@@ -72,6 +84,19 @@ export default function MyWorkoutsScreen() {
       loadWorkouts();
     }, [loadWorkouts]),
   );
+
+  async function handleStartTemplate(template: WorkoutTemplate) {
+    if (!user || startingTemplateId) return;
+    setStartingTemplateId(template.id);
+    const result = await startTemplate(template.id, template.name, user.id);
+    setStartingTemplateId(null);
+
+    if (result.workoutId) {
+      router.push(`/workout/${result.workoutId}`);
+    } else if (result.error) {
+      setError(result.error);
+    }
+  }
 
   return (
     <ThemedView style={styles.flex}>
@@ -91,10 +116,22 @@ export default function MyWorkoutsScreen() {
             </ThemedView>
           </ThemedView>
           <ThemedView style={styles.headerActions}>
-            <HeaderIconButton
+            {/* Labelled rather than a bare icon: nobody guesses what a stack glyph opens, and the
+                Android icon used to be a music-playlist one. */}
+            <Pressable
               onPress={() => router.push('/templates')}
-              symbol={{ ios: 'rectangle.stack', android: 'queue_music', web: 'queue_music' }}
-            />
+              style={({ pressed }) => [
+                styles.templatesButton,
+                { backgroundColor: theme.backgroundElement, borderColor: theme.border },
+                pressed && styles.pressed,
+              ]}>
+              <SymbolView
+                name={{ ios: 'rectangle.stack', android: 'list_alt', web: 'list_alt' }}
+                tintColor={theme.text}
+                size={16}
+              />
+              <ThemedText type="small">{t('templates.shortTitle')}</ThemedText>
+            </Pressable>
             <HeaderIconButton
               onPress={() => router.push('/workout/new')}
               symbol={{ ios: 'plus', android: 'add', web: 'add' }}
@@ -110,6 +147,12 @@ export default function MyWorkoutsScreen() {
             {error}
           </ThemedText>
         ) : null}
+        {workouts.length > 0 ? (
+          <View style={styles.hintWrapper}>
+            <HintCard id="streak-calendar" text={t('hints.streakCalendar')} />
+          </View>
+        ) : null}
+
         {!error && !isLoading && workouts.length === 0 ? (
           <Animated.View entering={FadeIn} style={styles.emptyState}>
             <SymbolView
@@ -117,16 +160,45 @@ export default function MyWorkoutsScreen() {
               tintColor={theme.textSecondary}
               size={40}
             />
-            <ThemedText themeColor="textSecondary" style={styles.emptyText}>
-              {t('myWorkouts.empty')}
-            </ThemedText>
+            {/* The onboarding questionnaire hands new users a set of templates; without this they'd
+                land on an empty screen with those templates hidden behind a header button. */}
+            {templates.length > 0 ? (
+              <>
+                <ThemedText themeColor="textSecondary" style={styles.emptyText}>
+                  {t('myWorkouts.startFromTemplate')}
+                </ThemedText>
+                <View style={styles.templateChips}>
+                  {templates.map((template) => (
+                    <Pressable
+                      key={template.id}
+                      onPress={() => handleStartTemplate(template)}
+                      disabled={startingTemplateId !== null}
+                      style={[
+                        styles.templateChip,
+                        {
+                          backgroundColor:
+                            startingTemplateId === template.id ? theme.backgroundSelected : theme.tint,
+                        },
+                      ]}>
+                      <ThemedText type="smallBold" style={{ color: theme.background }}>
+                        {template.name}
+                      </ThemedText>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            ) : (
+              <ThemedText themeColor="textSecondary" style={styles.emptyText}>
+                {t('myWorkouts.empty')}
+              </ThemedText>
+            )}
           </Animated.View>
         ) : null}
 
         <FlatList
           data={workouts}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, { paddingBottom: tabInset }]}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
@@ -186,9 +258,36 @@ const styles = StyleSheet.create({
   emptyText: {
     textAlign: 'center',
   },
+  templateChips: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: Spacing.two,
+    marginTop: Spacing.two,
+  },
+  templateChip: {
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    borderRadius: Spacing.five,
+  },
+  templatesButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.one,
+    height: 40,
+    paddingHorizontal: Spacing.three,
+    borderRadius: Spacing.five,
+    borderWidth: 1,
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+  hintWrapper: {
+    paddingHorizontal: Spacing.four,
+    paddingBottom: Spacing.three,
+  },
   list: {
     gap: Spacing.two,
     paddingHorizontal: Spacing.four,
-    paddingBottom: Spacing.six,
   },
 });

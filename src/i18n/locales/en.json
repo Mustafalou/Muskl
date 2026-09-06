@@ -184,7 +184,8 @@
     "empty": "No workouts yet. Get started!",
     "greetingMorning": "Good morning",
     "greetingAfternoon": "Good afternoon",
-    "greetingEvening": "Good evening"
+    "greetingEvening": "Good evening",
+    "startFromTemplate": "Start one of your routines"
   },
   "workoutCard": {
     "exercises_one": "{{count}} exercise",
@@ -280,7 +281,8 @@
       "noTargetSets": "No target sets (optional).",
       "rest": "Rest",
       "noRest": "None"
-    }
+    },
+    "shortTitle": "Templates"
   },
   "profile": {
     "shareProfile": "Share my profile",
@@ -373,5 +375,10 @@
         }
       ]
     }
+  },
+  "hints": {
+    "liveMode": "Switch to Live mode during your workout: it shows one set at a time, with the rest timer.",
+    "streakCalendar": "Tap the flame to see your calendar.",
+    "calendarBackfill": "Tap a day to add a workout you forgot."
   }
 }
