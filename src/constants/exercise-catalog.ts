@@ -513,9 +513,30 @@ const EXERCISES_BY_MUSCLE: Record<MuscleGroupKey, Record<SupportedLanguage, stri
   },
 };
 
+/** How an exercise's sets are measured. Mirrors the `exercises.metric` column. */
+export type SetMetric = 'reps' | 'duration' | 'distance';
+
+/**
+ * Catalog exercises that aren't measured in reps × load. Everything absent from this map is
+ * `reps`, which is the overwhelming majority — listing only the exceptions keeps the exercise
+ * arrays above untouched and avoids repeating 'reps' 57 times.
+ */
+const CATALOG_METRICS: Record<string, SetMetric> = {
+  'abs:2': 'duration', // Plank
+  'cardio:2': 'duration', // Jump rope
+  'cardio:3': 'duration', // Rowing machine
+  'cardio:4': 'duration', // Assault bike
+};
+
+export function catalogMetric(catalogKey: string | null | undefined): SetMetric {
+  if (!catalogKey) return 'reps';
+  return CATALOG_METRICS[catalogKey] ?? 'reps';
+}
+
 export type CatalogExercise = {
   name: string;
   muscle: string;
+  metric: SetMetric;
   // Stable across languages (`${muscleGroup}:${indexWithinGroup}`) — lets any viewer's language
   // re-render this exercise's name via translateCatalogExerciseName, even if the workout was
   // logged by someone else in a different language. IMPORTANT: only ever append to the end of a
@@ -534,6 +555,7 @@ export function getExerciseCatalog(language: SupportedLanguage): CatalogExercise
       name,
       muscle: MUSCLE_GROUP_LABELS[language][key],
       catalogKey: `${key}:${index}`,
+      metric: catalogMetric(`${key}:${index}`),
     })),
   );
 }

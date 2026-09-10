@@ -18,13 +18,17 @@ import { getExerciseDisplayName } from '@/constants/exercise-catalog';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useHint } from '@/hooks/use-hint';
+import { usePendingWrites } from '@/hooks/use-pending-writes';
 import { REST_DURATIONS, useRestTimer } from '@/hooks/use-rest-timer';
 import { useTheme } from '@/hooks/use-theme';
 import type { SupportedLanguage } from '@/i18n';
 import { createTemplateFromWorkout } from '@/lib/create-template-from-workout';
+import { formatDuration } from '@/lib/format-duration';
 import { groupSetsByOrder, type SetGroup } from '@/lib/group-sets';
 import { clearLiveSession, loadLiveSession, saveLiveSession } from '@/lib/live-session';
+import { isNetworkError, newId, runWrite } from '@/lib/offline-queue';
 import { supabase } from '@/lib/supabase';
+import { clearWorkoutCache, loadWorkoutCache, saveWorkoutCache } from '@/lib/workout-cache';
 import {
   formatWeight,
   toDisplayWeight,
@@ -63,15 +67,49 @@ export default function WorkoutDetailScreen() {
   const [workoutNotes, setWorkoutNotes] = useState('');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
   const restTimer = useRestTimer();
+  const pendingWrites = usePendingWrites();
   const hasResumedRef = useRef(false);
   const hasEnteredLiveRef = useRef(false);
 
-  const loadWorkout = useCallback(async () => {
+  const maybeResumeLive = useCallback(async () => {
+    if (resume !== '1' || hasResumedRef.current) return;
+    hasResumedRef.current = true;
+
+    const session = await loadLiveSession();
+    if (!session || session.workoutId !== id) return;
+
+    hasEnteredLiveRef.current = true;
+    setCurrentExerciseIndex(session.exerciseIndex);
+    setInitialSetIndex(session.setIndex);
+    setViewMode('live');
+    if (session.restEndTime) {
+      restTimer.restoreTimer(session.restEndTime, session.restDuration);
+    } else {
+      restTimer.setDuration(session.restDuration);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- restTimer is a stable handle; re-running on it would restart the countdown
+  }, [id, resume]);
+
+  const loadWorkoutFromServer = useCallback(async () => {
     const { data: workoutRow, error: workoutError } = await supabase
       .from('workouts')
       .select('id, user_id, name, date, notes, created_at')
       .eq('id', id)
       .single();
+
+    // No signal: fall back to what was last displayed so the session can carry on in a basement.
+    // Writes made from here are parked by the queue and replayed when the network returns.
+    if (isNetworkError(workoutError)) {
+      const cached = await loadWorkoutCache<WorkoutDetail, ExerciseWithSets>(id);
+      if (cached) {
+        setWorkout(cached.workout);
+        setWorkoutNotes(cached.workout.notes ?? '');
+        setExercises(cached.exercises);
+        await maybeResumeLive();
+        setIsLoading(false);
+        return;
+      }
+    }
 
     if (workoutError || !workoutRow) {
       // PGRST116 = .single() got zero rows (e.g. a stale resume-session pointing at a workout
@@ -93,7 +131,7 @@ export default function WorkoutDetailScreen() {
 
     const { data: exerciseRows, error: exercisesError } = await supabase
       .from('exercises')
-      .select('id, workout_id, name, order, rest_seconds, catalog_key, notes')
+      .select('id, workout_id, name, order, rest_seconds, catalog_key, notes, metric')
       .eq('workout_id', id)
       .order('order', { ascending: true });
 
@@ -109,7 +147,7 @@ export default function WorkoutDetailScreen() {
     if (exerciseIds.length > 0) {
       const { data: setRows, error: setsError } = await supabase
         .from('sets')
-        .select('id, exercise_id, reps, weight, rpe, order, drop_index')
+        .select('id, exercise_id, reps, weight, rpe, order, drop_index, duration_seconds, distance_m')
         .in('exercise_id', exerciseIds)
         .order('order', { ascending: true })
         .order('drop_index', { ascending: true });
@@ -125,34 +163,41 @@ export default function WorkoutDetailScreen() {
       }
     }
 
-    setWorkout({ ...workoutRow, username: profileRow?.username ?? null });
-    setWorkoutNotes(workoutRow.notes ?? '');
-    setExercises(
-      (exerciseRows ?? []).map((exercise) => ({
-        ...exercise,
-        sets: setsByExercise[exercise.id] ?? [],
-      })),
-    );
+    const loadedWorkout = { ...workoutRow, username: profileRow?.username ?? null };
+    const loadedExercises = (exerciseRows ?? []).map((exercise) => ({
+      ...exercise,
+      sets: setsByExercise[exercise.id] ?? [],
+    }));
 
-    if (resume === '1' && !hasResumedRef.current) {
-      hasResumedRef.current = true;
-      const session = await loadLiveSession();
-      if (session && session.workoutId === id) {
-        hasEnteredLiveRef.current = true;
-        setCurrentExerciseIndex(session.exerciseIndex);
-        setInitialSetIndex(session.setIndex);
-        setViewMode('live');
-        if (session.restEndTime) {
-          restTimer.restoreTimer(session.restEndTime, session.restDuration);
-        } else {
-          restTimer.setDuration(session.restDuration);
-        }
-      }
-    }
+    setWorkout(loadedWorkout);
+    setWorkoutNotes(workoutRow.notes ?? '');
+    setExercises(loadedExercises);
+
+    await maybeResumeLive();
 
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- t/i18n/resume/restTimer intentionally excluded; only re-fetch on id change, not language change
   }, [id]);
+
+  // Falls back to the cache whichever way the network fails: a returned error is handled inline
+  // below, a thrown one lands here — otherwise the screen would spin forever.
+  const loadWorkout = useCallback(async () => {
+    try {
+      await loadWorkoutFromServer();
+    } catch {
+      const cached = await loadWorkoutCache<WorkoutDetail, ExerciseWithSets>(id);
+      if (cached) {
+        setWorkout(cached.workout);
+        setWorkoutNotes(cached.workout.notes ?? '');
+        setExercises(cached.exercises);
+        await maybeResumeLive();
+      } else {
+        setError(t('workout.detail.notFound'));
+      }
+      setIsLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- t is excluded so a language change doesn't re-fetch
+  }, [id, loadWorkoutFromServer, maybeResumeLive]);
 
   useFocusEffect(
     useCallback(() => {
@@ -160,29 +205,34 @@ export default function WorkoutDetailScreen() {
     }, [loadWorkout]),
   );
 
+  // Mirrors whatever is on screen — including sets the queue hasn't synced yet — so reopening the
+  // workout without signal shows the real session instead of an empty one.
+  useEffect(() => {
+    if (!workout) return;
+    saveWorkoutCache(id, workout, exercises);
+  }, [id, workout, exercises]);
+
   function handleDeleteExercise(exerciseId: string) {
     setExercises((prev) => prev.filter((exercise) => exercise.id !== exerciseId));
-    supabase
-      .from('exercises')
-      .delete()
-      .eq('id', exerciseId)
-      .then(({ error: deleteError }) => {
-        if (deleteError) setError(deleteError.message);
-      });
+    runWrite({ kind: 'delete', table: 'exercises', match: { id: exerciseId } }).then(({ error: deleteError }) => {
+      if (deleteError) setError(deleteError);
+    });
   }
 
   async function handleSaveWorkoutNotes() {
     if (!workout || workoutNotes === (workout.notes ?? '')) return;
     setIsSavingNotes(true);
     const notes = workoutNotes.trim() || null;
-    const { error: updateError } = await supabase
-      .from('workouts')
-      .update({ notes })
-      .eq('id', workout.id);
+    const { error: updateError } = await runWrite({
+      kind: 'update',
+      table: 'workouts',
+      values: { notes },
+      match: { id: workout.id },
+    });
     setIsSavingNotes(false);
 
     if (updateError) {
-      setError(updateError.message);
+      setError(updateError);
       return;
     }
     setWorkout((prev) => (prev ? { ...prev, notes } : prev));
@@ -193,45 +243,50 @@ export default function WorkoutDetailScreen() {
       prev.map((exercise) => (exercise.id === exerciseId ? { ...exercise, notes } : exercise)),
     );
 
-    const { error: updateError } = await supabase
-      .from('exercises')
-      .update({ notes })
-      .eq('id', exerciseId);
+    const { error: updateError } = await runWrite({
+      kind: 'update',
+      table: 'exercises',
+      values: { notes },
+      match: { id: exerciseId },
+    });
 
     if (updateError) {
-      setError(updateError.message);
+      setError(updateError);
     }
   }
 
   async function handleAddSet(
     exerciseId: string,
-    drops: { weight: number; reps: number }[],
+    drops: { weight: number; reps: number; durationSeconds?: number | null }[],
     rpe: number | null,
   ) {
     const exercise = exercises.find((item) => item.id === exerciseId);
     const nextOrder = new Set((exercise?.sets ?? []).map((set) => set.order)).size;
 
-    const rows = drops.map((drop, dropIndex) => ({
+    // Picking the ids here is what lets a set be logged without signal: the row is complete before
+    // it ever reaches the server, so there's nothing to read back and nothing to renumber later.
+    // Not the `Set` type from '@/types': importing it here would shadow the global `Set` used above.
+    const rows: ExerciseWithSets['sets'] = drops.map((drop, dropIndex) => ({
+      id: newId(),
       exercise_id: exerciseId,
       reps: drop.reps,
       weight: drop.weight,
+      duration_seconds: drop.durationSeconds ?? null,
+      distance_m: null,
       rpe: dropIndex === 0 ? rpe : null,
       order: nextOrder,
       drop_index: dropIndex,
     }));
 
-    const { data, error: insertError } = await supabase
-      .from('sets')
-      .insert(rows)
-      .select('id, exercise_id, reps, weight, rpe, order, drop_index');
+    const { error: writeError } = await runWrite({ kind: 'insert', table: 'sets', rows });
 
-    if (insertError || !data) {
-      setError(insertError?.message ?? t('workout.detail.addSetFailed'));
+    if (writeError) {
+      setError(writeError);
       return;
     }
 
     setExercises((prev) =>
-      prev.map((item) => (item.id === exerciseId ? { ...item, sets: [...item.sets, ...data] } : item)),
+      prev.map((item) => (item.id === exerciseId ? { ...item, sets: [...item.sets, ...rows] } : item)),
     );
   }
 
@@ -244,25 +299,43 @@ export default function WorkoutDetailScreen() {
     return restTimer.startTimer();
   }
 
-  async function handleUpdateSet(updates: { id: string; weight: number; reps: number }[]) {
+  async function handleUpdateSet(
+    updates: { id: string; weight: number; reps: number; durationSeconds?: number | null }[],
+  ) {
     setExercises((prev) =>
       prev.map((exercise) => ({
         ...exercise,
         sets: exercise.sets.map((set) => {
           const update = updates.find((item) => item.id === set.id);
-          return update ? { ...set, weight: update.weight, reps: update.reps } : set;
+          return update
+            ? {
+                ...set,
+                weight: update.weight,
+                reps: update.reps,
+                duration_seconds:
+                  update.durationSeconds === undefined ? set.duration_seconds : update.durationSeconds,
+              }
+            : set;
         }),
       })),
     );
 
     for (const update of updates) {
-      const { error: updateError } = await supabase
-        .from('sets')
-        .update({ weight: update.weight, reps: update.reps })
-        .eq('id', update.id);
+      const { error: updateError } = await runWrite({
+        kind: 'update',
+        table: 'sets',
+        values: {
+          weight: update.weight,
+          reps: update.reps,
+          ...(update.durationSeconds === undefined
+            ? {}
+            : { duration_seconds: update.durationSeconds }),
+        },
+        match: { id: update.id },
+      });
 
       if (updateError) {
-        setError(updateError.message);
+        setError(updateError);
       }
     }
   }
@@ -274,30 +347,27 @@ export default function WorkoutDetailScreen() {
         sets: exercise.sets.filter((set) => !setIds.includes(set.id)),
       })),
     );
-    supabase
-      .from('sets')
-      .delete()
-      .in('id', setIds)
-      .then(({ error: deleteError }) => {
-        if (deleteError) setError(deleteError.message);
-      });
+    runWrite({ kind: 'delete', table: 'sets', match: { id: setIds } }).then(({ error: deleteError }) => {
+      if (deleteError) setError(deleteError);
+    });
   }
 
   async function handleDeleteWorkout() {
     const exerciseIds = exercises.map((exercise) => exercise.id);
 
     if (exerciseIds.length > 0) {
-      await supabase.from('sets').delete().in('exercise_id', exerciseIds);
-      await supabase.from('exercises').delete().in('id', exerciseIds);
+      await runWrite({ kind: 'delete', table: 'sets', match: { exercise_id: exerciseIds } });
+      await runWrite({ kind: 'delete', table: 'exercises', match: { id: exerciseIds } });
     }
 
-    const { error: deleteError } = await supabase.from('workouts').delete().eq('id', id);
+    const { error: deleteError } = await runWrite({ kind: 'delete', table: 'workouts', match: { id } });
 
     if (deleteError) {
-      setError(deleteError.message);
+      setError(deleteError);
       return;
     }
 
+    await clearWorkoutCache(id);
     await clearLiveSession();
     router.replace('/');
   }
@@ -449,6 +519,21 @@ export default function WorkoutDetailScreen() {
             </ThemedText>
           ) : null}
 
+          {/* Reassurance, not an error: the session is being recorded, it just hasn't reached the
+              server yet. Without it a user offline has no way to know their sets are safe. */}
+          {pendingWrites > 0 ? (
+            <ThemedView type="backgroundElement" style={[styles.pendingBanner, { borderColor: theme.border }]}>
+              <SymbolView
+                name={{ ios: 'arrow.clockwise', android: 'sync', web: 'sync' }}
+                tintColor={theme.textSecondary}
+                size={14}
+              />
+              <ThemedText type="small" themeColor="textSecondary" style={styles.pendingText}>
+                {t('workout.detail.pendingSync', { count: pendingWrites })}
+              </ThemedText>
+            </ThemedView>
+          ) : null}
+
           {viewMode === 'live' && isOwner && exercises.length > 0 ? (
             <LiveWorkoutView
               exercises={exercises}
@@ -559,10 +644,12 @@ type LiveWorkoutViewProps = {
   onFinish: () => void;
   onAddSet: (
     exerciseId: string,
-    drops: { weight: number; reps: number }[],
+    drops: { weight: number; reps: number; durationSeconds?: number | null }[],
     rpe: number | null,
   ) => Promise<number>;
-  onUpdateSet: (updates: { id: string; weight: number; reps: number }[]) => Promise<void>;
+  onUpdateSet: (
+    updates: { id: string; weight: number; reps: number; durationSeconds?: number | null }[],
+  ) => Promise<void>;
   restTimer: ReturnType<typeof useRestTimer>;
 };
 
@@ -636,9 +723,10 @@ function seedActiveValues(group: SetGroup | undefined, unitSystem: UnitSystem) {
     return {
       weight: String(toDisplayWeight(group.sets[0].weight, unitSystem)),
       reps: String(group.sets[0].reps),
+      duration: group.sets[0].duration_seconds != null ? String(group.sets[0].duration_seconds) : '',
     };
   }
-  return { weight: '', reps: '' };
+  return { weight: '', reps: '', duration: '' };
 }
 
 function LiveWorkoutView({
@@ -659,6 +747,8 @@ function LiveWorkoutView({
   const groups = groupSetsByOrder(exercise.sets);
 
   const { unitSystem } = useUnits();
+  // A plank or a jump-rope round is logged in seconds; the weight/reps steppers make no sense.
+  const isTimed = exercise.metric === 'duration';
   const [currentSetIndex, setCurrentSetIndex] = useState(initialSetIndex);
   const [activeValues, setActiveValues] = useState(() =>
     seedActiveValues(groups[initialSetIndex], unitSystem),
@@ -722,7 +812,19 @@ function LiveWorkoutView({
     if (!group) return;
 
     setIsSubmitting(true);
-    if (group.sets.length === 1) {
+    if (isTimed && group.sets.length === 1) {
+      const seconds = parseInt(activeValues.duration, 10);
+      if (Number.isFinite(seconds) && seconds !== group.sets[0].duration_seconds) {
+        await onUpdateSet([
+          {
+            id: group.sets[0].id,
+            weight: group.sets[0].weight,
+            reps: group.sets[0].reps,
+            durationSeconds: seconds,
+          },
+        ]);
+      }
+    } else if (group.sets.length === 1) {
       const typedWeight = parseFloat(activeValues.weight);
       const reps = parseInt(activeValues.reps, 10);
       const weight = Number.isFinite(typedWeight)
@@ -748,11 +850,16 @@ function LiveWorkoutView({
 
   const canCompleteSet =
     !isSubmitting &&
-    (groups[currentSetIndex]?.sets.length !== 1 ||
-      (Number.isFinite(parseFloat(activeValues.weight)) && Number.isFinite(parseInt(activeValues.reps, 10))));
+    (isTimed
+      ? Number.isFinite(parseInt(activeValues.duration, 10)) && parseInt(activeValues.duration, 10) > 0
+      : groups[currentSetIndex]?.sets.length !== 1 ||
+        (Number.isFinite(parseFloat(activeValues.weight)) &&
+          Number.isFinite(parseInt(activeValues.reps, 10))));
 
   function startEditing(group: SetGroup) {
-    if (group.sets.length !== 1) return;
+    // Editing a completed set is weight/reps-only for now; showing those fields for a plank would
+    // be worse than not offering the edit at all. Correcting a duration is done from the report.
+    if (isTimed || group.sets.length !== 1) return;
     setEditingOrder(group.order);
     setEditValues({
       weight: String(toDisplayWeight(group.sets[0].weight, unitSystem)),
@@ -771,6 +878,24 @@ function LiveWorkoutView({
   }
 
   async function handleAddExtraSet() {
+    if (isTimed) {
+      const seconds = parseInt(extraValues.weight, 10); // the single field is reused for seconds
+      if (!Number.isFinite(seconds) || seconds <= 0) return;
+      setIsSubmitting(true);
+      const endTime = await onAddSet(
+        exercise.id,
+        [{ weight: 0, reps: 0, durationSeconds: seconds }],
+        null,
+      );
+      setIsSubmitting(false);
+      playCompletionPulse();
+      setExtraValues({ weight: '', reps: '' });
+      const next = currentSetIndex + 1;
+      setCurrentSetIndex(next);
+      persistSession(currentIndex, next, endTime);
+      return;
+    }
+
     const typedWeight = parseFloat(extraValues.weight);
     const reps = parseInt(extraValues.reps, 10);
     if (!Number.isFinite(typedWeight) || !Number.isFinite(reps)) return;
@@ -869,7 +994,16 @@ function LiveWorkoutView({
                     <ThemedText type="smallBold" themeColor="tint">
                       {setIdx + 1}
                     </ThemedText>
-                    {group.sets.length === 1 ? (
+                    {isTimed ? (
+                      <View style={styles.stepperRow}>
+                        <StepperField
+                          label={t('exercise.colDurationSeconds')}
+                          value={activeValues.duration}
+                          onChangeText={(value) => setActiveValues((prev) => ({ ...prev, duration: value }))}
+                          step={15}
+                        />
+                      </View>
+                    ) : group.sets.length === 1 ? (
                       <View style={styles.stepperRow}>
                         <StepperField
                           label={`${t('exercise.colWeight')} (${weightUnitLabel(unitSystem)})`}
@@ -888,7 +1022,13 @@ function LiveWorkoutView({
                     ) : (
                       <ThemedText style={styles.setContent}>
                         {group.sets
-                          .map((set, i) => `${i > 0 ? ' → ' : ''}${formatWeight(set.weight, unitSystem)} × ${set.reps}`)
+                          .map((set, i) => `${i > 0 ? ' → ' : ''}${
+                            isTimed
+                              ? set.duration_seconds != null
+                                ? formatDuration(set.duration_seconds)
+                                : '–'
+                              : `${formatWeight(set.weight, unitSystem)} × ${set.reps}`
+                          }`)
                           .join('')}
                       </ThemedText>
                     )}
@@ -941,7 +1081,13 @@ function LiveWorkoutView({
                         style={styles.setContent}>
                         <ThemedText type="small" themeColor="textSecondary">
                           {group.sets
-                            .map((set, i) => `${i > 0 ? ' → ' : ''}${formatWeight(set.weight, unitSystem)} × ${set.reps}`)
+                            .map((set, i) => `${i > 0 ? ' → ' : ''}${
+                            isTimed
+                              ? set.duration_seconds != null
+                                ? formatDuration(set.duration_seconds)
+                                : '–'
+                              : `${formatWeight(set.weight, unitSystem)} × ${set.reps}`
+                          }`)
                             .join('')}
                         </ThemedText>
                       </Pressable>
@@ -957,7 +1103,13 @@ function LiveWorkoutView({
                   </ThemedText>
                   <ThemedText type="small" themeColor="textSecondary" style={styles.setContent}>
                     {group.sets
-                      .map((set, i) => `${i > 0 ? ' → ' : ''}${formatWeight(set.weight, unitSystem)} × ${set.reps}`)
+                      .map((set, i) => `${i > 0 ? ' → ' : ''}${
+                            isTimed
+                              ? set.duration_seconds != null
+                                ? formatDuration(set.duration_seconds)
+                                : '–'
+                              : `${formatWeight(set.weight, unitSystem)} × ${set.reps}`
+                          }`)
                       .join('')}
                   </ThemedText>
                 </View>
@@ -976,29 +1128,31 @@ function LiveWorkoutView({
                     styles.input,
                     { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
                   ]}
-                  placeholder={weightUnitLabel(unitSystem)}
+                  placeholder={isTimed ? t('exercise.colDurationSeconds') : weightUnitLabel(unitSystem)}
                   placeholderTextColor={theme.textSecondary}
-                  keyboardType="decimal-pad"
+                  keyboardType={isTimed ? 'number-pad' : 'decimal-pad'}
                   value={extraValues.weight}
                   onChangeText={(value) => setExtraValues((prev) => ({ ...prev, weight: value }))}
                 />
-                <TextInput
-                  style={[
-                    styles.input,
-                    { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
-                  ]}
-                  placeholder="reps"
-                  placeholderTextColor={theme.textSecondary}
-                  keyboardType="number-pad"
-                  value={extraValues.reps}
-                  onChangeText={(value) => setExtraValues((prev) => ({ ...prev, reps: value }))}
-                />
+                {isTimed ? null : (
+                  <TextInput
+                    style={[
+                      styles.input,
+                      { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                    ]}
+                    placeholder="reps"
+                    placeholderTextColor={theme.textSecondary}
+                    keyboardType="number-pad"
+                    value={extraValues.reps}
+                    onChangeText={(value) => setExtraValues((prev) => ({ ...prev, reps: value }))}
+                  />
+                )}
                 <Pressable
                   onPress={handleAddExtraSet}
                   disabled={
                     isSubmitting ||
                     !Number.isFinite(parseFloat(extraValues.weight)) ||
-                    !Number.isFinite(parseInt(extraValues.reps, 10))
+                    (!isTimed && !Number.isFinite(parseInt(extraValues.reps, 10)))
                   }
                   style={[styles.addButton, { backgroundColor: theme.tint }]}>
                   <SymbolView
@@ -1080,11 +1234,31 @@ function LiveWorkoutView({
           </ThemedView>
         </ThemedView>
       </Animated.View>
+
+      {/* Available at any point, not only past the last planned set: a session opened out of
+          curiosity has to be closable without walking through every remaining set. */}
+      <Pressable onPress={onFinish}>
+        <ThemedText type="small" themeColor="textSecondary" style={styles.cancelRest}>
+          {t('workout.detail.stopLive')}
+        </ThemedText>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  pendingBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+    borderRadius: Spacing.three,
+    borderWidth: 1,
+    paddingVertical: Spacing.two,
+    paddingHorizontal: Spacing.three,
+  },
+  pendingText: {
+    flex: 1,
+  },
   flex: { flex: 1 },
   center: {
     flex: 1,

@@ -14,6 +14,7 @@ import { Colors } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { loadLiveSession } from '@/lib/live-session';
 import { supabase } from '@/lib/supabase';
+import { usePendingWrites } from '@/hooks/use-pending-writes';
 import { AuthProvider } from '@/providers/auth-provider';
 import { UnitsProvider } from '@/providers/units-provider';
 
@@ -24,6 +25,8 @@ function RootNavigator() {
   const { t } = useTranslation();
   const router = useRouter();
   const hasResumedRef = useRef(false);
+  // Mounted at the root so the outbox drains wherever the user is, not only on the workout screen.
+  usePendingWrites();
 
   useEffect(() => {
     if (isLoading || !session || hasResumedRef.current) return;

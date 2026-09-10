@@ -8,7 +8,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { loadLiveSession } from '@/lib/live-session';
+import { clearLiveSession, loadLiveSession } from '@/lib/live-session';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -50,6 +50,22 @@ export function LiveSessionBanner() {
       <ThemedText type="smallBold" style={{ color: theme.background }}>
         {t('workout.detail.resumeLive')}
       </ThemedText>
+
+      {/* Lets a session started by mistake be dismissed from anywhere, instead of forcing a walk
+          through every remaining set just to reach the finish button. */}
+      <Pressable
+        onPress={() => {
+          setWorkoutId(null);
+          clearLiveSession();
+        }}
+        hitSlop={12}>
+        <SymbolView
+          name={{ ios: 'xmark', android: 'close', web: 'close' }}
+          tintColor={theme.background}
+          size={14}
+          weight="bold"
+        />
+      </Pressable>
     </AnimatedPressable>
   );
 }

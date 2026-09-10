@@ -1,3 +1,7 @@
+import type { SetMetric } from '@/constants/exercise-catalog';
+
+export type { SetMetric };
+
 export type Profile = {
   id: string;
   username: string;
@@ -36,6 +40,9 @@ export type Exercise = {
   name: string;
   order: number;
   rest_seconds: number | null;
+  // How this exercise's sets are measured. Authoritative over which set columns to read: a
+  // duration exercise leaves reps/weight at 0 rather than null, so nullness proves nothing.
+  metric: SetMetric;
   // Stable catalog reference (see constants/exercise-catalog.ts) — null for custom, free-typed
   // exercises, which can't be auto-translated for viewers in another language.
   catalog_key: string | null;
@@ -52,6 +59,9 @@ export type Set = {
   order: number;
   // 0 = top weight, 1+ = drop-set continuations sharing the same `order` (same logical set).
   drop_index: number;
+  // Only read when the parent exercise's metric says so; null on a plain strength set.
+  duration_seconds: number | null;
+  distance_m: number | null;
 };
 
 export type WorkoutWithAuthor = Workout & {

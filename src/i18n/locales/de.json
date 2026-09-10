@@ -108,7 +108,12 @@
       "period_30d": "30 T",
       "period_3m": "3 Mon.",
       "period_1y": "1 J.",
-      "period_all": "Alle"
+      "period_all": "Alle",
+      "sessions": "Einheiten",
+      "history": "Verlauf",
+      "oneRepMax": "Geschätztes 1RM",
+      "oneRepMaxShort": "1RM",
+      "topWeight": "Max. Gewicht"
     }
   },
   "stats": {
@@ -235,7 +240,10 @@
       "saveAsTemplateFailed": "Konnte nicht zu den Vorlagen hinzugefügt werden.",
       "notesLabel": "Notiz zum Workout",
       "notesPlaceholder": "Notiz zu diesem Workout hinzufügen (optional)",
-      "resumeLive": "Workout fortsetzen"
+      "resumeLive": "Workout fortsetzen",
+      "stopLive": "Workout beenden",
+      "pendingSync_one": "Offline — {{count}} Änderung wird synchronisiert",
+      "pendingSync_other": "Offline — {{count}} Änderungen werden synchronisiert"
     }
   },
   "restTimer": {
@@ -251,7 +259,10 @@
     "colSet": "#",
     "colWeight": "Gewicht",
     "colReps": "Wdh.",
-    "colRpe": "RPE"
+    "colRpe": "RPE",
+    "colDuration": "Dauer",
+    "durationPlaceholder": "z. B. 45 oder 1:30",
+    "colDurationSeconds": "Dauer (s)"
   },
   "templates": {
     "title": "Meine Vorlagen",

@@ -1,4 +1,8 @@
-import { translateCatalogExerciseName, type SupportedLanguage } from '@/constants/exercise-catalog';
+import {
+  catalogMetric,
+  translateCatalogExerciseName,
+  type SupportedLanguage,
+} from '@/constants/exercise-catalog';
 import type { BuiltSession } from '@/constants/starter-programs';
 import i18n from '@/i18n';
 import { supabase } from '@/lib/supabase';
@@ -40,6 +44,7 @@ export async function seedStarterTemplates(
           order: index,
           rest_seconds: exercise.restSeconds,
           catalog_key: exercise.catalogKey,
+          metric: catalogMetric(exercise.catalogKey),
         })
         .select('id')
         .single();

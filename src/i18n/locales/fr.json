@@ -108,7 +108,12 @@
       "period_30d": "30 j",
       "period_3m": "3 mois",
       "period_1y": "1 an",
-      "period_all": "Tout"
+      "period_all": "Tout",
+      "sessions": "Séances",
+      "history": "Historique",
+      "oneRepMax": "1RM estimé",
+      "oneRepMaxShort": "1RM",
+      "topWeight": "Charge max"
     }
   },
   "stats": {
@@ -235,7 +240,10 @@
       "saveAsTemplateFailed": "Impossible d'ajouter aux modèles.",
       "notesLabel": "Note de séance",
       "notesPlaceholder": "Ajoute une note sur cette séance (facultatif)",
-      "resumeLive": "Reprendre la séance"
+      "resumeLive": "Reprendre la séance",
+      "stopLive": "Arrêter la séance",
+      "pendingSync_one": "Hors ligne — {{count}} modification à synchroniser",
+      "pendingSync_other": "Hors ligne — {{count}} modifications à synchroniser"
     }
   },
   "restTimer": {
@@ -251,7 +259,10 @@
     "colSet": "#",
     "colWeight": "Poids",
     "colReps": "Reps",
-    "colRpe": "RPE"
+    "colRpe": "RPE",
+    "colDuration": "Durée",
+    "durationPlaceholder": "ex : 45 ou 1:30",
+    "colDurationSeconds": "Durée (s)"
   },
   "templates": {
     "title": "Mes modèles",

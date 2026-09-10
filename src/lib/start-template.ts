@@ -1,4 +1,5 @@
-import i18n from '@/i18n';
+import { catalogMetric } from '@/constants/exercise-catalog';
+import { newId, runWrite } from '@/lib/offline-queue';
 import { supabase } from '@/lib/supabase';
 
 type StartTemplateResult = {
@@ -18,16 +19,23 @@ export async function startTemplate(
   // earlier day (from the streak calendar).
   date: string = todayISODate(),
 ): Promise<StartTemplateResult> {
-  const { data: workout, error: workoutError } = await supabase
-    .from('workouts')
-    .insert({ user_id: userId, name: templateName, date })
-    .select('id')
-    .single();
+  // Ids are chosen here rather than read back, so a connection lost partway through still produces
+  // a coherent workout: the queue replays the rows later and the children already know their
+  // parents. Reading the template itself still needs the network — see the note below.
+  const workoutId = newId();
 
-  if (workoutError || !workout) {
-    return { error: workoutError?.message ?? i18n.t('workout.new.createFailed') };
+  const { error: workoutError } = await runWrite({
+    kind: 'insert',
+    table: 'workouts',
+    rows: [{ id: workoutId, user_id: userId, name: templateName, date }],
+  });
+
+  if (workoutError) {
+    return { error: workoutError };
   }
 
+  // The template lives only on the server, so starting one offline isn't possible: there is
+  // nothing local to copy from. A blank workout, by contrast, works with no signal at all.
   const { data: templateExercises, error: exercisesError } = await supabase
     .from('template_exercises')
     .select('id, name, order, rest_seconds, catalog_key')
@@ -35,23 +43,29 @@ export async function startTemplate(
     .order('order', { ascending: true });
 
   if (exercisesError) {
-    return { workoutId: workout.id, error: exercisesError.message };
+    return { workoutId, error: exercisesError.message };
   }
 
   for (const templateExercise of templateExercises ?? []) {
-    const { data: newExercise, error: newExerciseError } = await supabase
-      .from('exercises')
-      .insert({
-        workout_id: workout.id,
-        name: templateExercise.name,
-        order: templateExercise.order,
-        rest_seconds: templateExercise.rest_seconds,
-        catalog_key: templateExercise.catalog_key,
-      })
-      .select('id')
-      .single();
+    const exerciseId = newId();
 
-    if (newExerciseError || !newExercise) continue;
+    const { error: newExerciseError } = await runWrite({
+      kind: 'insert',
+      table: 'exercises',
+      rows: [
+        {
+          id: exerciseId,
+          workout_id: workoutId,
+          name: templateExercise.name,
+          order: templateExercise.order,
+          rest_seconds: templateExercise.rest_seconds,
+          catalog_key: templateExercise.catalog_key,
+          metric: catalogMetric(templateExercise.catalog_key),
+        },
+      ],
+    });
+
+    if (newExerciseError) continue;
 
     const { data: templateSets } = await supabase
       .from('template_sets')
@@ -60,18 +74,21 @@ export async function startTemplate(
       .order('order', { ascending: true });
 
     if (templateSets && templateSets.length > 0) {
-      await supabase.from('sets').insert(
-        templateSets.map((templateSet) => ({
-          exercise_id: newExercise.id,
+      await runWrite({
+        kind: 'insert',
+        table: 'sets',
+        rows: templateSets.map((templateSet) => ({
+          id: newId(),
+          exercise_id: exerciseId,
           reps: templateSet.reps,
           weight: templateSet.weight,
           order: templateSet.order,
           drop_index: 0,
           rpe: null,
         })),
-      );
+      });
     }
   }
 
-  return { workoutId: workout.id };
+  return { workoutId };
 }

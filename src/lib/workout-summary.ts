@@ -36,8 +36,13 @@ export async function loadWorkoutSummaries(
 ): Promise<Record<string, WorkoutSummary>> {
   if (workoutIds.length === 0) return {};
 
-  const exerciseRows = await selectAllPages<{ id: string; workout_id: string }>((from, to) =>
-    supabase.from('exercises').select('id, workout_id').in('workout_id', workoutIds).range(from, to),
+  const exerciseRows = await selectAllPages<{ id: string; workout_id: string; metric: string }>(
+    (from, to) =>
+      supabase
+        .from('exercises')
+        .select('id, workout_id, metric')
+        .in('workout_id', workoutIds)
+        .range(from, to),
   );
 
   const summaries: Record<string, WorkoutSummary> = {};
@@ -46,8 +51,12 @@ export async function loadWorkoutSummaries(
   }
 
   const workoutIdByExerciseId: Record<string, string> = {};
+  // Tonnage only means something for reps × load. A 3-minute plank must count as a set but add
+  // nothing to the volume, otherwise its 0 kg would quietly drag the number down.
+  const isRepsBased: Record<string, boolean> = {};
   for (const exercise of exerciseRows) {
     workoutIdByExerciseId[exercise.id] = exercise.workout_id;
+    isRepsBased[exercise.id] = exercise.metric === 'reps';
     const summary = summaries[exercise.workout_id];
     if (summary) summary.exerciseCount += 1;
   }
@@ -73,7 +82,7 @@ export async function loadWorkoutSummaries(
     const summary = workoutId ? summaries[workoutId] : undefined;
     if (!summary) continue;
     if (set.drop_index === 0) summary.setCount += 1;
-    summary.volumeKg += set.weight * set.reps;
+    if (isRepsBased[set.exercise_id]) summary.volumeKg += set.weight * set.reps;
   }
 
   return summaries;

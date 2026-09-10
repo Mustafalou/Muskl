@@ -108,7 +108,12 @@
       "period_30d": "30 d",
       "period_3m": "3 mnd",
       "period_1y": "1 jr",
-      "period_all": "Alles"
+      "period_all": "Alles",
+      "sessions": "Sessies",
+      "history": "Geschiedenis",
+      "oneRepMax": "Geschat 1RM",
+      "oneRepMaxShort": "1RM",
+      "topWeight": "Max gewicht"
     }
   },
   "stats": {
@@ -235,7 +240,10 @@
       "saveAsTemplateFailed": "Kon niet aan de sjablonen worden toegevoegd.",
       "notesLabel": "Notitie bij de training",
       "notesPlaceholder": "Voeg een notitie toe over deze training (optioneel)",
-      "resumeLive": "Training hervatten"
+      "resumeLive": "Training hervatten",
+      "stopLive": "Training stoppen",
+      "pendingSync_one": "Offline — {{count}} wijziging te synchroniseren",
+      "pendingSync_other": "Offline — {{count}} wijzigingen te synchroniseren"
     }
   },
   "restTimer": {
@@ -251,7 +259,10 @@
     "colSet": "#",
     "colWeight": "Gewicht",
     "colReps": "Herh.",
-    "colRpe": "RPE"
+    "colRpe": "RPE",
+    "colDuration": "Duur",
+    "durationPlaceholder": "bijv. 45 of 1:30",
+    "colDurationSeconds": "Duur (s)"
   },
   "templates": {
     "title": "Mijn sjablonen",

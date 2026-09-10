@@ -108,7 +108,12 @@
       "period_30d": "30 d",
       "period_3m": "3 mo",
       "period_1y": "1 yr",
-      "period_all": "All"
+      "period_all": "All",
+      "sessions": "Sessions",
+      "history": "History",
+      "oneRepMax": "Estimated 1RM",
+      "oneRepMaxShort": "1RM",
+      "topWeight": "Top weight"
     }
   },
   "stats": {
@@ -235,7 +240,10 @@
       "saveAsTemplateFailed": "Couldn't add to templates.",
       "notesLabel": "Workout note",
       "notesPlaceholder": "Add a note about this workout (optional)",
-      "resumeLive": "Resume workout"
+      "resumeLive": "Resume workout",
+      "stopLive": "Stop the workout",
+      "pendingSync_one": "Offline — {{count}} change to sync",
+      "pendingSync_other": "Offline — {{count}} changes to sync"
     }
   },
   "restTimer": {
@@ -251,7 +259,10 @@
     "colSet": "#",
     "colWeight": "Weight",
     "colReps": "Reps",
-    "colRpe": "RPE"
+    "colRpe": "RPE",
+    "colDuration": "Duration",
+    "durationPlaceholder": "e.g. 45 or 1:30",
+    "colDurationSeconds": "Duration (s)"
   },
   "templates": {
     "title": "My Templates",

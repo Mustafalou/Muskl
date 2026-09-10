@@ -215,9 +215,16 @@ export default function ProgressionScreen() {
                 </ThemedText>
               </View>
               {exerciseStats[item.catalogKey] ? (
-                <ThemedText type="smallBold" themeColor="tint">
-                  {formatWeight(exerciseStats[item.catalogKey].lastWeightKg, unitSystem)}
-                </ThemedText>
+                <View style={styles.rowValue}>
+                  <ThemedText type="smallBold" themeColor="tint">
+                    {formatWeight(exerciseStats[item.catalogKey].bestOneRepMaxKg, unitSystem)}
+                  </ThemedText>
+                  {/* Naming the metric: an unlabelled load reads as a personal record, and the
+                      detail screen would then seem to contradict it. */}
+                  <ThemedText type="small" themeColor="textSecondary" style={styles.rowValueCaption}>
+                    {t('services.progression.oneRepMaxShort')}
+                  </ThemedText>
+                </View>
               ) : null}
               <SymbolView
                 name={{ ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' }}
@@ -297,6 +304,13 @@ const styles = StyleSheet.create({
   },
   rowText: {
     gap: 2,
+  },
+  rowValue: {
+    alignItems: 'flex-end',
+  },
+  rowValueCaption: {
+    fontSize: 11,
+    lineHeight: 14,
   },
   pressed: {
     opacity: 0.6,

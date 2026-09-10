@@ -10,13 +10,14 @@ import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
 import type { SupportedLanguage } from '@/i18n';
+import { formatDuration, parseDuration } from '@/lib/format-duration';
 import { groupSetsByOrder } from '@/lib/group-sets';
 import { supabase } from '@/lib/supabase';
 import { toDisplayWeight, toStorageWeight, weightUnitLabel } from '@/lib/units';
 import { useUnits } from '@/providers/units-provider';
 import type { ExerciseWithSets } from '@/types';
 
-type SetDrop = { weight: number; reps: number };
+type SetDrop = { weight: number; reps: number; durationSeconds?: number | null };
 
 type SetUpdate = { id: string; weight: number; reps: number };
 
@@ -52,6 +53,11 @@ export function ExerciseSection({
   // The add-a-set form used to be permanently expanded on every exercise card, which turned a
   // 5-exercise report into 5 stacked forms; it now opens on demand and stays open while logging.
   const [isComposerOpen, setIsComposerOpen] = useState(false);
+  const [durationDraft, setDurationDraft] = useState('');
+
+  // A plank or a jump-rope round is measured in seconds; reps × load doesn't apply.
+  const isTimed = exercise.metric === 'duration';
+  const parsedDuration = parseDuration(durationDraft);
 
   const displayName = getExerciseDisplayName(exercise, i18n.language as SupportedLanguage);
 
@@ -132,8 +138,9 @@ export function ExerciseSection({
       : Number.NaN,
     reps: parseInt(drop.reps, 10),
   }));
-  const canAddSet =
-    !isSubmitting && parsedDrops.every((drop) => Number.isFinite(drop.weight) && Number.isFinite(drop.reps));
+  const canAddSet = isTimed
+    ? !isSubmitting && parsedDuration !== null && parsedDuration > 0
+    : !isSubmitting && parsedDrops.every((drop) => Number.isFinite(drop.weight) && Number.isFinite(drop.reps));
 
   function updateDrop(index: number, field: 'weight' | 'reps', value: string) {
     setDrops((prev) => prev.map((drop, i) => (i === index ? { ...drop, [field]: value } : drop)));
@@ -188,6 +195,20 @@ export function ExerciseSection({
     if (!canAddSet) return;
     const rpeValue = rpe.trim() ? parseFloat(rpe) : null;
     setIsSubmitting(true);
+
+    if (isTimed) {
+      // reps/weight stay at their 0 defaults — the exercise's metric is what says to ignore them.
+      await onAddSet(
+        exercise.id,
+        [{ weight: 0, reps: 0, durationSeconds: parsedDuration }],
+        Number.isFinite(rpeValue) ? rpeValue : null,
+      );
+      setIsSubmitting(false);
+      setDurationDraft('');
+      setRpe('');
+      return;
+    }
+
     await onAddSet(exercise.id, parsedDrops, Number.isFinite(rpeValue) ? rpeValue : null);
     setIsSubmitting(false);
     // Keeps the weight for the next set, converted back to what the user actually typed.
@@ -243,12 +264,20 @@ export function ExerciseSection({
             <ThemedText type="small" themeColor="textSecondary" style={styles.colIndex}>
               {t('exercise.colSet')}
             </ThemedText>
-            <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
-              {`${t('exercise.colWeight')} (${weightUnitLabel(unitSystem)})`}
-            </ThemedText>
-            <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
-              {t('exercise.colReps')}
-            </ThemedText>
+            {isTimed ? (
+              <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
+                {t('exercise.colDuration')}
+              </ThemedText>
+            ) : (
+              <>
+                <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
+                  {`${t('exercise.colWeight')} (${weightUnitLabel(unitSystem)})`}
+                </ThemedText>
+                <ThemedText type="small" themeColor="textSecondary" style={styles.colValue}>
+                  {t('exercise.colReps')}
+                </ThemedText>
+              </>
+            )}
             <ThemedText type="small" themeColor="textSecondary" style={styles.colRpe}>
               {t('exercise.colRpe')}
             </ThemedText>
@@ -317,12 +346,22 @@ export function ExerciseSection({
                 <ThemedText type="small" themeColor="textSecondary" style={styles.colIndex}>
                   {order + 1}
                 </ThemedText>
-                <ThemedText style={styles.colValue}>
-                  {sets.map((set) => toDisplayWeight(set.weight, unitSystem)).join(' → ')}
-                </ThemedText>
-                <ThemedText style={styles.colValue}>
-                  {sets.map((set) => set.reps).join(' → ')}
-                </ThemedText>
+                {isTimed ? (
+                  <ThemedText style={styles.colValue}>
+                    {sets
+                      .map((set) => (set.duration_seconds != null ? formatDuration(set.duration_seconds) : '–'))
+                      .join(' → ')}
+                  </ThemedText>
+                ) : (
+                  <>
+                    <ThemedText style={styles.colValue}>
+                      {sets.map((set) => toDisplayWeight(set.weight, unitSystem)).join(' → ')}
+                    </ThemedText>
+                    <ThemedText style={styles.colValue}>
+                      {sets.map((set) => set.reps).join(' → ')}
+                    </ThemedText>
+                  </>
+                )}
                 <ThemedText themeColor="textSecondary" style={styles.colRpe}>
                   {sets[0].rpe !== null ? sets[0].rpe : '–'}
                 </ThemedText>
@@ -360,7 +399,22 @@ export function ExerciseSection({
 
       {editable && isComposerOpen ? (
         <View style={styles.composer}>
-          {drops.map((drop, index) => (
+          {isTimed ? (
+            <View style={styles.dropRow}>
+              <TextInput
+                style={[
+                  styles.input,
+                  { color: theme.text, backgroundColor: theme.backgroundSelected, borderColor: theme.border },
+                ]}
+                placeholder={t('exercise.durationPlaceholder')}
+                placeholderTextColor={theme.textSecondary}
+                value={durationDraft}
+                onChangeText={setDurationDraft}
+              />
+            </View>
+          ) : null}
+
+          {!isTimed && drops.map((drop, index) => (
             <View key={index} style={styles.dropRow}>
               {index > 0 ? (
                 <ThemedText type="small" themeColor="textSecondary">
@@ -402,11 +456,15 @@ export function ExerciseSection({
           ))}
 
           <View style={styles.composerLinks}>
-            <Pressable onPress={addDrop} hitSlop={8}>
-              <ThemedText type="small" themeColor="tint">
-                {t('exercise.addDrop')}
-              </ThemedText>
-            </Pressable>
+            {isTimed ? (
+              <View />
+            ) : (
+              <Pressable onPress={addDrop} hitSlop={8}>
+                <ThemedText type="small" themeColor="tint">
+                  {t('exercise.addDrop')}
+                </ThemedText>
+              </Pressable>
+            )}
             <Pressable onPress={() => setIsComposerOpen(false)} hitSlop={8}>
               <ThemedText type="small" themeColor="textSecondary">
                 {t('common.cancel')}

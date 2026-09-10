@@ -31,6 +31,19 @@ import {
 import { useUnits } from '@/providers/units-provider';
 import type { BodyWeightLog, Profile, ProfileStats } from '@/types';
 
+// Flags stand for the language, not the country — the usual convention for a picker. Portuguese
+// gets Brazil's because the translations use Brazilian gym vocabulary (supino reto, cadeira
+// extensora), not European Portuguese.
+const LANGUAGE_FLAGS: Record<SupportedLanguage, string> = {
+  fr: '🇫🇷',
+  en: '🇬🇧',
+  es: '🇪🇸',
+  de: '🇩🇪',
+  nl: '🇳🇱',
+  pt: '🇧🇷',
+  tr: '🇹🇷',
+};
+
 // Each language names itself: someone who picked the wrong one must still recognise their own.
 const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   fr: 'Français',
@@ -84,6 +97,11 @@ export default function ProfileScreen() {
   // A year of weigh-ins used to render as one endless list; show the recent ones and let the user
   // ask for the rest.
   const [showAllWeights, setShowAllWeights] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  // i18n.language can carry a region suffix ("fr-BE"); the picker only knows the base codes.
+  const currentLanguage = (
+    SUPPORTED_LANGUAGES.includes(i18n.language as SupportedLanguage) ? i18n.language : 'en'
+  ) as SupportedLanguage;
 
   const loadProfile = useCallback(async () => {
     if (!user) return;
@@ -639,23 +657,47 @@ export default function ProfileScreen() {
 
           <ThemedView type="backgroundElement" style={[styles.section, { borderColor: theme.border }]}>
             <ThemedText type="cardTitle">{t('profile.language')}</ThemedText>
-            <View style={styles.languageRow}>
-              {SUPPORTED_LANGUAGES.map((language) => (
-                <Pressable
-                  key={language}
-                  onPress={() => setAppLanguage(language)}
-                  style={[
-                    styles.languageChip,
-                    { backgroundColor: i18n.language === language ? theme.tint : theme.backgroundSelected },
-                  ]}>
-                  <ThemedText
-                    type="small"
-                    style={{ color: i18n.language === language ? theme.background : theme.text }}>
-                    {LANGUAGE_LABELS[language]}
-                  </ThemedText>
-                </Pressable>
-              ))}
-            </View>
+            {/* Collapsed by default: seven chips wrapped over three lines once the language count
+                grew, for a setting most people touch once. */}
+            <Pressable
+              onPress={() => setIsLanguageOpen((open) => !open)}
+              style={[styles.selectorRow, { backgroundColor: theme.backgroundSelected }]}>
+              <ThemedText>
+                {LANGUAGE_FLAGS[currentLanguage]} {LANGUAGE_LABELS[currentLanguage]}
+              </ThemedText>
+              <SymbolView
+                name={{
+                  ios: isLanguageOpen ? 'chevron.up' : 'chevron.down',
+                  android: isLanguageOpen ? 'expand_less' : 'expand_more',
+                  web: isLanguageOpen ? 'expand_less' : 'expand_more',
+                }}
+                tintColor={theme.textSecondary}
+                size={16}
+              />
+            </Pressable>
+
+            {isLanguageOpen
+              ? SUPPORTED_LANGUAGES.map((language) => (
+                  <Pressable
+                    key={language}
+                    onPress={() => {
+                      setAppLanguage(language);
+                      setIsLanguageOpen(false);
+                    }}
+                    style={styles.languageOption}>
+                    <ThemedText themeColor={language === currentLanguage ? 'tint' : 'text'}>
+                      {LANGUAGE_FLAGS[language]} {LANGUAGE_LABELS[language]}
+                    </ThemedText>
+                    {language === currentLanguage ? (
+                      <SymbolView
+                        name={{ ios: 'checkmark', android: 'check', web: 'check' }}
+                        tintColor={theme.tint}
+                        size={14}
+                      />
+                    ) : null}
+                  </Pressable>
+                ))
+              : null}
           </ThemedView>
 
           <PrimaryButton title={t('profile.logout')} variant="secondary" onPress={confirmLogout} />
@@ -771,6 +813,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
     borderRadius: Spacing.five,
+  },
+  selectorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    borderRadius: Spacing.two,
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
   },
   weeklyGoalValue: {
     gap: 2,

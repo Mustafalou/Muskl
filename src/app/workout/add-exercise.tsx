@@ -9,6 +9,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import {
+  catalogMetric,
   filterExercises,
   getExerciseCatalog,
   getMuscleGroups,
@@ -17,7 +18,10 @@ import {
 } from '@/constants/exercise-catalog';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { asTransportError, isNetworkError, newId, runWrite } from '@/lib/offline-queue';
 import { supabase } from '@/lib/supabase';
+import { loadWorkoutCache, saveWorkoutCache } from '@/lib/workout-cache';
+import type { ExerciseWithSets } from '@/types';
 
 export default function AddExerciseScreen() {
   const { t, i18n } = useTranslation();
@@ -62,31 +66,64 @@ export default function AddExerciseScreen() {
     setIsSubmitting(true);
     setError(null);
 
-    const { count, error: countError } = await supabase
-      .from('exercises')
-      .select('id', { count: 'exact', head: true })
-      .eq('workout_id', workoutId);
+    // A dropped connection may throw here rather than return an error, and an uncaught rejection
+    // would leave the button stuck with nothing on screen.
+    let count: number | null = null;
+    let countError = null;
+    try {
+      const countResult = await supabase
+        .from('exercises')
+        .select('id', { count: 'exact', head: true })
+        .eq('workout_id', workoutId);
+      count = countResult.count;
+      countError = countResult.error;
+    } catch (thrown) {
+      countError = asTransportError(thrown);
+    }
+
+    let existingCount = count ?? 0;
 
     if (countError) {
-      setIsSubmitting(false);
-      setError(countError.message);
-      return;
+      // Offline the count can't be read, but the cached workout knows how many exercises the
+      // screen last showed — which is exactly the number this one has to carry on from.
+      if (!isNetworkError(countError)) {
+        setIsSubmitting(false);
+        setError(countError.message ?? null);
+        return;
+      }
+      const cached = await loadWorkoutCache<unknown, unknown>(workoutId);
+      existingCount = cached?.exercises.length ?? 0;
     }
 
     const rows = names.map((name, index) => ({
+      id: newId(),
       workout_id: workoutId,
       name,
-      order: (count ?? 0) + index,
+      order: existingCount + index,
       catalog_key: catalogKeyByName.get(name) ?? null,
+      // Stored on the row rather than derived at read time, so a custom exercise can later be
+      // given its own metric without needing a catalog entry.
+      metric: catalogMetric(catalogKeyByName.get(name)),
     }));
 
-    const { error: insertError } = await supabase.from('exercises').insert(rows);
+    const { error: writeError } = await runWrite({ kind: 'insert', table: 'exercises', rows });
 
     setIsSubmitting(false);
 
-    if (insertError) {
-      setError(insertError.message);
+    if (writeError) {
+      setError(writeError);
       return;
+    }
+
+    // The screen we're returning to re-reads the workout, and offline that read comes from the
+    // cache — so the cache has to know about these exercises or they'd vanish on the way back.
+    // `rest_seconds` and `notes` are the column defaults the server would have applied.
+    const cached = await loadWorkoutCache<unknown, ExerciseWithSets>(workoutId);
+    if (cached) {
+      await saveWorkoutCache(workoutId, cached.workout, [
+        ...cached.exercises,
+        ...rows.map((row) => ({ ...row, rest_seconds: null, notes: null, sets: [] })),
+      ]);
     }
 
     router.back();

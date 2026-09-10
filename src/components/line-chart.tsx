@@ -18,6 +18,14 @@ type LineChartProps = {
 };
 
 const PADDING_V = 16;
+// Without it the first and last dots straddle the edges and get clipped in half.
+const PADDING_H = 6;
+// Scaling strictly from min to max makes every chart look dramatic: +2 kg of body weight over a
+// month would climb as steeply as a 20 kg drop on a bench press. Giving the domain some slack —
+// never narrower than a share of the values' own magnitude — keeps small changes looking small,
+// and draws a flat series through the middle instead of flush against the bottom.
+const DOMAIN_HEADROOM = 1.3;
+const MIN_SPAN_RATIO = 0.15;
 
 export function LineChart({ points, unit, height = 160 }: LineChartProps) {
   const theme = useTheme();
@@ -28,15 +36,17 @@ export function LineChart({ points, unit, height = 160 }: LineChartProps) {
   const values = points.map((point) => point.value);
   const maxValue = Math.max(...values);
   const minValue = Math.min(...values);
-  const range = maxValue - minValue || 1;
+  const span = Math.max((maxValue - minValue) * DOMAIN_HEADROOM, Math.abs(maxValue) * MIN_SPAN_RATIO, 1);
+  const domainMin = (maxValue + minValue) / 2 - span / 2;
   const chartHeight = height - PADDING_V * 2;
 
   function xFor(index: number) {
-    return points.length > 1 ? (index / (points.length - 1)) * width : width / 2;
+    if (points.length <= 1) return width / 2;
+    return PADDING_H + (index / (points.length - 1)) * (width - PADDING_H * 2);
   }
 
   function yFor(value: number) {
-    return PADDING_V + chartHeight - ((value - minValue) / range) * chartHeight;
+    return PADDING_V + chartHeight - ((value - domainMin) / span) * chartHeight;
   }
 
   const pathD = points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${xFor(index)} ${yFor(point.value)}`).join(' ');

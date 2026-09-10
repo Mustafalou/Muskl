@@ -108,7 +108,12 @@
       "period_30d": "30 d",
       "period_3m": "3 meses",
       "period_1y": "1 año",
-      "period_all": "Todo"
+      "period_all": "Todo",
+      "sessions": "Sesiones",
+      "history": "Historial",
+      "oneRepMax": "1RM estimado",
+      "oneRepMaxShort": "1RM",
+      "topWeight": "Carga máx."
     }
   },
   "stats": {
@@ -235,7 +240,10 @@
       "saveAsTemplateFailed": "No se pudo añadir a las plantillas.",
       "notesLabel": "Nota de la sesión",
       "notesPlaceholder": "Añade una nota sobre esta sesión (opcional)",
-      "resumeLive": "Reanudar la sesión"
+      "resumeLive": "Reanudar la sesión",
+      "stopLive": "Detener la sesión",
+      "pendingSync_one": "Sin conexión — {{count}} cambio por sincronizar",
+      "pendingSync_other": "Sin conexión — {{count}} cambios por sincronizar"
     }
   },
   "restTimer": {
@@ -251,7 +259,10 @@
     "colSet": "#",
     "colWeight": "Peso",
     "colReps": "Reps",
-    "colRpe": "RPE"
+    "colRpe": "RPE",
+    "colDuration": "Duración",
+    "durationPlaceholder": "ej.: 45 o 1:30",
+    "colDurationSeconds": "Duración (s)"
   },
   "templates": {
     "title": "Mis plantillas",

@@ -108,7 +108,12 @@
       "period_30d": "30 d",
       "period_3m": "3 meses",
       "period_1y": "1 ano",
-      "period_all": "Tudo"
+      "period_all": "Tudo",
+      "sessions": "Treinos",
+      "history": "Histórico",
+      "oneRepMax": "1RM estimado",
+      "oneRepMaxShort": "1RM",
+      "topWeight": "Carga máx."
     }
   },
   "stats": {
@@ -235,7 +240,10 @@
       "saveAsTemplateFailed": "Não foi possível adicionar aos modelos.",
       "notesLabel": "Nota do treino",
       "notesPlaceholder": "Adicione uma nota sobre este treino (opcional)",
-      "resumeLive": "Retomar o treino"
+      "resumeLive": "Retomar o treino",
+      "stopLive": "Parar o treino",
+      "pendingSync_one": "Sem conexão — {{count}} alteração para sincronizar",
+      "pendingSync_other": "Sem conexão — {{count}} alterações para sincronizar"
     }
   },
   "restTimer": {
@@ -251,7 +259,10 @@
     "colSet": "#",
     "colWeight": "Carga",
     "colReps": "Reps",
-    "colRpe": "RPE"
+    "colRpe": "RPE",
+    "colDuration": "Duração",
+    "durationPlaceholder": "ex.: 45 ou 1:30",
+    "colDurationSeconds": "Duração (s)"
   },
   "templates": {
     "title": "Meus modelos",

@@ -12,8 +12,10 @@ import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
+import { newId, runWrite } from '@/lib/offline-queue';
 import { startTemplate } from '@/lib/start-template';
 import { supabase } from '@/lib/supabase';
+import { saveWorkoutCache } from '@/lib/workout-cache';
 import type { WorkoutTemplate } from '@/types';
 
 function todayISODate() {
@@ -56,24 +58,33 @@ export default function NewWorkoutScreen() {
     setError(null);
     setIsSubmitting(true);
 
-    const { data, error: insertError } = await supabase
-      .from('workouts')
-      .insert({ user_id: user.id, name: name.trim(), date })
-      .select('id')
-      .single();
+    // The id is ours, so the workout exists for the app the moment it's created — with or without
+    // signal. Seeding the cache is what lets the detail screen open on it while still offline.
+    const row = {
+      id: newId(),
+      user_id: user.id,
+      name: name.trim(),
+      date,
+      notes: null,
+      created_at: new Date().toISOString(),
+    };
+
+    const { error: writeError } = await runWrite({ kind: 'insert', table: 'workouts', rows: [row] });
 
     setIsSubmitting(false);
 
-    if (insertError || !data) {
-      setError(insertError?.message ?? t('workout.new.createFailed'));
+    if (writeError) {
+      setError(writeError);
       return;
     }
+
+    await saveWorkoutCache(row.id, { ...row, username: null }, []);
 
     if (returnsToCaller) {
       router.back();
       return;
     }
-    router.replace(`/workout/${data.id}`);
+    router.replace(`/workout/${row.id}`);
   }
 
   async function handleUseTemplate(template: WorkoutTemplate) {
