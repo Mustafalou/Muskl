@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Muskl — Privacybeleid</title>
+<meta name="description" content="Welke gegevens Muskl verzamelt, hoe ze worden gebruikt en hoe je ze kunt beheren of verwijderen." />
+<link rel="canonical" href="https://muskl.mynextgen.be/nl/privacy.html" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/privacy.html" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/privacy.html" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/privacy.html" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/privacy.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/privacy.html" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/privacy.html" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="icon" href="../assets/favicon.png" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="../assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="../assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <details class="lang-switch">
+    <summary aria-label="Taal"><span class="flag">🇳🇱</span><span class="lang-name">Nederlands</span></summary>
+    <div class="lang-menu">
+      <a href="../privacy.html" hreflang="fr" lang="fr" data-lang="fr"><span class="flag">🇫🇷</span>Français</a>
+      <a href="../en/privacy.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="../es/privacy.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="../de/privacy.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="../nl/privacy.html" hreflang="nl" lang="nl" data-lang="nl" aria-current="true"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="../pt/privacy.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="../tr/privacy.html" hreflang="tr" lang="tr" data-lang="tr"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-ghost btn-sm" href="index.html">Terug naar de site</a>
+  </div>
+</header>
+
+<main class="wrap legal">
+  <h1>Privacybeleid — Muskl</h1>
+  <p class="updated">Laatst bijgewerkt: 15 september 2026</p>
+  <p class="legal-note">Dit is een vertaling van het Franse beleid, dat bij verschillen voorrang heeft.</p>
+
+  <p>Muskl is een app om je trainingen bij te houden (krachttraining, cardio en andere sporten) met een sociale kant. Deze pagina legt uit welke gegevens worden verzameld, hoe ze worden gebruikt en hoe je ze kunt beheren of verwijderen.</p>
+
+  <h2>1. Wie is verantwoordelijk voor je gegevens</h2>
+  <p>Muskl is een onafhankelijk ontwikkeld en beheerd project. Voor vragen kun je contact opnemen via: <a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a>.</p>
+
+  <h2>2. Verzamelde gegevens</h2>
+  <ul>
+    <li><strong>Account:</strong> e-mailadres en wachtwoord (beheerd door Supabase Auth, nooit leesbaar opgeslagen).</li>
+    <li><strong>Profiel:</strong> gebruikersnaam, profielfoto (optioneel), instelling ‘Openbaar profiel’.</li>
+    <li><strong>Welkomstvragenlijst:</strong> je trainingsniveau, gebruikt om je startsjablonen voor te stellen.</li>
+    <li><strong>Voorkeuren:</strong> wekelijks trainingsdoel, gewichtseenheid (kg of lb).</li>
+    <li><strong>Lichaamsgegevens (optioneel):</strong> lengte, gewichtsgeschiedenis.</li>
+    <li><strong>Trainingen:</strong> naam, datum, notities, oefeningen, sets (herhalingen, gewicht, duur, RPE) en je trainingssjablonen.</li>
+    <li><strong>Sociale interacties:</strong> de accounts die je volgt en die jou volgen, je likes, je reacties en de accounts die je blokkeert.</li>
+    <li><strong>Meldingen:</strong> als je inhoud meldt, slaan we op welke training en door wie.</li>
+  </ul>
+  <p>Muskl verzamelt je locatie, je contacten of een advertentie-ID niet.</p>
+  <p><strong>Op de website:</strong> als je via het formulier op de installatiepagina toegang tot de Android-bèta aanvraagt, bereikt je e-mailadres me via de dienst <a href="https://formsubmit.co" target="_blank" rel="noopener">FormSubmit</a>. Het wordt alleen gebruikt om je aan de testerslijst toe te voegen en je je uitnodiging te sturen.</p>
+
+  <h2>3. Zichtbaarheid van je gegevens</h2>
+  <p>Je <strong>gebruikersnaam</strong> en je <strong>profielfoto</strong> zijn zichtbaar voor andere gebruikers, bijvoorbeeld in de zoekfunctie.</p>
+  <p>Je <strong>trainingen</strong> (met hun oefeningen en sets), je <strong>lengte</strong> en je <strong>gewichtsgeschiedenis</strong> hangen af van de instelling <strong>‘Openbaar profiel’</strong> in het tabblad Profiel. Staat die aan (de standaardinstelling), dan kan elke gebruiker ze zien door je profiel te openen. Staat die uit, dan zien alleen de mensen van wie je het volgverzoek hebt geaccepteerd ze.</p>
+  <p>De feed toont iedereen alleen de trainingen van de mensen die hij of zij volgt. Likes en reacties op een training zijn zichtbaar voor wie die training kan zien. Als je een gebruiker blokkeert, kan die je trainingen niet meer zien.</p>
+
+  <h2>4. Verwerker</h2>
+  <p>De gegevens worden gehost bij <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> (PostgreSQL-database, authenticatie, opslag van foto's), in de Europese Unie (regio eu-central-1). Er worden geen gegevens verkocht of gedeeld met derden voor advertentiedoeleinden — Muskl toont geen advertenties en gebruikt geen analysetools van derden.</p>
+
+  <h2>5. Bewaartermijn</h2>
+  <p>Je gegevens worden bewaard zolang je account bestaat. Als je je account verwijdert, worden al je gegevens definitief verwijderd (zie volgende sectie).</p>
+
+  <!-- Linked from the Google Play data-deletion form: keep this id stable in every language. -->
+  <h2 id="suppression">6. Je account en gegevens verwijderen</h2>
+  <p><strong>Vanuit de app:</strong> tabblad <strong>Profiel</strong> → <strong>Mijn account verwijderen</strong>. De verwijdering is onmiddellijk.</p>
+  <p><strong>Zonder de app</strong> (bijvoorbeeld als je hem al hebt verwijderd): stuur een e-mail naar <a href="mailto:mustafaliiyilmaz@gmail.com?subject=Account%20verwijderen%20Muskl">mustafaliiyilmaz@gmail.com</a> met als onderwerp ‘Account verwijderen’, vanaf het e-mailadres van je Muskl-account. De verwijdering gebeurt binnen maximaal 30 dagen en je ontvangt een bevestiging.</p>
+  <p>In beide gevallen is de verwijdering definitief en betreft ze al je gegevens: je account, je profiel en foto, je antwoorden op de vragenlijst en je voorkeuren, je trainingen, oefeningen en sets, je trainingssjablonen, je gewichtsgeschiedenis, wie je volgt en je volgers, je likes, je reacties, je blokkeringen en je meldingen. Muskl bewaart geen van deze gegevens na de verwijdering.</p>
+
+  <h2>7. Je rechten</h2>
+  <p>Volgens de AVG heb je recht op inzage, rectificatie, verwijdering en overdraagbaarheid van je gegevens. De meeste van deze acties kun je rechtstreeks in de app uitvoeren (je profiel aanpassen, je account verwijderen). Voor andere verzoeken kun je ons contacteren via het adres hieronder.</p>
+
+  <h2>8. Inhoud melden</h2>
+  <p>Je kunt een training melden vanuit de feed. Meldingen zijn alleen zichtbaar voor jou en het Muskl-team, nooit voor andere gebruikers.</p>
+
+  <h2>9. Beveiliging</h2>
+  <p>De toegang tot de gegevens is beschermd door beveiligingsregels op het niveau van elke rij van de database (Row Level Security), zodat alleen de eigenaar van een gegeven het kan wijzigen of verwijderen. De communicatie tussen de app en de server is versleuteld (HTTPS).</p>
+
+  <h2>10. Minimumleeftijd</h2>
+  <p>Muskl is niet bedoeld voor personen jonger dan 16 jaar.</p>
+
+  <h2>11. Wijzigingen</h2>
+  <p>Dit beleid kan worden bijgewerkt. De datum van de laatste wijziging staat bovenaan deze pagina.</p>
+
+  <h2>12. Contact</h2>
+  <div class="contact">
+    <p>Voor vragen over dit beleid of je gegevens:</p>
+    <p><a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — ontwikkeld in België.</div>
+    <div class="foot-links">
+      <a href="mailto:mustafaliiyilmaz@gmail.com">Contact</a>
+      <a href="index.html">Home</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -42,6 +42,7 @@ export async function createTemplateFromWorkout(
         order: exercise.order,
         rest_seconds: exercise.rest_seconds,
         catalog_key: exercise.catalog_key,
+        superset_id: exercise.superset_id,
       })
       .select('id')
       .single();

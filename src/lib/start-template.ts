@@ -38,7 +38,7 @@ export async function startTemplate(
   // nothing local to copy from. A blank workout, by contrast, works with no signal at all.
   const { data: templateExercises, error: exercisesError } = await supabase
     .from('template_exercises')
-    .select('id, name, order, rest_seconds, catalog_key')
+    .select('id, name, order, rest_seconds, catalog_key, superset_id')
     .eq('template_id', templateId)
     .order('order', { ascending: true });
 
@@ -60,6 +60,8 @@ export async function startTemplate(
           order: templateExercise.order,
           rest_seconds: templateExercise.rest_seconds,
           catalog_key: templateExercise.catalog_key,
+          // Copied as is: the id only names a group among neighbouring exercises of one workout.
+          superset_id: templateExercise.superset_id,
           metric: catalogMetric(templateExercise.catalog_key),
         },
       ],

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  (function () {
+    try {
+      if (/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)) return;
+      var available = ["en","es","de","nl","pt","tr"];
+      var preferred = localStorage.getItem('muskl-lang') ||
+        ((navigator.languages && navigator.languages[0]) || navigator.language || '').slice(0, 2).toLowerCase();
+      if (available.indexOf(preferred) === -1) return;
+      var page = location.pathname.split('/').pop() || 'index.html';
+      location.replace(preferred + '/' + page + location.search + location.hash);
+    } catch (e) {}
+  })();
+</script>
+<title>Installer Muskl — Bêta iPhone et Android</title>
+<meta name="description" content="Comment installer la bêta de Muskl : via TestFlight sur iPhone, ou via une invitation Google Play sur Android." />
+<link rel="canonical" href="https://muskl.mynextgen.be/installation.html" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/installation.html" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/installation.html" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/installation.html" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/installation.html" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/installation.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/installation.html" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/installation.html" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/installation.html" />
+<link rel="icon" href="assets/favicon.png" />
+<meta property="og:title" content="Installer la bêta de Muskl" />
+<meta property="og:description" content="iPhone : TestFlight en un tap. Android : laisse ton adresse Gmail et reçois ton invitation." />
+<meta property="og:image" content="https://muskl.mynextgen.be/assets/icon.png" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#features">Fonctions</a>
+      <a href="index.html#sports">Tous les sports</a>
+      <a href="index.html#social">Social</a>
+      <a class="active" href="installation.html">Installation</a>
+    </nav>
+    <details class="lang-switch">
+    <summary aria-label="Langue"><span class="flag">🇫🇷</span><span class="lang-name">Français</span></summary>
+    <div class="lang-menu">
+      <a href="installation.html" hreflang="fr" lang="fr" data-lang="fr" aria-current="true"><span class="flag">🇫🇷</span>Français</a>
+      <a href="en/installation.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="es/installation.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="de/installation.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="nl/installation.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="pt/installation.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="tr/installation.html" hreflang="tr" lang="tr" data-lang="tr"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-ghost btn-sm" href="index.html">Retour au site</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="wrap page-hero">
+    <div class="badge"><span class="dot"></span> Bêta ouverte — iOS &amp; Android</div>
+    <h1>Installe Muskl<br /><em>en deux minutes.</em></h1>
+    <p class="lede">L'app est en test avant sa sortie officielle sur les stores. La marche à suivre dépend de ton téléphone.</p>
+  </div>
+
+  <div class="wrap platforms" id="plateformes">
+
+    <div class="platform" id="iphone">
+      <div>
+        <h2>iPhone</h2>
+        <p class="tag">Via TestFlight, l'app de test officielle d'Apple.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>Installe TestFlight</strong> depuis l'App Store. C'est gratuit et fait par Apple.</li>
+        <li><strong>Ouvre l'invitation Muskl sur ton iPhone</strong> avec le bouton ci-dessous.</li>
+        <li><strong>Touche « Accepter », puis « Installer ».</strong> Muskl apparaît sur ton écran d'accueil.</li>
+      </ol>
+      <a class="btn btn-ghost" href="https://apps.apple.com/app/testflight/id899247664">1. Télécharger TestFlight</a>
+      <a class="btn btn-primary" href="https://testflight.apple.com/join/y2TvrzmF">2. Ouvrir l'invitation Muskl</a>
+      <p class="note">Les mises à jour arrivent directement dans TestFlight : tu recevras une notification à chaque nouvelle version.</p>
+    </div>
+
+    <div class="platform" id="android">
+      <div>
+        <h2>Android</h2>
+        <p class="tag">Via une invitation Google Play.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>Laisse ton adresse Gmail ci-dessous</strong> : celle du compte Google connecté au Play Store de ton téléphone.</li>
+        <li><strong>Je t'ajoute aux testeurs</strong> et je t'envoie ton lien d'invitation par email.</li>
+        <li><strong>Ouvre le lien sur ton téléphone</strong>, touche « Accepter l'invitation », puis installe Muskl depuis le Play Store.</li>
+      </ol>
+
+      <form class="beta-form" id="android-form" novalidate>
+        <label class="sr-only" for="android-email">Ton adresse Gmail</label>
+        <input
+          id="android-email"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          placeholder="ton.adresse@gmail.com"
+          required
+        />
+        <!-- Honeypot: invisible to people, filled in by bots. Also hidden inline so it can never
+             show up, even when the stylesheet is stale or fails to load. -->
+        <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display: none" />
+        <button class="btn btn-primary" type="submit">Recevoir mon invitation</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="form-legal">Ton adresse sert uniquement à t'ajouter aux testeurs. Elle m'est transmise par le service FormSubmit. <a href="privacy.html">Confidentialité</a></p>
+
+      <p class="note">Pendant la bêta, Muskl n'apparaît pas dans la recherche du Play Store : passe toujours par ton lien. Il peut aussi s'afficher sous un nom technique, « com.muskl.app ». Et reste inscrit au test quelques semaines — c'est ce qui permet à Muskl de sortir officiellement sur le Play Store.</p>
+    </div>
+
+  </div>
+
+  <section>
+    <div class="wrap faq">
+      <p class="eyebrow">Questions</p>
+      <h2>Avant de te lancer</h2>
+
+      <h3>C'est gratuit ?</h3>
+      <p>Oui, entièrement, et sans publicité.</p>
+
+      <h3>Je garde mes séances à la sortie officielle ?</h3>
+      <p>Oui. Ton compte et tes données sont sur le serveur, pas dans la version de test : tu les retrouveras tels quels quand l'app sortira sur les stores.</p>
+
+      <h3>Un problème pour installer ?</h3>
+      <p>Écris-moi à <a href="mailto:mustafaliiyilmaz@gmail.com?subject=Installation%20Muskl">mustafaliiyilmaz@gmail.com</a>, en précisant ton modèle de téléphone.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — développé en Belgique.</div>
+    <div class="foot-links">
+      <a href="privacy.html">Confidentialité</a>
+      <a href="mailto:mustafaliiyilmaz@gmail.com">Contact</a>
+      <a href="index.html">Accueil</a>
+    </div>
+  </div>
+</footer>
+
+<script type="application/json" id="form-text">{"ok":"C'est noté ! Tu recevras ton lien d'invitation par email dès que je t'aurai ajouté aux testeurs.","invalid":"Entre une adresse email valide.","fileProtocol":"Le formulaire ne fonctionne que sur le site en ligne, pas en ouvrant le fichier sur ton ordinateur.","sending":"Envoi en cours…","failed":"L'envoi n'a pas fonctionné.","failedLink":"Envoie-moi ton adresse par email","mailSubject":"Testeur Android Muskl","mailBody":"Salut ! Je veux tester Muskl sur Android.\n\nMon adresse Gmail : "}</script>
+<script>
+  // The site is static, so the address is relayed by FormSubmit, which emails it on. If that
+  // service is unreachable the visitor gets a direct mail link instead of a dead end.
+  (function () {
+    var TEXT = JSON.parse(document.getElementById('form-text').textContent);
+    // FormSubmit's alias for the destination inbox, so the address itself isn't in the page source.
+    var ENDPOINT = 'https://formsubmit.co/ajax/8949f087a2dc08348c50bb01da633969';
+    var FALLBACK =
+      'mailto:mustafaliiyilmaz@gmail.com?subject=' + encodeURIComponent(TEXT.mailSubject) +
+      '&body=' + encodeURIComponent(TEXT.mailBody);
+
+    var form = document.getElementById('android-form');
+    var input = document.getElementById('android-email');
+    var button = form.querySelector('button');
+    var status = form.querySelector('.form-status');
+
+    function show(message, state) {
+      status.textContent = message;
+      status.setAttribute('data-state', state);
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      // A filled honeypot means a bot: pretend it worked and send nothing.
+      if (form.elements._honey.value) {
+        form.reset();
+        show(TEXT.ok, 'ok');
+        return;
+      }
+
+      var email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        show(TEXT.invalid, 'error');
+        input.focus();
+        return;
+      }
+
+      // Opened straight from disk the page has no web address, and FormSubmit refuses those.
+      if (location.protocol === 'file:') {
+        show(TEXT.fileProtocol, 'error');
+        return;
+      }
+
+      button.disabled = true;
+      show(TEXT.sending, '');
+
+      try {
+        var response = await fetch(ENDPOINT, {
+          method: 'POST',
+          // FormSubmit identifies a form by the page that sends it. Browsers disagree on how much of
+          // the URL they reveal cross-site, so pin it to the bare origin — the one form activated.
+          referrerPolicy: 'origin',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            plateforme: 'Android',
+            // Which language to write the invitation in.
+            langue: document.documentElement.lang,
+            _subject: 'Nouveau testeur Android pour Muskl',
+            _template: 'table',
+          }),
+        });
+        var data = await response.json().catch(function () {
+          return {};
+        });
+        // FormSubmit answers with success as the string "true" or "false".
+        if (!response.ok || String(data.success) !== 'true') throw new Error(data.message || 'refused');
+
+        form.reset();
+        show(TEXT.ok, 'ok');
+      } catch (error) {
+        // The visitor gets a generic message; the real reason goes to the console for debugging.
+        console.warn('[Muskl] FormSubmit refused the submission:', error && error.message);
+        status.innerHTML = '';
+        status.appendChild(document.createTextNode(TEXT.failed + ' '));
+        var link = document.createElement('a');
+        link.href = FALLBACK + encodeURIComponent(email);
+        link.textContent = TEXT.failedLink;
+        status.appendChild(link);
+        status.appendChild(document.createTextNode('.'));
+        status.setAttribute('data-state', 'error');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

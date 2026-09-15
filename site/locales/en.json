@@ -1,0 +1,224 @@
+{
+  "common": {
+    "language": "Language",
+    "nav": {
+      "features": "Features",
+      "sports": "All sports",
+      "social": "Social",
+      "install": "Install"
+    },
+    "joinBeta": "Join the beta",
+    "backToSite": "Back to the site",
+    "badge": "Open beta — iOS &amp; Android",
+    "footer": {
+      "madeIn": "© 2026 Muskl — made in Belgium.",
+      "privacy": "Privacy",
+      "contact": "Contact",
+      "top": "Back to top",
+      "home": "Home"
+    }
+  },
+  "index": {
+    "meta": {
+      "title": "Muskl — Your training log, for every sport",
+      "description": "Muskl is a workout tracking app: sets, rest timer, calendar, progress charts and a feed with your friends. Weightlifting, cardio, combat sports — log it all.",
+      "ogTitle": "Muskl — Your training log",
+      "ogDescription": "Log your workouts, track your progress, share with your friends. For every sport."
+    },
+    "hero": {
+      "title": "Your training log,<br /><em>for every sport.</em>",
+      "lede": "Log your workouts set by set, keep an eye on your progress, and follow your friends in a feed without the noise. Weightlifting, cardio, combat sports — everything in one place.",
+      "ctaPrimary": "Try the app",
+      "ctaSecondary": "See what it does",
+      "note": "Free. No ads. Your data belongs to you."
+    },
+    "features": {
+      "eyebrow": "What Muskl does",
+      "title": "Everything you need to train seriously. Nothing more.",
+      "lede": "An app built to be open during your workout, not just after it.",
+      "sessions": {
+        "title": "Detailed workouts",
+        "text": "Exercises, sets, reps, weights and RPE. A catalog sorted by muscle group, or your own exercises."
+      },
+      "live": {
+        "title": "Live mode",
+        "text": "Check off each set during your workout, with a rest timer that starts on its own."
+      },
+      "calendar": {
+        "title": "Calendar and streak",
+        "text": "Your consistency at a glance, your weekly goal, and a way to add a session you forgot to log."
+      },
+      "progress": {
+        "title": "Progress",
+        "text": "Body weight chart and history per exercise: you can really see whether you're moving forward."
+      },
+      "templates": {
+        "title": "Templates",
+        "text": "Save a workout as a template and start it again in one tap. A starter program is waiting for you as soon as you sign up."
+      },
+      "units": {
+        "title": "Kilos or pounds",
+        "text": "Pick your unit once and the whole app adapts. Detected automatically from your country."
+      }
+    },
+    "shots": {
+      "eyebrow": "In pictures",
+      "title": "Dark, clear, fast.",
+      "profile": "Your profile",
+      "streak": "Streak and calendar",
+      "progress": "Progress",
+      "templates": "Templates"
+    },
+    "sports": {
+      "eyebrow": "Not just lifting",
+      "title": "Logging adapts to the exercise.",
+      "lede": "Not every sport is counted in reps. Muskl knows a plank is timed and a bench press is loaded.",
+      "reps": "<strong>Reps and weight</strong> — bench press, squat, pull-ups.",
+      "duration": "<strong>Duration</strong> — plank, jump rope, rowing machine, assault bike."
+    },
+    "social": {
+      "eyebrow": "Together",
+      "title": "Training is easier together.",
+      "lede": "A feed that only shows workouts from people you follow. No strangers, no content pushed by an algorithm.",
+      "follows": "<strong>Follows</strong> — request to follow, or keep your profile public.",
+      "likes": "<strong>Likes and comments</strong> on your friends' workouts.",
+      "share": "<strong>Shareable profile</strong> with a simple link.",
+      "block": "<strong>Blocking</strong> and control over who sees your body stats."
+    },
+    "languages": {
+      "eyebrow": "Everywhere",
+      "title": "Available in 7 languages.",
+      "lede": "Exercise names included, translated the way people actually say them at the gym — not word for word."
+    },
+    "beta": {
+      "eyebrow": "Beta",
+      "title": "Try Muskl before everyone else.",
+      "text": "On iPhone, join in one tap with TestFlight. On Android, send me your Gmail address and I'll send you your invitation. Your feedback shapes the final version.",
+      "ctaInstall": "Install the beta",
+      "ctaPrivacy": "Privacy policy"
+    }
+  },
+  "install": {
+    "meta": {
+      "title": "Install Muskl — iPhone and Android beta",
+      "description": "How to install the Muskl beta: through TestFlight on iPhone, or through a Google Play invitation on Android.",
+      "ogTitle": "Install the Muskl beta",
+      "ogDescription": "iPhone: TestFlight in one tap. Android: leave your Gmail address and get your invitation."
+    },
+    "hero": {
+      "title": "Install Muskl<br /><em>in two minutes.</em>",
+      "lede": "The app is being tested before its official release on the stores. How you install it depends on your phone."
+    },
+    "iphone": {
+      "tag": "Through TestFlight, Apple's official testing app.",
+      "step1": "<strong>Install TestFlight</strong> from the App Store. It's free and made by Apple.",
+      "step2": "<strong>Open the Muskl invitation on your iPhone</strong> with the button below.",
+      "step3": "<strong>Tap “Accept”, then “Install”.</strong> Muskl appears on your home screen.",
+      "ctaTestflight": "1. Download TestFlight",
+      "ctaInvite": "2. Open the Muskl invitation",
+      "note": "Updates arrive straight in TestFlight: you'll get a notification for every new version."
+    },
+    "android": {
+      "tag": "Through a Google Play invitation.",
+      "step1": "<strong>Leave your Gmail address below</strong>: the one of the Google account signed in to your phone's Play Store.",
+      "step2": "<strong>I add you to the testers</strong> and email you your invitation link.",
+      "step3": "<strong>Open the link on your phone</strong>, accept the invitation, then install Muskl from the Play Store.",
+      "label": "Your Gmail address",
+      "placeholder": "your.address@gmail.com",
+      "submit": "Get my invitation",
+      "legal": "Your address is only used to add you to the testers. It reaches me through the FormSubmit service. <a href=\"privacy.html\">Privacy</a>",
+      "note": "During the beta, Muskl doesn't show up in Play Store search: always use your link. It may also appear under a technical name, “com.muskl.app”. And stay enrolled in the test for a few weeks — that's what lets Muskl launch officially on the Play Store."
+    },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Before you start",
+      "freeQ": "Is it free?",
+      "freeA": "Yes, completely, and without ads.",
+      "keepQ": "Will I keep my workouts at the official launch?",
+      "keepA": "Yes. Your account and data live on the server, not in the test version: you'll find them exactly as they are when the app comes out on the stores.",
+      "helpQ": "Trouble installing?",
+      "helpA": "Write to me at <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Muskl%20installation\">mustafaliiyilmaz@gmail.com</a> and mention your phone model."
+    },
+    "form": {
+      "ok": "Got it! You'll get your invitation link by email as soon as I've added you to the testers.",
+      "invalid": "Enter a valid email address.",
+      "fileProtocol": "The form only works on the live website, not when the file is opened on your computer.",
+      "sending": "Sending…",
+      "failed": "The submission didn't go through.",
+      "failedLink": "Email me your address instead",
+      "mailSubject": "Muskl Android tester",
+      "mailBody": "Hi! I'd like to test Muskl on Android.\n\nMy Gmail address: "
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Muskl — Privacy policy",
+      "description": "What data Muskl collects, how it's used, and how to control or delete it."
+    },
+    "title": "Privacy policy — Muskl",
+    "updated": "Last updated: September 15, 2026",
+    "translationNote": "<p class=\"legal-note\">This is a translation of the French policy, which prevails in case of any difference.</p>",
+    "intro": "Muskl is a workout tracking app (weightlifting, cardio and other sports) with a social side. This page explains what data is collected, how it's used, and how you can control or delete it.",
+    "s1": {
+      "title": "1. Who is responsible for your data",
+      "text": "Muskl is a project developed and run independently. For any question, contact: <a href=\"mailto:mustafaliiyilmaz@gmail.com\">mustafaliiyilmaz@gmail.com</a>."
+    },
+    "s2": {
+      "title": "2. Data collected",
+      "account": "<strong>Account:</strong> email address and password (handled by Supabase Auth, never stored in plain text).",
+      "profile": "<strong>Profile:</strong> username, profile photo (optional), “Public profile” setting.",
+      "onboarding": "<strong>Welcome questionnaire:</strong> your training level, used to suggest starter workout templates.",
+      "preferences": "<strong>Preferences:</strong> weekly workout goal, weight unit (kg or lb).",
+      "body": "<strong>Body stats (optional):</strong> height, weight history.",
+      "workouts": "<strong>Workouts:</strong> name, date, notes, exercises, sets (reps, weight, duration, RPE) and your workout templates.",
+      "social": "<strong>Social interactions:</strong> the accounts you follow and that follow you, your likes, your comments and the accounts you block.",
+      "reports": "<strong>Reports:</strong> if you report content, we record which workout and who reported it.",
+      "noTracking": "Muskl does not collect your location, your contacts or any advertising identifier.",
+      "website": "<strong>On the website:</strong> if you request access to the Android beta through the form on the Install page, your email address reaches me through the <a href=\"https://formsubmit.co\" target=\"_blank\" rel=\"noopener\">FormSubmit</a> service. It is only used to add you to the testers list and send you your invitation."
+    },
+    "s3": {
+      "title": "3. Who can see your data",
+      "p1": "Your <strong>username</strong> and <strong>profile photo</strong> are visible to other users, for example in search.",
+      "p2": "Your <strong>workouts</strong> (with their exercises and sets), your <strong>height</strong> and your <strong>weight history</strong> depend on the <strong>“Public profile”</strong> setting, in the Profile tab. When it's on (the default), any user can see them by opening your profile. When it's off, only people whose follow request you've accepted can see them.",
+      "p3": "The feed only shows each person the workouts of the people they follow. Likes and comments on a workout are visible to those who can see that workout. If you block a user, they can no longer see your workouts."
+    },
+    "s4": {
+      "title": "4. Data processor",
+      "text": "Data is hosted by <a href=\"https://supabase.com\" target=\"_blank\" rel=\"noopener\">Supabase</a> (PostgreSQL database, authentication, photo storage), in the European Union (eu-central-1 region). No data is sold or shared with third parties for advertising — Muskl shows no ads and uses no third-party analytics tools."
+    },
+    "s5": {
+      "title": "5. Retention period",
+      "text": "Your data is kept for as long as your account exists. If you delete your account, all your data is permanently deleted (see next section)."
+    },
+    "s6": {
+      "title": "6. Deleting your account and your data",
+      "inApp": "<strong>From the app:</strong> <strong>Profile</strong> tab → <strong>Delete my account</strong>. Deletion is immediate.",
+      "outside": "<strong>Without the app</strong> (for example if you've already uninstalled it): email <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Account%20deletion%20Muskl\">mustafaliiyilmaz@gmail.com</a> with the subject “Account deletion”, from the email address of your Muskl account. Deletion is carried out within 30 days at most and you'll receive a confirmation.",
+      "scope": "In both cases, deletion is permanent and covers all your data: your account, your profile and photo, your questionnaire answers and preferences, your workouts, exercises and sets, your workout templates, your weight history, your follows and followers, your likes, your comments, your blocks and your reports. Muskl keeps none of this data after deletion."
+    },
+    "s7": {
+      "title": "7. Your rights",
+      "text": "Under the GDPR, you have the right to access, rectify, erase and port your data. Most of these actions are available directly in the app (edit your profile, delete your account). For any other request, contact us at the address below."
+    },
+    "s8": {
+      "title": "8. Reporting content",
+      "text": "You can report a workout from the feed. Reports are visible only to you and the Muskl team, never to other users."
+    },
+    "s9": {
+      "title": "9. Security",
+      "text": "Access to data is protected by security rules applied to each row of the database (Row Level Security), ensuring that only the owner of a piece of data can change or delete it. Communication between the app and the server is encrypted (HTTPS)."
+    },
+    "s10": {
+      "title": "10. Minimum age",
+      "text": "Muskl is not intended for people under 16."
+    },
+    "s11": {
+      "title": "11. Changes",
+      "text": "This policy may be updated. The date of the last change is shown at the top of this page."
+    },
+    "s12": {
+      "title": "12. Contact",
+      "text": "For any question about this policy or your data:"
+    }
+  }
+}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{{langRedirect}}
+<title>{{t:privacy.meta.title}}</title>
+<meta name="description" content="{{t:privacy.meta.description}}" />
+<link rel="canonical" href="{{canonical}}" />
+{{alternates}}
+<link rel="icon" href="{{root}}assets/favicon.png" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="{{root}}assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="{{root}}assets/logo.png" alt="" />
+      Muskl
+    </a>
+    {{langSwitcher}}
+    <a class="btn btn-ghost btn-sm" href="index.html">{{t:common.backToSite}}</a>
+  </div>
+</header>
+
+<main class="wrap legal">
+  <h1>{{t:privacy.title}}</h1>
+  <p class="updated">{{t:privacy.updated}}</p>
+  {{t:privacy.translationNote}}
+
+  <p>{{t:privacy.intro}}</p>
+
+  <h2>{{t:privacy.s1.title}}</h2>
+  <p>{{t:privacy.s1.text}}</p>
+
+  <h2>{{t:privacy.s2.title}}</h2>
+  <ul>
+    <li>{{t:privacy.s2.account}}</li>
+    <li>{{t:privacy.s2.profile}}</li>
+    <li>{{t:privacy.s2.onboarding}}</li>
+    <li>{{t:privacy.s2.preferences}}</li>
+    <li>{{t:privacy.s2.body}}</li>
+    <li>{{t:privacy.s2.workouts}}</li>
+    <li>{{t:privacy.s2.social}}</li>
+    <li>{{t:privacy.s2.reports}}</li>
+  </ul>
+  <p>{{t:privacy.s2.noTracking}}</p>
+  <p>{{t:privacy.s2.website}}</p>
+
+  <h2>{{t:privacy.s3.title}}</h2>
+  <p>{{t:privacy.s3.p1}}</p>
+  <p>{{t:privacy.s3.p2}}</p>
+  <p>{{t:privacy.s3.p3}}</p>
+
+  <h2>{{t:privacy.s4.title}}</h2>
+  <p>{{t:privacy.s4.text}}</p>
+
+  <h2>{{t:privacy.s5.title}}</h2>
+  <p>{{t:privacy.s5.text}}</p>
+
+  <!-- Linked from the Google Play data-deletion form: keep this id stable in every language. -->
+  <h2 id="suppression">{{t:privacy.s6.title}}</h2>
+  <p>{{t:privacy.s6.inApp}}</p>
+  <p>{{t:privacy.s6.outside}}</p>
+  <p>{{t:privacy.s6.scope}}</p>
+
+  <h2>{{t:privacy.s7.title}}</h2>
+  <p>{{t:privacy.s7.text}}</p>
+
+  <h2>{{t:privacy.s8.title}}</h2>
+  <p>{{t:privacy.s8.text}}</p>
+
+  <h2>{{t:privacy.s9.title}}</h2>
+  <p>{{t:privacy.s9.text}}</p>
+
+  <h2>{{t:privacy.s10.title}}</h2>
+  <p>{{t:privacy.s10.text}}</p>
+
+  <h2>{{t:privacy.s11.title}}</h2>
+  <p>{{t:privacy.s11.text}}</p>
+
+  <h2>{{t:privacy.s12.title}}</h2>
+  <div class="contact">
+    <p>{{t:privacy.s12.text}}</p>
+    <p><a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>{{t:common.footer.madeIn}}</div>
+    <div class="foot-links">
+      <a href="mailto:mustafaliiyilmaz@gmail.com">{{t:common.footer.contact}}</a>
+      <a href="index.html">{{t:common.footer.home}}</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

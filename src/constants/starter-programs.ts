@@ -34,67 +34,67 @@ export type BuiltSession = {
   reps: number;
 };
 
-const FULL_BODY_A: StarterSession = {
+export const FULL_BODY_A: StarterSession = {
   nameKey: 'fullBodyA',
   catalogKeys: ['legs:0', 'chest:0', 'back:5', 'shoulders:2', 'abs:2', 'biceps:1', 'triceps:0'],
 };
 
-const FULL_BODY_B: StarterSession = {
+export const FULL_BODY_B: StarterSession = {
   nameKey: 'fullBodyB',
   catalogKeys: ['legs:2', 'chest:1', 'back:2', 'shoulders:0', 'legs:6', 'triceps:1', 'biceps:2'],
 };
 
-const FULL_BODY_C: StarterSession = {
+export const FULL_BODY_C: StarterSession = {
   nameKey: 'fullBodyC',
   catalogKeys: ['back:8', 'chest:3', 'back:6', 'legs:3', 'shoulders:4', 'abs:1', 'legs:8'],
 };
 
-const UPPER_A: StarterSession = {
+export const UPPER_A: StarterSession = {
   nameKey: 'upperA',
   catalogKeys: ['chest:0', 'back:2', 'shoulders:0', 'back:6', 'biceps:0', 'triceps:0', 'shoulders:2'],
 };
 
-const LOWER_A: StarterSession = {
+export const LOWER_A: StarterSession = {
   nameKey: 'lowerA',
   catalogKeys: ['legs:0', 'back:8', 'legs:2', 'legs:6', 'legs:8', 'abs:2', 'legs:7'],
 };
 
-const UPPER_B: StarterSession = {
+export const UPPER_B: StarterSession = {
   nameKey: 'upperB',
   catalogKeys: ['chest:1', 'back:0', 'shoulders:1', 'back:5', 'shoulders:5', 'biceps:2', 'triceps:1'],
 };
 
-const LOWER_B: StarterSession = {
+export const LOWER_B: StarterSession = {
   nameKey: 'lowerB',
   catalogKeys: ['legs:2', 'legs:3', 'legs:5', 'legs:6', 'legs:9', 'abs:1', 'legs:11'],
 };
 
-const PUSH_A: StarterSession = {
+export const PUSH_A: StarterSession = {
   nameKey: 'pushA',
   catalogKeys: ['chest:0', 'shoulders:0', 'chest:1', 'shoulders:2', 'triceps:0', 'triceps:1', 'chest:5'],
 };
 
-const PULL_A: StarterSession = {
+export const PULL_A: StarterSession = {
   nameKey: 'pullA',
   catalogKeys: ['back:0', 'back:2', 'back:5', 'shoulders:4', 'biceps:0', 'biceps:2', 'shoulders:6'],
 };
 
-const LEGS_A: StarterSession = {
+export const LEGS_A: StarterSession = {
   nameKey: 'legsA',
   catalogKeys: ['legs:0', 'back:8', 'legs:2', 'legs:6', 'legs:5', 'legs:8', 'abs:2'],
 };
 
-const PUSH_B: StarterSession = {
+export const PUSH_B: StarterSession = {
   nameKey: 'pushB',
   catalogKeys: ['chest:3', 'shoulders:1', 'chest:8', 'shoulders:2', 'triceps:2', 'triceps:3', 'chest:6'],
 };
 
-const PULL_B: StarterSession = {
+export const PULL_B: StarterSession = {
   nameKey: 'pullB',
   catalogKeys: ['back:6', 'back:3', 'back:4', 'shoulders:5', 'biceps:1', 'biceps:3', 'back:10'],
 };
 
-const LEGS_B: StarterSession = {
+export const LEGS_B: StarterSession = {
   nameKey: 'legsB',
   catalogKeys: ['legs:1', 'legs:7', 'legs:4', 'legs:6', 'legs:9', 'legs:12', 'abs:5'],
 };

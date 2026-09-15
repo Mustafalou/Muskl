@@ -244,6 +244,13 @@
       "stopLive": "Antrenmanı durdur",
       "pendingSync_one": "Çevrimdışı — {{count}} değişiklik eşitlenecek",
       "pendingSync_other": "Çevrimdışı — {{count}} değişiklik eşitlenecek"
+    },
+    "superset": {
+      "label": "Süperset",
+      "link": "Süperset olarak bağla",
+      "unlink": "Süperseti ayır",
+      "badge": "Süperset {{current}}/{{total}}",
+      "next": "Sıradaki: {{name}}, dinlenmeden"
     }
   },
   "restTimer": {
@@ -391,5 +398,59 @@
     "liveMode": "Antrenman sırasında Canlı moda geç: setleri tek tek gösterir, dinlenme sayacıyla birlikte.",
     "streakCalendar": "Takvimini görmek için aleve dokun.",
     "calendarBackfill": "Unuttuğun bir antrenmanı eklemek için bir güne dokun."
+  },
+  "library": {
+    "title": "Kütüphane",
+    "intro": "Hazır programlar. Şablonlarına ekle, sonra dilediğin gibi düzenle.",
+    "entry": "Şablon kütüphanesi",
+    "entryHint": "Hazır programlar",
+    "add": "Şablonlarıma ekle",
+    "added": "Şablonlarına eklendi ✓",
+    "perWeek_one": "Haftada {{count}} gün",
+    "perWeek_other": "Haftada {{count}} gün",
+    "sessionCount_one": "{{count}} antrenman",
+    "sessionCount_other": "{{count}} antrenman",
+    "setsReps": "{{sets}} × {{reps}}",
+    "sessions": {
+      "strengthA": "Kuvvet A",
+      "strengthB": "Kuvvet B",
+      "arms": "Süperset kol",
+      "abs": "Hızlı karın",
+      "hiit": "HIIT"
+    },
+    "programs": {
+      "fullBody2": {
+        "name": "Full body, 2 gün",
+        "description": "Tüm vücut iki antrenmanda: başlamak ya da az vakti olanlar için ideal."
+      },
+      "fullBody3": {
+        "name": "Full body, 3 gün",
+        "description": "Haftada üç tam vücut antrenmanı, hızlı gelişim için klasik."
+      },
+      "upperLower": {
+        "name": "Üst / Alt vücut, 4 gün",
+        "description": "İki üst vücut, iki alt vücut antrenmanı: kas başına daha fazla hacim."
+      },
+      "ppl": {
+        "name": "Push Pull Legs, 6 gün",
+        "description": "İtme, çekme, bacak, haftada iki kez. Düzenli antrenman yapanlar için."
+      },
+      "strength5x5": {
+        "name": "Kuvvet 5×5",
+        "description": "Ağır temel hareketler 5×5, iki antrenman dönüşümlü."
+      },
+      "armsSupersets": {
+        "name": "Süperset kol",
+        "description": "Biceps ve triceps dinlenmeden art arda: kısa ve yoğun bir antrenman."
+      },
+      "absExpress": {
+        "name": "Hızlı karın",
+        "description": "Her antrenmanın sonuna eklenecek 4 hareketlik bir devre."
+      },
+      "hiit": {
+        "name": "HIIT",
+        "description": "Vücut ağırlığı ve kettlebell ile, ara vermeden bir kardiyo devresi."
+      }
+    }
   }
 }

@@ -244,6 +244,13 @@
       "stopLive": "Training stoppen",
       "pendingSync_one": "Offline — {{count}} wijziging te synchroniseren",
       "pendingSync_other": "Offline — {{count}} wijzigingen te synchroniseren"
+    },
+    "superset": {
+      "label": "Superset",
+      "link": "Koppelen als superset",
+      "unlink": "Superset loskoppelen",
+      "badge": "Superset {{current}}/{{total}}",
+      "next": "Door naar {{name}}, zonder rust"
     }
   },
   "restTimer": {
@@ -391,5 +398,59 @@
     "liveMode": "Zet Live-modus aan tijdens je training: hij toont één set tegelijk, met rusttimer.",
     "streakCalendar": "Tik op de vlam om je kalender te zien.",
     "calendarBackfill": "Tik op een dag om een vergeten training toe te voegen."
+  },
+  "library": {
+    "title": "Bibliotheek",
+    "intro": "Kant-en-klare schema's. Voeg ze toe aan je sjablonen en pas ze aan zoals jij wilt.",
+    "entry": "Sjabloonbibliotheek",
+    "entryHint": "Kant-en-klare schema's",
+    "add": "Aan mijn sjablonen toevoegen",
+    "added": "Toegevoegd aan je sjablonen ✓",
+    "perWeek_one": "{{count}} dag / week",
+    "perWeek_other": "{{count}} dagen / week",
+    "sessionCount_one": "{{count}} training",
+    "sessionCount_other": "{{count}} trainingen",
+    "setsReps": "{{sets}} × {{reps}}",
+    "sessions": {
+      "strengthA": "Kracht A",
+      "strengthB": "Kracht B",
+      "arms": "Armen in supersets",
+      "abs": "Buikspieren express",
+      "hiit": "HIIT"
+    },
+    "programs": {
+      "fullBody2": {
+        "name": "Full body, 2 dagen",
+        "description": "Je hele lichaam in twee trainingen: ideaal om te beginnen of met weinig tijd."
+      },
+      "fullBody3": {
+        "name": "Full body, 3 dagen",
+        "description": "Drie volledige trainingen per week, de klassieker voor snelle vooruitgang."
+      },
+      "upperLower": {
+        "name": "Upper / Lower, 4 dagen",
+        "description": "Twee bovenlichaam- en twee onderlichaamtrainingen: meer volume per spier."
+      },
+      "ppl": {
+        "name": "Push Pull Legs, 6 dagen",
+        "description": "Duwen, trekken, benen, twee keer per week. Voor wie regelmatig traint."
+      },
+      "strength5x5": {
+        "name": "Kracht 5×5",
+        "description": "De grote zware oefeningen in 5 sets van 5, met twee afwisselende trainingen."
+      },
+      "armsSupersets": {
+        "name": "Armen in supersets",
+        "description": "Biceps en triceps zonder rust na elkaar: een korte, intense training."
+      },
+      "absExpress": {
+        "name": "Buikspieren express",
+        "description": "Een circuit van 4 oefeningen om elke training mee af te sluiten."
+      },
+      "hiit": {
+        "name": "HIIT",
+        "description": "Een cardiocircuit met lichaamsgewicht en kettlebell, zonder pauzes."
+      }
+    }
   }
 }

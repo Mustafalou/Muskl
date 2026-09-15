@@ -122,7 +122,7 @@ export default function AddExerciseScreen() {
     if (cached) {
       await saveWorkoutCache(workoutId, cached.workout, [
         ...cached.exercises,
-        ...rows.map((row) => ({ ...row, rest_seconds: null, notes: null, sets: [] })),
+        ...rows.map((row) => ({ ...row, rest_seconds: null, notes: null, superset_id: null, sets: [] })),
       ]);
     }
 

@@ -3,423 +3,38 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  (function () {
+    try {
+      if (/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)) return;
+      var available = ["en","es","de","nl","pt","tr"];
+      var preferred = localStorage.getItem('muskl-lang') ||
+        ((navigator.languages && navigator.languages[0]) || navigator.language || '').slice(0, 2).toLowerCase();
+      if (available.indexOf(preferred) === -1) return;
+      var page = location.pathname.split('/').pop() || 'index.html';
+      location.replace(preferred + '/' + page + location.search + location.hash);
+    } catch (e) {}
+  })();
+</script>
 <title>Muskl — Ton carnet d'entraînement, pour tous les sports</title>
 <meta name="description" content="Muskl est une application de suivi d'entraînement : séries, chrono de repos, calendrier, courbes de progression et un feed entre amis. Musculation, cardio, sports de combat — tout se note." />
+<link rel="canonical" href="https://muskl.mynextgen.be/" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/" />
 <link rel="icon" href="assets/favicon.png" />
 <meta property="og:title" content="Muskl — Ton carnet d'entraînement" />
 <meta property="og:description" content="Note tes séances, suis ta progression, partage avec tes amis. Pour tous les sports." />
-<meta property="og:image" content="assets/icon.png" />
+<meta property="og:image" content="https://muskl.mynextgen.be/assets/icon.png" />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0e0e0e" />
-<style>
-  :root {
-    --bg: #0e0e0e;
-    --elevated: #1a1a1a;
-    --border: #2a2a2a;
-    --text: #ffffff;
-    --muted: #9a9a9a;
-    --tint: #f5a623;
-    --radius: 16px;
-    --max: 1080px;
-  }
-
-  * { box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  a { color: var(--tint); }
-
-  .wrap {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* ---------- nav ---------- */
-
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: rgba(14, 14, 14, 0.82);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    height: 68px;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 19px;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    text-decoration: none;
-    margin-right: auto;
-  }
-
-  .brand img { width: 30px; height: 30px; border-radius: 8px; }
-
-  .nav-links {
-    display: flex;
-    gap: 24px;
-    font-size: 15px;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .nav-links a:hover { color: var(--text); }
-
-  /* ---------- boutons ---------- */
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 13px 24px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: transform 0.12s, background 0.15s, border-color 0.15s;
-    white-space: nowrap;
-  }
-
-  .btn:active { transform: scale(0.97); }
-
-  .btn-primary {
-    background: var(--tint);
-    color: #0e0e0e;
-  }
-
-  .btn-primary:hover { background: #ffb733; }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text);
-    border-color: var(--border);
-  }
-
-  .btn-ghost:hover { border-color: var(--muted); background: var(--elevated); }
-
-  .btn-sm { padding: 9px 18px; font-size: 14px; }
-
-  /* ---------- hero ---------- */
-
-  .hero {
-    padding: 96px 0 80px;
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 56px;
-    align-items: center;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(245, 166, 35, 0.12);
-    border: 1px solid rgba(245, 166, 35, 0.3);
-    color: var(--tint);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 999px;
-    margin-bottom: 24px;
-  }
-
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--tint);
-  }
-
-  h1 {
-    font-size: clamp(38px, 5.5vw, 60px);
-    line-height: 1.05;
-    letter-spacing: -0.035em;
-    margin: 0 0 20px;
-    font-weight: 800;
-  }
-
-  h1 em { font-style: normal; color: var(--tint); }
-
-  .lede {
-    font-size: 19px;
-    color: var(--muted);
-    margin: 0 0 32px;
-    max-width: 46ch;
-  }
-
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-
-  .cta-note {
-    margin-top: 18px;
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  /* ---------- téléphone ---------- */
-
-  .phone {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
-    aspect-ratio: 9 / 19.5;
-    border-radius: 42px;
-    border: 10px solid #202020;
-    background: var(--elevated) center / cover no-repeat;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .phone::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(120% 80% at 50% 0%, rgba(245, 166, 35, 0.14), transparent 60%);
-    pointer-events: none;
-  }
-
-  /* Repère affiché tant que la vraie capture n'est pas déposée dans assets/. */
-  .phone .placeholder {
-    color: #4a4a4a;
-    font-size: 13px;
-    text-align: center;
-    padding: 0 24px;
-  }
-
-  /* ---------- sections ---------- */
-
-  section { padding: 80px 0; border-top: 1px solid var(--border); }
-
-  .section-head { max-width: 620px; margin-bottom: 48px; }
-
-  .eyebrow {
-    color: var(--tint);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0 0 12px;
-  }
-
-  h2 {
-    font-size: clamp(28px, 3.5vw, 38px);
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin: 0 0 14px;
-    font-weight: 700;
-  }
-
-  .section-head p {
-    color: var(--muted);
-    font-size: 17px;
-    margin: 0;
-  }
-
-  .section-lede {
-    color: var(--muted);
-    font-size: 17px;
-    margin: 0;
-  }
-
-  /* ---------- grille de fonctions ---------- */
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .card {
-    background: var(--elevated);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 26px;
-    transition: border-color 0.15s, transform 0.15s;
-  }
-
-  .card:hover { border-color: #3a3a3a; transform: translateY(-2px); }
-
-  .card .ico {
-    width: 42px;
-    height: 42px;
-    border-radius: 11px;
-    background: rgba(245, 166, 35, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-    margin-bottom: 16px;
-  }
-
-  .card h3 {
-    margin: 0 0 8px;
-    font-size: 17px;
-    font-weight: 650;
-    letter-spacing: -0.01em;
-  }
-
-  .card p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 15px;
-  }
-
-  /* ---------- captures ---------- */
-
-  .shots {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-  }
-
-  .shots .phone {
-    max-width: none;
-    border-width: 8px;
-    border-radius: 32px;
-  }
-
-  .shot-caption {
-    text-align: center;
-    color: var(--muted);
-    font-size: 14px;
-    margin-top: 14px;
-  }
-
-  /* ---------- blocs en deux colonnes ---------- */
-
-  .split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    align-items: center;
-  }
-
-  .list { margin: 24px 0 0; padding: 0; list-style: none; }
-
-  .list li {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 14px;
-    color: var(--muted);
-    font-size: 16px;
-  }
-
-  .list li::before {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 10px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--tint);
-  }
-
-  .list strong { color: var(--text); font-weight: 600; }
-
-  /* ---------- langues ---------- */
-
-  .langs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 28px;
-  }
-
-  .lang {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    background: var(--elevated);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 9px 18px;
-    font-size: 15px;
-  }
-
-  .lang .flag { font-size: 19px; line-height: 1; }
-
-  /* ---------- appel final ---------- */
-
-  .final {
-    text-align: center;
-    background: linear-gradient(180deg, rgba(245, 166, 35, 0.08), transparent 70%);
-  }
-
-  .final .section-head { margin: 0 auto 36px; }
-
-  .final .cta-row { justify-content: center; }
-
-  /* ---------- pied de page ---------- */
-
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 40px 0 56px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  .foot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
-
-  .foot-links a { color: var(--muted); text-decoration: none; }
-
-  .foot-links a:hover { color: var(--text); }
-
-  /* ---------- responsive ---------- */
-
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; gap: 48px; padding: 64px 0 56px; }
-    .hero .phone { max-width: 260px; }
-    .grid { grid-template-columns: repeat(2, 1fr); }
-    .shots { grid-template-columns: repeat(2, 1fr); }
-    .split { grid-template-columns: 1fr; gap: 36px; }
-    .nav-links { display: none; }
-  }
-
-  @media (max-width: 560px) {
-    .grid { grid-template-columns: 1fr; }
-    section { padding: 60px 0; }
-    .cta-row .btn { flex: 1 1 auto; }
-  }
-</style>
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="assets/site.css?v=20260916" />
 </head>
 <body>
 
@@ -430,12 +45,32 @@
       Muskl
     </a>
     <nav class="nav-links">
-      <a href="#fonctions">Fonctions</a>
+      <a href="#features">Fonctions</a>
       <a href="#sports">Tous les sports</a>
       <a href="#social">Social</a>
-      <a href="#beta">Bêta</a>
+      <a href="installation.html">Installation</a>
     </nav>
-    <a class="btn btn-primary btn-sm" href="#beta">Rejoindre la bêta</a>
+    <details class="lang-switch">
+    <summary aria-label="Langue"><span class="flag">🇫🇷</span><span class="lang-name">Français</span></summary>
+    <div class="lang-menu">
+      <a href="index.html" hreflang="fr" lang="fr" data-lang="fr" aria-current="true"><span class="flag">🇫🇷</span>Français</a>
+      <a href="en/index.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="es/index.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="de/index.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="nl/index.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="pt/index.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="tr/index.html" hreflang="tr" lang="tr" data-lang="tr"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-primary btn-sm" href="installation.html">Rejoindre la bêta</a>
   </div>
 </header>
 
@@ -446,26 +81,19 @@
       <div>
         <div class="badge"><span class="dot"></span> Bêta ouverte — iOS &amp; Android</div>
         <h1>Ton carnet d'entraînement,<br /><em>pour tous les sports.</em></h1>
-        <p class="lede">
-          Note tes séances série par série, garde un œil sur ta progression,
-          et suis tes amis dans un feed sans bruit. Musculation, cardio,
-          sports de combat — tout se note au même endroit.
-        </p>
+        <p class="lede">Note tes séances série par série, garde un œil sur ta progression, et suis tes amis dans un feed sans bruit. Musculation, cardio, sports de combat — tout se note au même endroit.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#beta">Tester l'application</a>
-          <a class="btn btn-ghost" href="#fonctions">Voir ce que ça fait</a>
+          <a class="btn btn-primary" href="installation.html">Tester l'application</a>
+          <a class="btn btn-ghost" href="#features">Voir ce que ça fait</a>
         </div>
         <p class="cta-note">Gratuit. Sans publicité. Tes données t'appartiennent.</p>
       </div>
 
-      <!-- Capture : dépose ton fichier en assets/shot-hero.png (portrait, ~1170x2532). -->
-      <div class="phone" style="background-image: url('assets/shot-hero.png')">
-        <div class="placeholder">Capture d'écran<br />assets/shot-hero.png</div>
-      </div>
+      <div class="phone" style="background-image: url('assets/shot-hero.jpg')"></div>
     </div>
   </div>
 
-  <section id="fonctions">
+  <section id="features">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Ce que fait Muskl</p>
@@ -508,38 +136,29 @@
     </div>
   </section>
 
-  <section id="captures">
+  <section id="screens">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">En images</p>
         <h2>Sombre, lisible, rapide.</h2>
       </div>
 
-      <!-- Captures : dépose shot-1.png … shot-4.png dans assets/ (portrait). -->
       <div class="shots">
         <div>
-          <div class="phone" style="background-image: url('assets/shot-1.png')">
-            <div class="placeholder">assets/shot-1.png</div>
-          </div>
-          <p class="shot-caption">Tes séances</p>
+          <div class="phone" style="background-image: url('assets/shot-1.jpg')"></div>
+          <p class="shot-caption">Ton profil</p>
         </div>
         <div>
-          <div class="phone" style="background-image: url('assets/shot-2.png')">
-            <div class="placeholder">assets/shot-2.png</div>
-          </div>
-          <p class="shot-caption">Mode Live</p>
+          <div class="phone" style="background-image: url('assets/shot-2.jpg')"></div>
+          <p class="shot-caption">Streak et calendrier</p>
         </div>
         <div>
-          <div class="phone" style="background-image: url('assets/shot-3.png')">
-            <div class="placeholder">assets/shot-3.png</div>
-          </div>
+          <div class="phone" style="background-image: url('assets/shot-3.jpg')"></div>
           <p class="shot-caption">Progression</p>
         </div>
         <div>
-          <div class="phone" style="background-image: url('assets/shot-4.png')">
-            <div class="placeholder">assets/shot-4.png</div>
-          </div>
-          <p class="shot-caption">Feed</p>
+          <div class="phone" style="background-image: url('assets/shot-4.jpg')"></div>
+          <p class="shot-caption">Modèles</p>
         </div>
       </div>
     </div>
@@ -550,22 +169,15 @@
       <div class="split">
         <div>
           <p class="eyebrow">Pas que la fonte</p>
-          <h2>Une séance, trois façons de la mesurer.</h2>
-          <p class="section-lede">
-            Tous les sports ne se comptent pas en répétitions. Muskl adapte
-            la saisie à l'exercice que tu fais.
-          </p>
+          <h2>La saisie s'adapte à l'exercice.</h2>
+          <p class="section-lede">Tous les sports ne se comptent pas en répétitions. Muskl sait qu'une planche se chronomètre et qu'un développé couché se charge.</p>
           <ul class="list">
             <li><strong>Répétitions et charge</strong> — développé couché, squat, tractions.</li>
-            <li><strong>Durée</strong> — gainage, corde à sauter, rounds de boxe, étirements.</li>
-            <li><strong>Distance</strong> — course, vélo, rameur, natation.</li>
+            <li><strong>Durée</strong> — planche, corde à sauter, rameur, assault bike.</li>
           </ul>
         </div>
 
-        <!-- Capture : assets/shot-sports.png -->
-        <div class="phone" style="background-image: url('assets/shot-sports.png')">
-          <div class="placeholder">assets/shot-sports.png</div>
-        </div>
+        <div class="phone" style="background-image: url('assets/shot-sports.jpg')"></div>
       </div>
     </div>
   </section>
@@ -573,18 +185,12 @@
   <section id="social">
     <div class="wrap">
       <div class="split">
-        <!-- Capture : assets/shot-social.png -->
-        <div class="phone" style="background-image: url('assets/shot-social.png')">
-          <div class="placeholder">assets/shot-social.png</div>
-        </div>
+        <div class="phone" style="background-image: url('assets/shot-social.jpg')"></div>
 
         <div>
           <p class="eyebrow">Entre vous</p>
           <h2>Le sport, c'est plus simple à plusieurs.</h2>
-          <p class="section-lede">
-            Un feed qui ne montre que les séances des gens que tu suis. Pas d'inconnus,
-            pas de contenu poussé par un algorithme.
-          </p>
+          <p class="section-lede">Un feed qui ne montre que les séances des gens que tu suis. Pas d'inconnus, pas de contenu poussé par un algorithme.</p>
           <ul class="list">
             <li><strong>Abonnements</strong> — demande à suivre, ou laisse ton profil public.</li>
             <li><strong>Likes et commentaires</strong> sur les séances de tes amis.</li>
@@ -596,7 +202,7 @@
     </div>
   </section>
 
-  <section id="langues">
+  <section id="languages">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Partout</p>
@@ -620,14 +226,10 @@
       <div class="section-head">
         <p class="eyebrow">Bêta</p>
         <h2>Essaie Muskl avant tout le monde.</h2>
-        <p>
-          L'app est en test fermé sur iOS et Android. Écris-moi et je t'ajoute
-          à la liste des testeurs — tes retours façonnent la version finale.
-        </p>
+        <p>Sur iPhone, rejoins-la en un tap avec TestFlight. Sur Android, envoie-moi ton adresse Gmail et je t'envoie ton invitation. Tes retours façonnent la version finale.</p>
       </div>
       <div class="cta-row">
-        <!-- Remplacer par le lien public TestFlight une fois le test externe activé. -->
-        <a class="btn btn-primary" href="mailto:mustafaliiyilmaz@gmail.com?subject=Beta%20Muskl">Demander un accès</a>
+        <a class="btn btn-primary" href="installation.html">Installer la bêta</a>
         <a class="btn btn-ghost" href="privacy.html">Politique de confidentialité</a>
       </div>
     </div>

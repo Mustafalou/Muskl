@@ -1,0 +1,224 @@
+{
+  "common": {
+    "language": "Idioma",
+    "nav": {
+      "features": "Recursos",
+      "sports": "Todos os esportes",
+      "social": "Social",
+      "install": "Instalação"
+    },
+    "joinBeta": "Entrar no beta",
+    "backToSite": "Voltar ao site",
+    "badge": "Beta aberto — iOS &amp; Android",
+    "footer": {
+      "madeIn": "© 2026 Muskl — desenvolvido na Bélgica.",
+      "privacy": "Privacidade",
+      "contact": "Contato",
+      "top": "Voltar ao topo",
+      "home": "Início"
+    }
+  },
+  "index": {
+    "meta": {
+      "title": "Muskl — Seu diário de treino, para todos os esportes",
+      "description": "Muskl é um app para registrar seus treinos: séries, cronômetro de descanso, calendário, gráficos de progresso e um feed com seus amigos. Musculação, cardio, esportes de combate — tudo em um só lugar.",
+      "ogTitle": "Muskl — Seu diário de treino",
+      "ogDescription": "Registre seus treinos, acompanhe seu progresso e compartilhe com seus amigos. Para todos os esportes."
+    },
+    "hero": {
+      "title": "Seu diário de treino,<br /><em>para todos os esportes.</em>",
+      "lede": "Registre seus treinos série por série, acompanhe seu progresso e siga seus amigos em um feed sem ruído. Musculação, cardio, esportes de combate — tudo no mesmo lugar.",
+      "ctaPrimary": "Testar o app",
+      "ctaSecondary": "Ver o que ele faz",
+      "note": "Grátis. Sem anúncios. Seus dados são seus."
+    },
+    "features": {
+      "eyebrow": "O que o Muskl faz",
+      "title": "Tudo o que você precisa para treinar a sério. Nada mais.",
+      "lede": "Um app pensado para ficar aberto durante o treino, não só depois.",
+      "sessions": {
+        "title": "Treinos detalhados",
+        "text": "Exercícios, séries, repetições, cargas e RPE. Um catálogo organizado por grupo muscular, ou seus próprios exercícios."
+      },
+      "live": {
+        "title": "Modo Ao vivo",
+        "text": "Marque cada série durante o treino, com um cronômetro de descanso que começa sozinho."
+      },
+      "calendar": {
+        "title": "Calendário e sequência",
+        "text": "Sua constância de relance, sua meta semanal e a opção de adicionar um treino que você esqueceu de registrar."
+      },
+      "progress": {
+        "title": "Progresso",
+        "text": "Gráfico de peso corporal e histórico por exercício: você vê de verdade se está evoluindo."
+      },
+      "templates": {
+        "title": "Modelos",
+        "text": "Salve um treino como modelo e comece de novo com um toque. Um programa inicial espera por você assim que se cadastrar."
+      },
+      "units": {
+        "title": "Quilos ou libras",
+        "text": "Escolha sua unidade uma vez e o app inteiro se adapta. Detectada automaticamente pelo seu país."
+      }
+    },
+    "shots": {
+      "eyebrow": "Em imagens",
+      "title": "Escuro, claro, rápido.",
+      "profile": "Seu perfil",
+      "streak": "Sequência e calendário",
+      "progress": "Progresso",
+      "templates": "Modelos"
+    },
+    "sports": {
+      "eyebrow": "Não é só musculação",
+      "title": "O registro se adapta ao exercício.",
+      "lede": "Nem todo esporte se conta em repetições. O Muskl sabe que a prancha é cronometrada e o supino é carregado.",
+      "reps": "<strong>Repetições e carga</strong> — supino, agachamento, barra fixa.",
+      "duration": "<strong>Duração</strong> — prancha, pular corda, remo, assault bike."
+    },
+    "social": {
+      "eyebrow": "Juntos",
+      "title": "Treinar é mais fácil junto.",
+      "lede": "Um feed que só mostra os treinos das pessoas que você segue. Sem desconhecidos, sem conteúdo empurrado por um algoritmo.",
+      "follows": "<strong>Seguir</strong> — peça para seguir alguém ou deixe seu perfil público.",
+      "likes": "<strong>Curtidas e comentários</strong> nos treinos dos seus amigos.",
+      "share": "<strong>Perfil compartilhável</strong> por um simples link.",
+      "block": "<strong>Bloqueio</strong> e controle de quem vê suas medidas corporais."
+    },
+    "languages": {
+      "eyebrow": "Em todo lugar",
+      "title": "Disponível em 7 idiomas.",
+      "lede": "Incluindo os nomes dos exercícios, traduzidos como se fala de verdade na academia — não palavra por palavra."
+    },
+    "beta": {
+      "eyebrow": "Beta",
+      "title": "Teste o Muskl antes de todo mundo.",
+      "text": "No iPhone, entre com um toque pelo TestFlight. No Android, me envie seu endereço do Gmail e eu te mando o convite. Seu feedback molda a versão final.",
+      "ctaInstall": "Instalar o beta",
+      "ctaPrivacy": "Política de privacidade"
+    }
+  },
+  "install": {
+    "meta": {
+      "title": "Instalar o Muskl — Beta para iPhone e Android",
+      "description": "Como instalar o beta do Muskl: pelo TestFlight no iPhone ou por um convite do Google Play no Android.",
+      "ogTitle": "Instale o beta do Muskl",
+      "ogDescription": "iPhone: TestFlight com um toque. Android: deixe seu Gmail e receba seu convite."
+    },
+    "hero": {
+      "title": "Instale o Muskl<br /><em>em dois minutos.</em>",
+      "lede": "O app está em teste antes do lançamento oficial nas lojas. O passo a passo depende do seu celular."
+    },
+    "iphone": {
+      "tag": "Pelo TestFlight, o app oficial de testes da Apple.",
+      "step1": "<strong>Instale o TestFlight</strong> pela App Store. É grátis e feito pela Apple.",
+      "step2": "<strong>Abra o convite do Muskl no seu iPhone</strong> com o botão abaixo.",
+      "step3": "<strong>Toque em “Aceitar” e depois em “Instalar”.</strong> O Muskl aparece na sua tela de início.",
+      "ctaTestflight": "1. Baixar o TestFlight",
+      "ctaInvite": "2. Abrir o convite do Muskl",
+      "note": "As atualizações chegam direto pelo TestFlight: você recebe uma notificação a cada nova versão."
+    },
+    "android": {
+      "tag": "Por um convite do Google Play.",
+      "step1": "<strong>Deixe seu endereço do Gmail abaixo</strong>: o da conta Google conectada à Play Store do seu celular.",
+      "step2": "<strong>Eu adiciono você aos testadores</strong> e envio seu link de convite por e-mail.",
+      "step3": "<strong>Abra o link no seu celular</strong>, aceite o convite e instale o Muskl pela Play Store.",
+      "label": "Seu endereço do Gmail",
+      "placeholder": "seu.endereco@gmail.com",
+      "submit": "Receber meu convite",
+      "legal": "Seu endereço serve apenas para adicionar você aos testadores. Ele chega até mim pelo serviço FormSubmit. <a href=\"privacy.html\">Privacidade</a>",
+      "note": "Durante o beta, o Muskl não aparece na busca da Play Store: use sempre o seu link. Ele também pode aparecer com um nome técnico, “com.muskl.app”. E continue inscrito no teste por algumas semanas — é isso que permite ao Muskl ser lançado oficialmente na Play Store."
+    },
+    "faq": {
+      "eyebrow": "Perguntas",
+      "title": "Antes de começar",
+      "freeQ": "É grátis?",
+      "freeA": "Sim, totalmente, e sem anúncios.",
+      "keepQ": "Vou manter meus treinos no lançamento oficial?",
+      "keepA": "Sim. Sua conta e seus dados ficam no servidor, não na versão de teste: você vai encontrá-los do mesmo jeito quando o app for lançado nas lojas.",
+      "helpQ": "Problema para instalar?",
+      "helpA": "Me escreva em <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Instala%C3%A7%C3%A3o%20Muskl\">mustafaliiyilmaz@gmail.com</a> dizendo o modelo do seu celular."
+    },
+    "form": {
+      "ok": "Anotado! Você vai receber seu link de convite por e-mail assim que eu te adicionar aos testadores.",
+      "invalid": "Digite um endereço de e-mail válido.",
+      "fileProtocol": "O formulário só funciona no site publicado, não abrindo o arquivo no seu computador.",
+      "sending": "Enviando…",
+      "failed": "O envio não funcionou.",
+      "failedLink": "Me mande seu endereço por e-mail",
+      "mailSubject": "Testador Android do Muskl",
+      "mailBody": "Oi! Quero testar o Muskl no Android.\n\nMeu endereço do Gmail: "
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Muskl — Política de privacidade",
+      "description": "Quais dados o Muskl coleta, como são usados e como controlá-los ou excluí-los."
+    },
+    "title": "Política de privacidade — Muskl",
+    "updated": "Última atualização: 15 de setembro de 2026",
+    "translationNote": "<p class=\"legal-note\">Esta é uma tradução da política em francês, que prevalece em caso de divergência.</p>",
+    "intro": "O Muskl é um app para registrar seus treinos (musculação, cardio e outros esportes) com uma dimensão social. Esta página explica quais dados são coletados, como são usados e como você pode controlá-los ou excluí-los.",
+    "s1": {
+      "title": "1. Quem é responsável pelos seus dados",
+      "text": "O Muskl é um projeto desenvolvido e operado de forma independente. Para qualquer dúvida, entre em contato: <a href=\"mailto:mustafaliiyilmaz@gmail.com\">mustafaliiyilmaz@gmail.com</a>."
+    },
+    "s2": {
+      "title": "2. Dados coletados",
+      "account": "<strong>Conta:</strong> endereço de e-mail e senha (gerenciada pelo Supabase Auth, nunca armazenada em texto puro).",
+      "profile": "<strong>Perfil:</strong> nome de usuário, foto de perfil (opcional), configuração “Perfil público”.",
+      "onboarding": "<strong>Questionário de boas-vindas:</strong> seu nível de treino, usado para sugerir modelos de treino iniciais.",
+      "preferences": "<strong>Preferências:</strong> meta semanal de treinos, unidade de peso (kg ou lb).",
+      "body": "<strong>Medidas corporais (opcionais):</strong> altura, histórico de peso.",
+      "workouts": "<strong>Treinos:</strong> nome, data, anotações, exercícios, séries (repetições, peso, duração, RPE) e seus modelos de treino.",
+      "social": "<strong>Interações sociais:</strong> as contas que você segue e que seguem você, suas curtidas, seus comentários e as contas que você bloqueia.",
+      "reports": "<strong>Denúncias:</strong> se você denunciar um conteúdo, registramos qual treino e quem denunciou.",
+      "noTracking": "O Muskl não coleta sua localização, seus contatos nem qualquer identificador de publicidade.",
+      "website": "<strong>No site:</strong> se você pedir acesso ao beta do Android pelo formulário da página Instalação, seu endereço de e-mail chega até mim pelo serviço <a href=\"https://formsubmit.co\" target=\"_blank\" rel=\"noopener\">FormSubmit</a>. Ele é usado apenas para adicionar você à lista de testadores e enviar seu convite."
+    },
+    "s3": {
+      "title": "3. Visibilidade dos seus dados",
+      "p1": "Seu <strong>nome de usuário</strong> e sua <strong>foto de perfil</strong> são visíveis para os outros usuários, por exemplo na busca.",
+      "p2": "Seus <strong>treinos</strong> (com exercícios e séries), sua <strong>altura</strong> e seu <strong>histórico de peso</strong> dependem da configuração <strong>“Perfil público”</strong>, na aba Perfil. Ativada (é o padrão), qualquer usuário pode vê-los ao abrir seu perfil. Desativada, só as pessoas cuja solicitação para seguir você aceitou podem vê-los.",
+      "p3": "O feed mostra a cada pessoa apenas os treinos de quem ela segue. As curtidas e os comentários de um treino são visíveis para quem pode ver esse treino. Se você bloquear um usuário, ele não poderá mais ver seus treinos."
+    },
+    "s4": {
+      "title": "4. Operador de dados",
+      "text": "Os dados são hospedados no <a href=\"https://supabase.com\" target=\"_blank\" rel=\"noopener\">Supabase</a> (banco de dados PostgreSQL, autenticação, armazenamento de fotos), na União Europeia (região eu-central-1). Nenhum dado é vendido ou compartilhado com terceiros para fins publicitários — o Muskl não exibe anúncios e não usa ferramentas de análise de terceiros."
+    },
+    "s5": {
+      "title": "5. Tempo de retenção",
+      "text": "Seus dados são mantidos enquanto sua conta existir. Se você excluir sua conta, todos os seus dados são excluídos definitivamente (veja a próxima seção)."
+    },
+    "s6": {
+      "title": "6. Exclusão da sua conta e dos seus dados",
+      "inApp": "<strong>Pelo app:</strong> aba <strong>Perfil</strong> → <strong>Excluir minha conta</strong>. A exclusão é imediata.",
+      "outside": "<strong>Sem o app</strong> (por exemplo, se você já o desinstalou): envie um e-mail para <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Exclus%C3%A3o%20de%20conta%20Muskl\">mustafaliiyilmaz@gmail.com</a> com o assunto “Exclusão de conta”, a partir do e-mail da sua conta Muskl. A exclusão é feita em no máximo 30 dias e você recebe uma confirmação.",
+      "scope": "Nos dois casos, a exclusão é definitiva e abrange todos os seus dados: sua conta, seu perfil e sua foto, suas respostas ao questionário e suas preferências, seus treinos, exercícios e séries, seus modelos de treino, seu histórico de peso, quem você segue e seus seguidores, suas curtidas, seus comentários, seus bloqueios e suas denúncias. O Muskl não mantém nenhum desses dados após a exclusão."
+    },
+    "s7": {
+      "title": "7. Seus direitos",
+      "text": "De acordo com o RGPD, você tem direito de acesso, correção, exclusão e portabilidade dos seus dados. A maioria dessas ações está disponível diretamente no app (editar seu perfil, excluir sua conta). Para qualquer outra solicitação, entre em contato pelo endereço abaixo."
+    },
+    "s8": {
+      "title": "8. Denúncia de conteúdo",
+      "text": "Você pode denunciar um treino pelo feed. As denúncias são visíveis apenas para você e para a equipe do Muskl, nunca para outros usuários."
+    },
+    "s9": {
+      "title": "9. Segurança",
+      "text": "O acesso aos dados é protegido por regras de segurança em cada linha do banco de dados (Row Level Security), garantindo que só o dono de um dado possa alterá-lo ou excluí-lo. A comunicação entre o app e o servidor é criptografada (HTTPS)."
+    },
+    "s10": {
+      "title": "10. Idade mínima",
+      "text": "O Muskl não é destinado a pessoas com menos de 16 anos."
+    },
+    "s11": {
+      "title": "11. Alterações",
+      "text": "Esta política pode ser atualizada. A data da última alteração aparece no topo desta página."
+    },
+    "s12": {
+      "title": "12. Contato",
+      "text": "Para qualquer dúvida sobre esta política ou seus dados:"
+    }
+  }
+}

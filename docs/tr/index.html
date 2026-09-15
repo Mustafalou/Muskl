@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Muskl — Tüm sporlar için antrenman günlüğün</title>
+<meta name="description" content="Muskl bir antrenman takip uygulamasıdır: setler, dinlenme sayacı, takvim, gelişim grafikleri ve arkadaşlarınla bir akış. Fitness, kardiyo, dövüş sporları — hepsi tek yerde." />
+<link rel="canonical" href="https://muskl.mynextgen.be/tr/" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/" />
+<link rel="icon" href="../assets/favicon.png" />
+<meta property="og:title" content="Muskl — Antrenman günlüğün" />
+<meta property="og:description" content="Antrenmanlarını kaydet, gelişimini takip et, arkadaşlarınla paylaş. Tüm sporlar için." />
+<meta property="og:image" content="https://muskl.mynextgen.be/assets/icon.png" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="../assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img src="../assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Özellikler</a>
+      <a href="#sports">Tüm sporlar</a>
+      <a href="#social">Sosyal</a>
+      <a href="installation.html">Kurulum</a>
+    </nav>
+    <details class="lang-switch">
+    <summary aria-label="Dil"><span class="flag">🇹🇷</span><span class="lang-name">Türkçe</span></summary>
+    <div class="lang-menu">
+      <a href="../index.html" hreflang="fr" lang="fr" data-lang="fr"><span class="flag">🇫🇷</span>Français</a>
+      <a href="../en/index.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="../es/index.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="../de/index.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="../nl/index.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="../pt/index.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="../tr/index.html" hreflang="tr" lang="tr" data-lang="tr" aria-current="true"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-primary btn-sm" href="installation.html">Betaya katıl</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="badge"><span class="dot"></span> Açık beta — iOS &amp; Android</div>
+        <h1>Antrenman günlüğün,<br /><em>tüm sporlar için.</em></h1>
+        <p class="lede">Antrenmanlarını set set kaydet, gelişimini takip et ve arkadaşlarını gürültüsüz bir akışta izle. Fitness, kardiyo, dövüş sporları — hepsi tek yerde.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="installation.html">Uygulamayı dene</a>
+          <a class="btn btn-ghost" href="#features">Neler yaptığına bak</a>
+        </div>
+        <p class="cta-note">Ücretsiz. Reklamsız. Verilerin sana ait.</p>
+      </div>
+
+      <div class="phone" style="background-image: url('../assets/shot-hero.jpg')"></div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Muskl ne yapar</p>
+        <h2>Ciddi antrenman için gereken her şey. Fazlası değil.</h2>
+        <p>Antrenmandan sonra değil, antrenman sırasında açık tutulmak için tasarlandı.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="ico">🏋️</div>
+          <h3>Ayrıntılı antrenmanlar</h3>
+          <p>Hareketler, setler, tekrarlar, ağırlıklar ve RPE. Kas grubuna göre sıralı bir katalog ya da kendi hareketlerin.</p>
+        </div>
+        <div class="card">
+          <div class="ico">⏱️</div>
+          <h3>Canlı mod</h3>
+          <p>Antrenman sırasında her seti işaretle; dinlenme sayacı kendiliğinden başlar.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📅</div>
+          <h3>Takvim ve seri</h3>
+          <p>Düzenliliğin bir bakışta, haftalık hedefin ve kaydetmeyi unuttuğun bir antrenmanı ekleme imkânı.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📈</div>
+          <h3>Gelişim</h3>
+          <p>Vücut ağırlığı grafiği ve hareket başına geçmiş: gerçekten ilerleyip ilerlemediğini görürsün.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📋</div>
+          <h3>Şablonlar</h3>
+          <p>Bir antrenmanı şablon olarak kaydet ve tek dokunuşla yeniden başlat. Kayıt olur olmaz bir başlangıç programı seni bekler.</p>
+        </div>
+        <div class="card">
+          <div class="ico">⚖️</div>
+          <h3>Kilo ya da pound</h3>
+          <p>Birimini bir kez seç, tüm uygulama uyum sağlasın. Ülkene göre otomatik algılanır.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Görsellerle</p>
+        <h2>Koyu, net, hızlı.</h2>
+      </div>
+
+      <div class="shots">
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-1.jpg')"></div>
+          <p class="shot-caption">Profilin</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-2.jpg')"></div>
+          <p class="shot-caption">Seri ve takvim</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-3.jpg')"></div>
+          <p class="shot-caption">Gelişim</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-4.jpg')"></div>
+          <p class="shot-caption">Şablonlar</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sports">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <p class="eyebrow">Sadece demir değil</p>
+          <h2>Kayıt, harekete göre uyum sağlar.</h2>
+          <p class="section-lede">Her spor tekrarla sayılmaz. Muskl, plank'in süreyle, bench press'in ağırlıkla ölçüldüğünü bilir.</p>
+          <ul class="list">
+            <li><strong>Tekrar ve ağırlık</strong> — bench press, squat, barfiks.</li>
+            <li><strong>Süre</strong> — plank, ip atlama, kürek makinesi, assault bike.</li>
+          </ul>
+        </div>
+
+        <div class="phone" style="background-image: url('../assets/shot-sports.jpg')"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="social">
+    <div class="wrap">
+      <div class="split">
+        <div class="phone" style="background-image: url('../assets/shot-social.jpg')"></div>
+
+        <div>
+          <p class="eyebrow">Birlikte</p>
+          <h2>Spor birlikte daha kolay.</h2>
+          <p class="section-lede">Yalnızca takip ettiğin kişilerin antrenmanlarını gösteren bir akış. Yabancılar yok, algoritmanın dayattığı içerik yok.</p>
+          <ul class="list">
+            <li><strong>Takip</strong> — takip isteği gönder ya da profilini herkese açık bırak.</li>
+            <li>Arkadaşlarının antrenmanlarına <strong>beğeni ve yorum</strong>.</li>
+            <li>Basit bir bağlantıyla <strong>paylaşılabilir profil</strong>.</li>
+            <li><strong>Engelleme</strong> ve vücut verilerini kimin göreceği üzerinde kontrol.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="languages">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Her yerde</p>
+        <h2>7 dilde kullanılabilir.</h2>
+        <p>Hareket adları dahil — kelimesi kelimesine değil, spor salonunda gerçekten söylendiği gibi çevrildi.</p>
+      </div>
+      <div class="langs">
+        <div class="lang"><span class="flag">🇫🇷</span><span>Français</span></div>
+        <div class="lang"><span class="flag">🇬🇧</span><span>English</span></div>
+        <div class="lang"><span class="flag">🇪🇸</span><span>Español</span></div>
+        <div class="lang"><span class="flag">🇩🇪</span><span>Deutsch</span></div>
+        <div class="lang"><span class="flag">🇳🇱</span><span>Nederlands</span></div>
+        <div class="lang"><span class="flag">🇧🇷</span><span>Português</span></div>
+        <div class="lang"><span class="flag">🇹🇷</span><span>Türkçe</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beta" class="final">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Beta</p>
+        <h2>Muskl'ı herkesten önce dene.</h2>
+        <p>iPhone'da TestFlight ile tek dokunuşla katıl. Android'de bana Gmail adresini gönder, ben de sana davetini göndereyim. Geri bildirimlerin son sürümü şekillendiriyor.</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="installation.html">Betayı kur</a>
+        <a class="btn btn-ghost" href="privacy.html">Gizlilik politikası</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — Belçika'da geliştirildi.</div>
+    <div class="foot-links">
+      <a href="privacy.html">Gizlilik</a>
+      <a href="mailto:mustafaliiyilmaz@gmail.com">İletişim</a>
+      <a href="#top">Başa dön</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

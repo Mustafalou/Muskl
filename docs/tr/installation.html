@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Muskl'ı kur — iPhone ve Android betası</title>
+<meta name="description" content="Muskl betası nasıl kurulur: iPhone'da TestFlight ile, Android'de Google Play davetiyle." />
+<link rel="canonical" href="https://muskl.mynextgen.be/tr/installation.html" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/installation.html" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/installation.html" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/installation.html" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/installation.html" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/installation.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/installation.html" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/installation.html" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/installation.html" />
+<link rel="icon" href="../assets/favicon.png" />
+<meta property="og:title" content="Muskl betasını kur" />
+<meta property="og:description" content="iPhone: tek dokunuşla TestFlight. Android: Gmail adresini bırak, davetini al." />
+<meta property="og:image" content="https://muskl.mynextgen.be/assets/icon.png" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="../assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="../assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#features">Özellikler</a>
+      <a href="index.html#sports">Tüm sporlar</a>
+      <a href="index.html#social">Sosyal</a>
+      <a class="active" href="installation.html">Kurulum</a>
+    </nav>
+    <details class="lang-switch">
+    <summary aria-label="Dil"><span class="flag">🇹🇷</span><span class="lang-name">Türkçe</span></summary>
+    <div class="lang-menu">
+      <a href="../installation.html" hreflang="fr" lang="fr" data-lang="fr"><span class="flag">🇫🇷</span>Français</a>
+      <a href="../en/installation.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="../es/installation.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="../de/installation.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="../nl/installation.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="../pt/installation.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="../tr/installation.html" hreflang="tr" lang="tr" data-lang="tr" aria-current="true"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-ghost btn-sm" href="index.html">Siteye dön</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="wrap page-hero">
+    <div class="badge"><span class="dot"></span> Açık beta — iOS &amp; Android</div>
+    <h1>Muskl'ı kur,<br /><em>iki dakikada.</em></h1>
+    <p class="lede">Uygulama, mağazalarda resmi olarak çıkmadan önce test ediliyor. Kurulum adımları telefonuna göre değişir.</p>
+  </div>
+
+  <div class="wrap platforms" id="plateformes">
+
+    <div class="platform" id="iphone">
+      <div>
+        <h2>iPhone</h2>
+        <p class="tag">Apple'ın resmi test uygulaması TestFlight ile.</p>
+      </div>
+      <ol class="steps">
+        <li>App Store'dan <strong>TestFlight'ı kur</strong>. Ücretsiz ve Apple'ın uygulaması.</li>
+        <li>Aşağıdaki düğmeyle <strong>Muskl davetini iPhone'unda aç</strong>.</li>
+        <li><strong>“Kabul Et”, ardından “Yükle”ye dokun.</strong> Muskl ana ekranında belirir.</li>
+      </ol>
+      <a class="btn btn-ghost" href="https://apps.apple.com/app/testflight/id899247664">1. TestFlight'ı indir</a>
+      <a class="btn btn-primary" href="https://testflight.apple.com/join/y2TvrzmF">2. Muskl davetini aç</a>
+      <p class="note">Güncellemeler doğrudan TestFlight'a gelir: her yeni sürümde bildirim alırsın.</p>
+    </div>
+
+    <div class="platform" id="android">
+      <div>
+        <h2>Android</h2>
+        <p class="tag">Google Play daveti ile.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>Gmail adresini aşağıya yaz</strong>: telefonundaki Play Store'a bağlı Google hesabının adresi.</li>
+        <li><strong>Seni test kullanıcılarına eklerim</strong> ve davet bağlantını e-postayla gönderirim.</li>
+        <li><strong>Bağlantıyı telefonunda aç</strong>, daveti kabul et ve Muskl'ı Play Store'dan kur.</li>
+      </ol>
+
+      <form class="beta-form" id="android-form" novalidate>
+        <label class="sr-only" for="android-email">Gmail adresin</label>
+        <input
+          id="android-email"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          placeholder="adresin@gmail.com"
+          required
+        />
+        <!-- Honeypot: invisible to people, filled in by bots. Also hidden inline so it can never
+             show up, even when the stylesheet is stale or fails to load. -->
+        <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display: none" />
+        <button class="btn btn-primary" type="submit">Davetimi al</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="form-legal">Adresin yalnızca seni test kullanıcılarına eklemek için kullanılır. Bana FormSubmit hizmeti aracılığıyla ulaşır. <a href="privacy.html">Gizlilik</a></p>
+
+      <p class="note">Beta süresince Muskl, Play Store aramasında görünmez: her zaman bağlantını kullan. Uygulama teknik bir adla da görünebilir: “com.muskl.app”. Ve teste birkaç hafta kayıtlı kal — Muskl'ın Play Store'da resmi olarak yayınlanmasını sağlayan bu.</p>
+    </div>
+
+  </div>
+
+  <section>
+    <div class="wrap faq">
+      <p class="eyebrow">Sorular</p>
+      <h2>Başlamadan önce</h2>
+
+      <h3>Ücretsiz mi?</h3>
+      <p>Evet, tamamen ücretsiz ve reklamsız.</p>
+
+      <h3>Resmi çıkışta antrenmanlarımı koruyacak mıyım?</h3>
+      <p>Evet. Hesabın ve verilerin test sürümünde değil, sunucuda: uygulama mağazalara çıktığında hepsini aynen bulacaksın.</p>
+
+      <h3>Kurulumda sorun mu var?</h3>
+      <p>Telefon modelini belirterek <a href="mailto:mustafaliiyilmaz@gmail.com?subject=Muskl%20kurulumu">mustafaliiyilmaz@gmail.com</a> adresine yaz.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — Belçika'da geliştirildi.</div>
+    <div class="foot-links">
+      <a href="privacy.html">Gizlilik</a>
+      <a href="mailto:mustafaliiyilmaz@gmail.com">İletişim</a>
+      <a href="index.html">Ana sayfa</a>
+    </div>
+  </div>
+</footer>
+
+<script type="application/json" id="form-text">{"ok":"Tamamdır! Seni test kullanıcılarına ekler eklemez davet bağlantın e-postayla gelecek.","invalid":"Geçerli bir e-posta adresi gir.","fileProtocol":"Form yalnızca yayındaki sitede çalışır, dosyayı bilgisayarında açınca çalışmaz.","sending":"Gönderiliyor…","failed":"Gönderim başarısız oldu.","failedLink":"Adresini bana e-postayla gönder","mailSubject":"Muskl Android test kullanıcısı","mailBody":"Merhaba! Muskl'ı Android'de test etmek istiyorum.\n\nGmail adresim: "}</script>
+<script>
+  // The site is static, so the address is relayed by FormSubmit, which emails it on. If that
+  // service is unreachable the visitor gets a direct mail link instead of a dead end.
+  (function () {
+    var TEXT = JSON.parse(document.getElementById('form-text').textContent);
+    // FormSubmit's alias for the destination inbox, so the address itself isn't in the page source.
+    var ENDPOINT = 'https://formsubmit.co/ajax/8949f087a2dc08348c50bb01da633969';
+    var FALLBACK =
+      'mailto:mustafaliiyilmaz@gmail.com?subject=' + encodeURIComponent(TEXT.mailSubject) +
+      '&body=' + encodeURIComponent(TEXT.mailBody);
+
+    var form = document.getElementById('android-form');
+    var input = document.getElementById('android-email');
+    var button = form.querySelector('button');
+    var status = form.querySelector('.form-status');
+
+    function show(message, state) {
+      status.textContent = message;
+      status.setAttribute('data-state', state);
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      // A filled honeypot means a bot: pretend it worked and send nothing.
+      if (form.elements._honey.value) {
+        form.reset();
+        show(TEXT.ok, 'ok');
+        return;
+      }
+
+      var email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        show(TEXT.invalid, 'error');
+        input.focus();
+        return;
+      }
+
+      // Opened straight from disk the page has no web address, and FormSubmit refuses those.
+      if (location.protocol === 'file:') {
+        show(TEXT.fileProtocol, 'error');
+        return;
+      }
+
+      button.disabled = true;
+      show(TEXT.sending, '');
+
+      try {
+        var response = await fetch(ENDPOINT, {
+          method: 'POST',
+          // FormSubmit identifies a form by the page that sends it. Browsers disagree on how much of
+          // the URL they reveal cross-site, so pin it to the bare origin — the one form activated.
+          referrerPolicy: 'origin',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            plateforme: 'Android',
+            // Which language to write the invitation in.
+            langue: document.documentElement.lang,
+            _subject: 'Nouveau testeur Android pour Muskl',
+            _template: 'table',
+          }),
+        });
+        var data = await response.json().catch(function () {
+          return {};
+        });
+        // FormSubmit answers with success as the string "true" or "false".
+        if (!response.ok || String(data.success) !== 'true') throw new Error(data.message || 'refused');
+
+        form.reset();
+        show(TEXT.ok, 'ok');
+      } catch (error) {
+        // The visitor gets a generic message; the real reason goes to the console for debugging.
+        console.warn('[Muskl] FormSubmit refused the submission:', error && error.message);
+        status.innerHTML = '';
+        status.appendChild(document.createTextNode(TEXT.failed + ' '));
+        var link = document.createElement('a');
+        link.href = FALLBACK + encodeURIComponent(email);
+        link.textContent = TEXT.failedLink;
+        status.appendChild(link);
+        status.appendChild(document.createTextNode('.'));
+        status.setAttribute('data-state', 'error');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

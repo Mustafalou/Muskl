@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{{langRedirect}}
+<title>{{t:index.meta.title}}</title>
+<meta name="description" content="{{t:index.meta.description}}" />
+<link rel="canonical" href="{{canonical}}" />
+{{alternates}}
+<link rel="icon" href="{{root}}assets/favicon.png" />
+<meta property="og:title" content="{{t:index.meta.ogTitle}}" />
+<meta property="og:description" content="{{t:index.meta.ogDescription}}" />
+<meta property="og:image" content="https://muskl.mynextgen.be/assets/icon.png" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="{{root}}assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img src="{{root}}assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <nav class="nav-links">
+      <a href="#features">{{t:common.nav.features}}</a>
+      <a href="#sports">{{t:common.nav.sports}}</a>
+      <a href="#social">{{t:common.nav.social}}</a>
+      <a href="installation.html">{{t:common.nav.install}}</a>
+    </nav>
+    {{langSwitcher}}
+    <a class="btn btn-primary btn-sm" href="installation.html">{{t:common.joinBeta}}</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="badge"><span class="dot"></span> {{t:common.badge}}</div>
+        <h1>{{t:index.hero.title}}</h1>
+        <p class="lede">{{t:index.hero.lede}}</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="installation.html">{{t:index.hero.ctaPrimary}}</a>
+          <a class="btn btn-ghost" href="#features">{{t:index.hero.ctaSecondary}}</a>
+        </div>
+        <p class="cta-note">{{t:index.hero.note}}</p>
+      </div>
+
+      <div class="phone" style="background-image: url('{{root}}assets/shot-hero.jpg')"></div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{{t:index.features.eyebrow}}</p>
+        <h2>{{t:index.features.title}}</h2>
+        <p>{{t:index.features.lede}}</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="ico">🏋️</div>
+          <h3>{{t:index.features.sessions.title}}</h3>
+          <p>{{t:index.features.sessions.text}}</p>
+        </div>
+        <div class="card">
+          <div class="ico">⏱️</div>
+          <h3>{{t:index.features.live.title}}</h3>
+          <p>{{t:index.features.live.text}}</p>
+        </div>
+        <div class="card">
+          <div class="ico">📅</div>
+          <h3>{{t:index.features.calendar.title}}</h3>
+          <p>{{t:index.features.calendar.text}}</p>
+        </div>
+        <div class="card">
+          <div class="ico">📈</div>
+          <h3>{{t:index.features.progress.title}}</h3>
+          <p>{{t:index.features.progress.text}}</p>
+        </div>
+        <div class="card">
+          <div class="ico">📋</div>
+          <h3>{{t:index.features.templates.title}}</h3>
+          <p>{{t:index.features.templates.text}}</p>
+        </div>
+        <div class="card">
+          <div class="ico">⚖️</div>
+          <h3>{{t:index.features.units.title}}</h3>
+          <p>{{t:index.features.units.text}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{{t:index.shots.eyebrow}}</p>
+        <h2>{{t:index.shots.title}}</h2>
+      </div>
+
+      <div class="shots">
+        <div>
+          <div class="phone" style="background-image: url('{{root}}assets/shot-1.jpg')"></div>
+          <p class="shot-caption">{{t:index.shots.profile}}</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('{{root}}assets/shot-2.jpg')"></div>
+          <p class="shot-caption">{{t:index.shots.streak}}</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('{{root}}assets/shot-3.jpg')"></div>
+          <p class="shot-caption">{{t:index.shots.progress}}</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('{{root}}assets/shot-4.jpg')"></div>
+          <p class="shot-caption">{{t:index.shots.templates}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sports">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <p class="eyebrow">{{t:index.sports.eyebrow}}</p>
+          <h2>{{t:index.sports.title}}</h2>
+          <p class="section-lede">{{t:index.sports.lede}}</p>
+          <ul class="list">
+            <li>{{t:index.sports.reps}}</li>
+            <li>{{t:index.sports.duration}}</li>
+          </ul>
+        </div>
+
+        <div class="phone" style="background-image: url('{{root}}assets/shot-sports.jpg')"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="social">
+    <div class="wrap">
+      <div class="split">
+        <div class="phone" style="background-image: url('{{root}}assets/shot-social.jpg')"></div>
+
+        <div>
+          <p class="eyebrow">{{t:index.social.eyebrow}}</p>
+          <h2>{{t:index.social.title}}</h2>
+          <p class="section-lede">{{t:index.social.lede}}</p>
+          <ul class="list">
+            <li>{{t:index.social.follows}}</li>
+            <li>{{t:index.social.likes}}</li>
+            <li>{{t:index.social.share}}</li>
+            <li>{{t:index.social.block}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="languages">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{{t:index.languages.eyebrow}}</p>
+        <h2>{{t:index.languages.title}}</h2>
+        <p>{{t:index.languages.lede}}</p>
+      </div>
+      <div class="langs">
+        <div class="lang"><span class="flag">🇫🇷</span><span>Français</span></div>
+        <div class="lang"><span class="flag">🇬🇧</span><span>English</span></div>
+        <div class="lang"><span class="flag">🇪🇸</span><span>Español</span></div>
+        <div class="lang"><span class="flag">🇩🇪</span><span>Deutsch</span></div>
+        <div class="lang"><span class="flag">🇳🇱</span><span>Nederlands</span></div>
+        <div class="lang"><span class="flag">🇧🇷</span><span>Português</span></div>
+        <div class="lang"><span class="flag">🇹🇷</span><span>Türkçe</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beta" class="final">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{{t:index.beta.eyebrow}}</p>
+        <h2>{{t:index.beta.title}}</h2>
+        <p>{{t:index.beta.text}}</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="installation.html">{{t:index.beta.ctaInstall}}</a>
+        <a class="btn btn-ghost" href="privacy.html">{{t:index.beta.ctaPrivacy}}</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>{{t:common.footer.madeIn}}</div>
+    <div class="foot-links">
+      <a href="privacy.html">{{t:common.footer.privacy}}</a>
+      <a href="mailto:mustafaliiyilmaz@gmail.com">{{t:common.footer.contact}}</a>
+      <a href="#top">{{t:common.footer.top}}</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

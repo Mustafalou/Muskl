@@ -100,6 +100,7 @@ function RootNavigator() {
           <Stack.Screen name="services/progression" options={{ title: t('services.progression.title') }} />
           <Stack.Screen name="services/exercise/[catalogKey]" options={{ headerBackTitle: t('common.back') }} />
           <Stack.Screen name="templates" options={{ title: t('templates.title') }} />
+          <Stack.Screen name="template/library" options={{ title: t('library.title') }} />
           <Stack.Screen name="template/[id]" options={{ headerBackTitle: t('common.back') }} />
           <Stack.Screen
             name="template/new"

@@ -3,120 +3,139 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  (function () {
+    try {
+      if (/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)) return;
+      var available = ["en","es","de","nl","pt","tr"];
+      var preferred = localStorage.getItem('muskl-lang') ||
+        ((navigator.languages && navigator.languages[0]) || navigator.language || '').slice(0, 2).toLowerCase();
+      if (available.indexOf(preferred) === -1) return;
+      var page = location.pathname.split('/').pop() || 'index.html';
+      location.replace(preferred + '/' + page + location.search + location.hash);
+    } catch (e) {}
+  })();
+</script>
 <title>Muskl — Politique de confidentialité</title>
-<style>
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 32px 20px 80px;
-    line-height: 1.6;
-    color: #1a1a1a;
-    background: #ffffff;
-  }
-  h1 { font-size: 28px; margin-bottom: 4px; }
-  .updated { color: #666; font-size: 14px; margin-bottom: 32px; }
-  h2 { font-size: 20px; margin-top: 40px; }
-  ul { padding-left: 20px; }
-  a { color: #b5720f; }
-  .contact { background: #f5f5f5; border-radius: 8px; padding: 16px; }
-</style>
+<meta name="description" content="Quelles données Muskl collecte, comment elles sont utilisées, et comment les contrôler ou les supprimer." />
+<link rel="canonical" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/privacy.html" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/privacy.html" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/privacy.html" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/privacy.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/privacy.html" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/privacy.html" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="icon" href="assets/favicon.png" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="assets/site.css?v=20260916" />
 </head>
 <body>
-  <h1>Politique de confidentialité — Muskl</h1>
-  <p class="updated">Dernière mise à jour : 10 août 2026</p>
 
-  <p>
-    Muskl est une application de suivi d'entraînement de musculation avec un feed social.
-    Cette page explique quelles données sont collectées, comment elles sont utilisées, et
-    comment tu peux les contrôler ou les supprimer.
-  </p>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <details class="lang-switch">
+    <summary aria-label="Langue"><span class="flag">🇫🇷</span><span class="lang-name">Français</span></summary>
+    <div class="lang-menu">
+      <a href="privacy.html" hreflang="fr" lang="fr" data-lang="fr" aria-current="true"><span class="flag">🇫🇷</span>Français</a>
+      <a href="en/privacy.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="es/privacy.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="de/privacy.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="nl/privacy.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="pt/privacy.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="tr/privacy.html" hreflang="tr" lang="tr" data-lang="tr"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-ghost btn-sm" href="index.html">Retour au site</a>
+  </div>
+</header>
+
+<main class="wrap legal">
+  <h1>Politique de confidentialité — Muskl</h1>
+  <p class="updated">Dernière mise à jour : 15 septembre 2026</p>
+  
+
+  <p>Muskl est une application de suivi d'entraînement (musculation, cardio et autres sports) avec une dimension sociale. Cette page explique quelles données sont collectées, comment elles sont utilisées, et comment tu peux les contrôler ou les supprimer.</p>
 
   <h2>1. Qui est responsable de tes données</h2>
-  <p>
-    Muskl est un projet développé et exploité de façon indépendante. Pour toute question,
-    contacte : <a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a>.
-  </p>
+  <p>Muskl est un projet développé et exploité de façon indépendante. Pour toute question, contacte : <a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a>.</p>
 
   <h2>2. Données collectées</h2>
   <ul>
     <li><strong>Compte :</strong> adresse email et mot de passe (géré par Supabase Auth, jamais stocké en clair).</li>
-    <li><strong>Profil :</strong> pseudo, photo de profil (optionnelle).</li>
+    <li><strong>Profil :</strong> pseudo, photo de profil (optionnelle), réglage « Profil public ».</li>
+    <li><strong>Questionnaire d'accueil :</strong> ton niveau d'entraînement, utilisé pour te proposer des modèles de séance de départ.</li>
+    <li><strong>Préférences :</strong> objectif hebdomadaire de séances, unité de poids (kg ou lb).</li>
     <li><strong>Statistiques corporelles (optionnelles) :</strong> taille, historique de poids.</li>
-    <li><strong>Séances d'entraînement :</strong> nom, date, exercices, séries (répétitions, poids, RPE).</li>
+    <li><strong>Séances d'entraînement :</strong> nom, date, notes, exercices, séries (répétitions, poids, durée, RPE) et tes modèles de séance.</li>
+    <li><strong>Interactions sociales :</strong> les comptes que tu suis et qui te suivent, tes likes, tes commentaires et les comptes que tu bloques.</li>
     <li><strong>Signalements :</strong> si tu signales un contenu, on enregistre quelle séance et par qui.</li>
   </ul>
+  <p>Muskl ne collecte ni ta localisation, ni tes contacts, ni aucun identifiant publicitaire.</p>
+  <p><strong>Sur le site web :</strong> si tu demandes un accès à la bêta Android via le formulaire de la page Installation, ton adresse email m'est transmise par le service <a href="https://formsubmit.co" target="_blank" rel="noopener">FormSubmit</a>. Elle sert uniquement à t'ajouter à la liste des testeurs et à t'envoyer ton invitation.</p>
 
   <h2>3. Visibilité de tes données</h2>
-  <p>
-    Muskl est une app <strong>sociale</strong> : ton pseudo, ta photo de profil et tes séances
-    (avec leurs exercices et séries) sont visibles par tous les autres utilisateurs dans le feed,
-    par défaut.
-  </p>
-  <p>
-    Ta <strong>taille</strong> et ton <strong>historique de poids</strong> sont soumis à un réglage
-    de confidentialité séparé, disponible dans l'onglet Profil ("Profil public"). Par défaut ce
-    réglage est activé (public) ; tu peux le désactiver à tout moment pour que seul toi puisses
-    voir ces informations.
-  </p>
+  <p>Ton <strong>pseudo</strong> et ta <strong>photo de profil</strong> sont visibles par les autres utilisateurs, par exemple dans la recherche.</p>
+  <p>Tes <strong>séances</strong> (avec leurs exercices et séries), ta <strong>taille</strong> et ton <strong>historique de poids</strong> dépendent du réglage <strong>« Profil public »</strong>, dans l'onglet Profil. Activé (c'est le réglage par défaut), n'importe quel utilisateur peut les voir en ouvrant ton profil. Désactivé, seules les personnes dont tu as accepté la demande d'abonnement peuvent les voir.</p>
+  <p>Le feed ne montre à chacun que les séances des personnes qu'il suit. Les likes et les commentaires d'une séance sont visibles par ceux qui peuvent voir cette séance. Si tu bloques un utilisateur, il ne peut plus voir tes séances.</p>
 
   <h2>4. Sous-traitant</h2>
-  <p>
-    Les données sont hébergées chez <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a>
-    (base de données PostgreSQL, authentification, stockage des photos), hébergé dans l'Union
-    Européenne (région eu-central-1). Aucune donnée n'est vendue ni partagée avec des tiers à
-    des fins publicitaires — Muskl n'affiche aucune publicité et n'utilise aucun outil d'analytics
-    tiers.
-  </p>
+  <p>Les données sont hébergées chez <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> (base de données PostgreSQL, authentification, stockage des photos), hébergé dans l'Union Européenne (région eu-central-1). Aucune donnée n'est vendue ni partagée avec des tiers à des fins publicitaires — Muskl n'affiche aucune publicité et n'utilise aucun outil d'analytics tiers.</p>
 
   <h2>5. Durée de conservation</h2>
-  <p>
-    Tes données sont conservées tant que ton compte existe. Si tu supprimes ton compte, toutes
-    tes données sont supprimées définitivement (voir section suivante).
-  </p>
+  <p>Tes données sont conservées tant que ton compte existe. Si tu supprimes ton compte, toutes tes données sont supprimées définitivement (voir section suivante).</p>
 
-  <h2>6. Suppression de ton compte et de tes données</h2>
-  <p>
-    Tu peux supprimer ton compte à tout moment depuis l'application : onglet
-    <strong>Profil → Supprimer mon compte</strong>. Cette action est irréversible et supprime
-    immédiatement : ton compte, ton profil, ta photo, tes séances, exercices, séries, ton
-    historique de poids et tes signalements.
-  </p>
+  <!-- Linked from the Google Play data-deletion form: keep this id stable in every language. -->
+  <h2 id="suppression">6. Suppression de ton compte et de tes données</h2>
+  <p><strong>Depuis l'application :</strong> onglet <strong>Profil → Supprimer mon compte</strong>. La suppression est immédiate.</p>
+  <p><strong>Sans l'application</strong> (par exemple si tu l'as déjà désinstallée) : envoie un email à <a href="mailto:mustafaliiyilmaz@gmail.com?subject=Suppression%20de%20compte%20Muskl">mustafaliiyilmaz@gmail.com</a> avec pour objet « Suppression de compte », depuis l'adresse email de ton compte Muskl. La suppression est effectuée sous 30 jours au maximum et tu reçois une confirmation.</p>
+  <p>Dans les deux cas, la suppression est définitive et porte sur l'ensemble de tes données : ton compte, ton profil et ta photo, tes réponses au questionnaire et tes préférences, tes séances, exercices et séries, tes modèles de séance, ton historique de poids, tes abonnements et abonnés, tes likes, tes commentaires, tes blocages et tes signalements. Muskl ne conserve aucune de ces données après la suppression.</p>
 
   <h2>7. Tes droits</h2>
-  <p>
-    Conformément au RGPD, tu disposes d'un droit d'accès, de rectification, d'effacement et de
-    portabilité de tes données. La plupart de ces actions sont disponibles directement dans
-    l'app (modifier ton profil, supprimer ton compte). Pour toute autre demande, contacte-nous
-    à l'adresse ci-dessous.
-  </p>
+  <p>Conformément au RGPD, tu disposes d'un droit d'accès, de rectification, d'effacement et de portabilité de tes données. La plupart de ces actions sont disponibles directement dans l'app (modifier ton profil, supprimer ton compte). Pour toute autre demande, contacte-nous à l'adresse ci-dessous.</p>
 
   <h2>8. Signalement de contenu</h2>
-  <p>
-    Tu peux signaler une séance depuis le feed. Les signalements sont visibles uniquement par
-    toi et par l'équipe de Muskl, jamais par les autres utilisateurs.
-  </p>
+  <p>Tu peux signaler une séance depuis le feed. Les signalements sont visibles uniquement par toi et par l'équipe de Muskl, jamais par les autres utilisateurs.</p>
 
   <h2>9. Sécurité</h2>
-  <p>
-    L'accès aux données est protégé par des règles de sécurité au niveau de chaque ligne de la
-    base de données (Row Level Security), garantissant que seul le propriétaire d'une donnée
-    peut la modifier ou la supprimer. Les échanges entre l'app et le serveur sont chiffrés (HTTPS).
-  </p>
+  <p>L'accès aux données est protégé par des règles de sécurité au niveau de chaque ligne de la base de données (Row Level Security), garantissant que seul le propriétaire d'une donnée peut la modifier ou la supprimer. Les échanges entre l'app et le serveur sont chiffrés (HTTPS).</p>
 
   <h2>10. Âge minimum</h2>
   <p>Muskl n'est pas destiné aux personnes de moins de 16 ans.</p>
 
   <h2>11. Modifications</h2>
-  <p>
-    Cette politique peut être mise à jour. La date de dernière modification est indiquée en
-    haut de cette page.
-  </p>
+  <p>Cette politique peut être mise à jour. La date de dernière modification est indiquée en haut de cette page.</p>
 
   <h2>12. Contact</h2>
   <div class="contact">
     <p>Pour toute question sur cette politique ou tes données :</p>
     <p><a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a></p>
   </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — développé en Belgique.</div>
+    <div class="foot-links">
+      <a href="mailto:mustafaliiyilmaz@gmail.com">Contact</a>
+      <a href="index.html">Accueil</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

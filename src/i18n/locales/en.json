@@ -244,6 +244,13 @@
       "stopLive": "Stop the workout",
       "pendingSync_one": "Offline — {{count}} change to sync",
       "pendingSync_other": "Offline — {{count}} changes to sync"
+    },
+    "superset": {
+      "label": "Superset",
+      "link": "Link as superset",
+      "unlink": "Split superset",
+      "badge": "Superset {{current}}/{{total}}",
+      "next": "Next: {{name}}, no rest"
     }
   },
   "restTimer": {
@@ -391,5 +398,59 @@
     "liveMode": "Switch to Live mode during your workout: it shows one set at a time, with the rest timer.",
     "streakCalendar": "Tap the flame to see your calendar.",
     "calendarBackfill": "Tap a day to add a workout you forgot."
+  },
+  "library": {
+    "title": "Library",
+    "intro": "Ready-made programs. Add them to your templates, then adjust them however you like.",
+    "entry": "Template library",
+    "entryHint": "Ready-made programs",
+    "add": "Add to my templates",
+    "added": "Added to your templates ✓",
+    "perWeek_one": "{{count}} day / week",
+    "perWeek_other": "{{count}} days / week",
+    "sessionCount_one": "{{count}} session",
+    "sessionCount_other": "{{count}} sessions",
+    "setsReps": "{{sets}} × {{reps}}",
+    "sessions": {
+      "strengthA": "Strength A",
+      "strengthB": "Strength B",
+      "arms": "Arm supersets",
+      "abs": "Express abs",
+      "hiit": "HIIT"
+    },
+    "programs": {
+      "fullBody2": {
+        "name": "Full body, 2 days",
+        "description": "The whole body in two sessions: ideal to get started or when time is short."
+      },
+      "fullBody3": {
+        "name": "Full body, 3 days",
+        "description": "Three full sessions a week, the classic that gets you progressing fast."
+      },
+      "upperLower": {
+        "name": "Upper / Lower, 4 days",
+        "description": "Two upper-body and two lower-body sessions: more volume per muscle."
+      },
+      "ppl": {
+        "name": "Push Pull Legs, 6 days",
+        "description": "Push, pull, legs, twice a week. For regular lifters."
+      },
+      "strength5x5": {
+        "name": "Strength 5×5",
+        "description": "The big heavy lifts in 5 sets of 5, alternating two sessions."
+      },
+      "armsSupersets": {
+        "name": "Arm supersets",
+        "description": "Biceps and triceps back to back with no rest: a short, intense session."
+      },
+      "absExpress": {
+        "name": "Express abs",
+        "description": "A 4-exercise circuit to finish off any session."
+      },
+      "hiit": {
+        "name": "HIIT",
+        "description": "A bodyweight and kettlebell cardio circuit, no downtime."
+      }
+    }
   }
 }

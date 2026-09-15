@@ -244,6 +244,13 @@
       "stopLive": "Parar o treino",
       "pendingSync_one": "Sem conexão — {{count}} alteração para sincronizar",
       "pendingSync_other": "Sem conexão — {{count}} alterações para sincronizar"
+    },
+    "superset": {
+      "label": "Superset",
+      "link": "Juntar em superset",
+      "unlink": "Separar superset",
+      "badge": "Superset {{current}}/{{total}}",
+      "next": "Em seguida: {{name}}, sem descanso"
     }
   },
   "restTimer": {
@@ -391,5 +398,59 @@
     "liveMode": "Use o modo Ao vivo durante o treino: ele mostra uma série por vez, com o cronômetro.",
     "streakCalendar": "Toque na chama para ver seu calendário.",
     "calendarBackfill": "Toque em um dia para adicionar um treino esquecido."
+  },
+  "library": {
+    "title": "Biblioteca",
+    "intro": "Programas prontos para usar. Adicione aos seus modelos e ajuste como quiser.",
+    "entry": "Biblioteca de modelos",
+    "entryHint": "Programas prontos para usar",
+    "add": "Adicionar aos meus modelos",
+    "added": "Adicionado aos seus modelos ✓",
+    "perWeek_one": "{{count}} dia / semana",
+    "perWeek_other": "{{count}} dias / semana",
+    "sessionCount_one": "{{count}} treino",
+    "sessionCount_other": "{{count}} treinos",
+    "setsReps": "{{sets}} × {{reps}}",
+    "sessions": {
+      "strengthA": "Força A",
+      "strengthB": "Força B",
+      "arms": "Braços em superset",
+      "abs": "Abdômen express",
+      "hiit": "HIIT"
+    },
+    "programs": {
+      "fullBody2": {
+        "name": "Full body 2 dias",
+        "description": "O corpo todo em dois treinos: ideal para começar ou para quem tem pouco tempo."
+      },
+      "fullBody3": {
+        "name": "Full body 3 dias",
+        "description": "Três treinos completos por semana, o clássico para evoluir rápido."
+      },
+      "upperLower": {
+        "name": "Superiores / Inferiores 4 dias",
+        "description": "Dois treinos de superiores e dois de inferiores: mais volume por músculo."
+      },
+      "ppl": {
+        "name": "Push Pull Legs 6 dias",
+        "description": "Empurrar, puxar e pernas, duas vezes por semana. Para quem treina com regularidade."
+      },
+      "strength5x5": {
+        "name": "Força 5×5",
+        "description": "Os grandes exercícios pesados em 5 séries de 5, alternando dois treinos."
+      },
+      "armsSupersets": {
+        "name": "Braços em superset",
+        "description": "Bíceps e tríceps em sequência, sem descanso: um treino curto e intenso."
+      },
+      "absExpress": {
+        "name": "Abdômen express",
+        "description": "Um circuito de 4 exercícios para fechar qualquer treino."
+      },
+      "hiit": {
+        "name": "HIIT",
+        "description": "Um circuito de cardio com peso corporal e kettlebell, sem pausas."
+      }
+    }
   }
 }

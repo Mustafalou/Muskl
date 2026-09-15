@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
@@ -10,6 +10,7 @@ import { HintCard } from '@/components/hint-card';
 import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { RestTimerRing } from '@/components/rest-timer-ring';
+import { SupersetLink } from '@/components/superset-link';
 import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -28,6 +29,7 @@ import { groupSetsByOrder, type SetGroup } from '@/lib/group-sets';
 import { clearLiveSession, loadLiveSession, saveLiveSession } from '@/lib/live-session';
 import { isNetworkError, newId, runWrite } from '@/lib/offline-queue';
 import { supabase } from '@/lib/supabase';
+import { nextSupersetStep, supersetBlocks, supersetLinkChanges, supersetMembers } from '@/lib/superset';
 import { clearWorkoutCache, loadWorkoutCache, saveWorkoutCache } from '@/lib/workout-cache';
 import {
   formatWeight,
@@ -131,7 +133,7 @@ export default function WorkoutDetailScreen() {
 
     const { data: exerciseRows, error: exercisesError } = await supabase
       .from('exercises')
-      .select('id, workout_id, name, order, rest_seconds, catalog_key, notes, metric')
+      .select('id, workout_id, name, order, rest_seconds, catalog_key, notes, metric, superset_id')
       .eq('workout_id', id)
       .order('order', { ascending: true });
 
@@ -253,6 +255,37 @@ export default function WorkoutDetailScreen() {
     if (updateError) {
       setError(updateError);
     }
+  }
+
+  function handleToggleSuperset(index: number) {
+    const { nextById, writes } = supersetLinkChanges(exercises, index, newId);
+    if (writes.length === 0) return;
+    setExercises((prev) =>
+      prev.map((exercise) =>
+        nextById.has(exercise.id) ? { ...exercise, superset_id: nextById.get(exercise.id) ?? null } : exercise,
+      ),
+    );
+    for (const { supersetId, ids } of writes) {
+      runWrite({ kind: 'update', table: 'exercises', values: { superset_id: supersetId }, match: { id: ids } }).then(
+        ({ error: writeError }) => {
+          if (writeError) setError(writeError);
+        },
+      );
+    }
+  }
+
+  function renderExerciseSection(index: number) {
+    return (
+      <ExerciseSection
+        exercise={exercises[index]}
+        editable={isOwner}
+        onAddSet={handleAddSet}
+        onUpdateSet={handleUpdateSet}
+        onDeleteSet={handleDeleteSet}
+        onDeleteExercise={handleDeleteExercise}
+        onUpdateNotes={handleUpdateExerciseNotes}
+      />
+    );
   }
 
   async function handleAddSet(
@@ -552,17 +585,34 @@ export default function WorkoutDetailScreen() {
           ) : (
             <>
               <View style={styles.exercises}>
-                {exercises.map((exercise) => (
-                  <ExerciseSection
-                    key={exercise.id}
-                    exercise={exercise}
-                    editable={isOwner}
-                    onAddSet={handleAddSet}
-                    onUpdateSet={handleUpdateSet}
-                    onDeleteSet={handleDeleteSet}
-                    onDeleteExercise={handleDeleteExercise}
-                    onUpdateNotes={handleUpdateExerciseNotes}
-                  />
+                {supersetBlocks(exercises).map((block, blockIndex) => (
+                  <Fragment key={exercises[block[0]].id}>
+                    {blockIndex > 0 ? (
+                      <SupersetLink
+                        linked={false}
+                        editable={isOwner}
+                        onToggle={() => handleToggleSuperset(block[0] - 1)}
+                      />
+                    ) : null}
+                    {block.length > 1 ? (
+                      <View style={[styles.supersetGroup, { borderColor: theme.tint }]}>
+                        {block.map((exerciseIndex, position) => (
+                          <Fragment key={exercises[exerciseIndex].id}>
+                            {position > 0 ? (
+                              <SupersetLink
+                                linked
+                                editable={isOwner}
+                                onToggle={() => handleToggleSuperset(exerciseIndex - 1)}
+                              />
+                            ) : null}
+                            {renderExerciseSection(exerciseIndex)}
+                          </Fragment>
+                        ))}
+                      </View>
+                    ) : (
+                      renderExerciseSection(block[0])
+                    )}
+                  </Fragment>
                 ))}
                 {exercises.length === 0 ? (
                   <ThemedText themeColor="textSecondary" type="small">
@@ -795,16 +845,18 @@ function LiveWorkoutView({
     });
   }
 
-  function enterExercise(index: number) {
+  // `setIndex` lets a superset hand over mid-exercise: round 2 of the curls continues into set 2 of
+  // the extensions, not set 1.
+  function enterExercise(index: number, setIndex = 0, restEndTime = restTimer.restEndTime) {
     onNavigate(index);
     setEditingOrder(null);
     setExtraValues({ weight: '', reps: '' });
-    setCurrentSetIndex(0);
-    setActiveValues(seedActiveValues(groupSetsByOrder(exercises[index]?.sets ?? [])[0], unitSystem));
+    setCurrentSetIndex(setIndex);
+    setActiveValues(seedActiveValues(groupSetsByOrder(exercises[index]?.sets ?? [])[setIndex], unitSystem));
     if (exercises[index]?.rest_seconds) {
       restTimer.setDuration(exercises[index].rest_seconds!);
     }
-    persistSession(index, 0, restTimer.restEndTime);
+    persistSession(index, setIndex, restEndTime);
   }
 
   async function handleCompleteSet() {
@@ -838,9 +890,21 @@ function LiveWorkoutView({
         await onUpdateSet([{ id: group.sets[0].id, weight, reps }]);
       }
     }
-    const endTime = await restTimer.startTimer();
+    // Inside a superset the next exercise follows straight away; the rest waits for the round's end.
+    const step = nextSupersetStep(
+      exercises,
+      exercises.map((item) => groupSetsByOrder(item.sets).length),
+      currentIndex,
+      currentSetIndex,
+    );
+    const endTime = !step || step.rest ? await restTimer.startTimer() : restTimer.restEndTime;
     setIsSubmitting(false);
     playCompletionPulse();
+
+    if (step && step.index !== currentIndex) {
+      enterExercise(step.index, step.setIndex, endTime);
+      return;
+    }
 
     const nextIndex = currentSetIndex + 1;
     setCurrentSetIndex(nextIndex);
@@ -910,6 +974,22 @@ function LiveWorkoutView({
     persistSession(currentIndex, nextIndex, endTime);
   }
 
+  const supersetGroup = supersetMembers(exercises, currentIndex);
+  const upcomingStep =
+    supersetGroup.length > 1
+      ? nextSupersetStep(
+          exercises,
+          exercises.map((item) => groupSetsByOrder(item.sets).length),
+          currentIndex,
+          currentSetIndex,
+        )
+      : null;
+  // Only worth announcing when the round really carries on with another exercise, without rest.
+  const nextInRound =
+    upcomingStep && !upcomingStep.rest && upcomingStep.index !== currentIndex
+      ? exercises[upcomingStep.index]
+      : null;
+
   const isLast = currentIndex === exercises.length - 1;
   const isPastPlan = currentSetIndex >= groups.length;
 
@@ -970,6 +1050,19 @@ function LiveWorkoutView({
             {t('workout.detail.exerciseCounter', { current: currentIndex + 1, total: exercises.length })}
           </ThemedText>
           <ThemedText type="title">{getExerciseDisplayName(exercise, language)}</ThemedText>
+          {supersetGroup.length > 1 ? (
+            <ThemedText type="smallBold" themeColor="tint">
+              {t('workout.superset.badge', {
+                current: supersetGroup.indexOf(currentIndex) + 1,
+                total: supersetGroup.length,
+              })}
+            </ThemedText>
+          ) : null}
+          {nextInRound ? (
+            <ThemedText type="small" themeColor="textSecondary">
+              {t('workout.superset.next', { name: getExerciseDisplayName(nextInRound, language) })}
+            </ThemedText>
+          ) : null}
   
           {groups.length > 0 ? (
             <ThemedText type="small" themeColor="tint">
@@ -1247,6 +1340,12 @@ function LiveWorkoutView({
 }
 
 const styles = StyleSheet.create({
+  // A superset reads as one block: a tint bar down the left edge ties its exercise cards together.
+  supersetGroup: {
+    borderLeftWidth: 3,
+    paddingLeft: Spacing.two,
+    gap: Spacing.three,
+  },
   pendingBanner: {
     flexDirection: 'row',
     alignItems: 'center',

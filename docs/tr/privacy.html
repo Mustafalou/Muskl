@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Muskl — Gizlilik politikası</title>
+<meta name="description" content="Muskl hangi verileri toplar, bunları nasıl kullanır ve onları nasıl kontrol edebilir ya da silebilirsin." />
+<link rel="canonical" href="https://muskl.mynextgen.be/tr/privacy.html" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/privacy.html" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/privacy.html" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/privacy.html" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/privacy.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/privacy.html" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/privacy.html" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/privacy.html" />
+<link rel="icon" href="../assets/favicon.png" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="../assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="../assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <details class="lang-switch">
+    <summary aria-label="Dil"><span class="flag">🇹🇷</span><span class="lang-name">Türkçe</span></summary>
+    <div class="lang-menu">
+      <a href="../privacy.html" hreflang="fr" lang="fr" data-lang="fr"><span class="flag">🇫🇷</span>Français</a>
+      <a href="../en/privacy.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="../es/privacy.html" hreflang="es" lang="es" data-lang="es"><span class="flag">🇪🇸</span>Español</a>
+      <a href="../de/privacy.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="../nl/privacy.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="../pt/privacy.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="../tr/privacy.html" hreflang="tr" lang="tr" data-lang="tr" aria-current="true"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-ghost btn-sm" href="index.html">Siteye dön</a>
+  </div>
+</header>
+
+<main class="wrap legal">
+  <h1>Gizlilik politikası — Muskl</h1>
+  <p class="updated">Son güncelleme: 15 Eylül 2026</p>
+  <p class="legal-note">Bu metin Fransızca politikanın çevirisidir; farklılık durumunda Fransızca metin geçerlidir.</p>
+
+  <p>Muskl, sosyal bir boyutu olan bir antrenman takip uygulamasıdır (fitness, kardiyo ve diğer sporlar). Bu sayfa hangi verilerin toplandığını, nasıl kullanıldığını ve bunları nasıl kontrol edebileceğini ya da silebileceğini açıklar.</p>
+
+  <h2>1. Verilerinden kim sorumlu</h2>
+  <p>Muskl bağımsız olarak geliştirilen ve işletilen bir projedir. Her türlü soru için: <a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a>.</p>
+
+  <h2>2. Toplanan veriler</h2>
+  <ul>
+    <li><strong>Hesap:</strong> e-posta adresi ve şifre (Supabase Auth tarafından yönetilir, asla açık metin olarak saklanmaz).</li>
+    <li><strong>Profil:</strong> kullanıcı adı, profil fotoğrafı (isteğe bağlı), “Herkese açık profil” ayarı.</li>
+    <li><strong>Karşılama anketi:</strong> başlangıç antrenman şablonları önermek için kullanılan antrenman seviyen.</li>
+    <li><strong>Tercihler:</strong> haftalık antrenman hedefi, ağırlık birimi (kg ya da lb).</li>
+    <li><strong>Vücut verileri (isteğe bağlı):</strong> boy, kilo geçmişi.</li>
+    <li><strong>Antrenmanlar:</strong> ad, tarih, notlar, hareketler, setler (tekrar, ağırlık, süre, RPE) ve antrenman şablonların.</li>
+    <li><strong>Sosyal etkileşimler:</strong> takip ettiğin ve seni takip eden hesaplar, beğenilerin, yorumların ve engellediğin hesaplar.</li>
+    <li><strong>Şikâyetler:</strong> bir içeriği şikâyet edersen, hangi antrenmanı kimin şikâyet ettiğini kaydederiz.</li>
+  </ul>
+  <p>Muskl konumunu, kişilerini ya da herhangi bir reklam kimliğini toplamaz.</p>
+  <p><strong>Web sitesinde:</strong> Kurulum sayfasındaki formla Android betasına erişim istersen, e-posta adresin bana <a href="https://formsubmit.co" target="_blank" rel="noopener">FormSubmit</a> hizmeti aracılığıyla ulaşır. Yalnızca seni test kullanıcıları listesine eklemek ve davetini göndermek için kullanılır.</p>
+
+  <h2>3. Verilerinin görünürlüğü</h2>
+  <p><strong>Kullanıcı adın</strong> ve <strong>profil fotoğrafın</strong>, örneğin aramada, diğer kullanıcılar tarafından görülebilir.</p>
+  <p><strong>Antrenmanların</strong> (hareketleri ve setleriyle), <strong>boyun</strong> ve <strong>kilo geçmişin</strong>, Profil sekmesindeki <strong>“Herkese açık profil”</strong> ayarına bağlıdır. Açıkken (varsayılan ayar), profilini açan her kullanıcı bunları görebilir. Kapalıyken yalnızca takip isteğini kabul ettiğin kişiler görebilir.</p>
+  <p>Akış herkese yalnızca takip ettiği kişilerin antrenmanlarını gösterir. Bir antrenmanın beğenileri ve yorumları, o antrenmanı görebilenlere görünür. Bir kullanıcıyı engellersen, artık antrenmanlarını göremez.</p>
+
+  <h2>4. Veri işleyen</h2>
+  <p>Veriler, Avrupa Birliği'nde (eu-central-1 bölgesi) barındırılan <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> üzerinde tutulur (PostgreSQL veritabanı, kimlik doğrulama, fotoğraf depolama). Hiçbir veri satılmaz ya da reklam amacıyla üçüncü taraflarla paylaşılmaz — Muskl reklam göstermez ve üçüncü taraf analiz araçları kullanmaz.</p>
+
+  <h2>5. Saklama süresi</h2>
+  <p>Verilerin hesabın var olduğu sürece saklanır. Hesabını silersen, tüm verilerin kalıcı olarak silinir (bir sonraki bölüme bak).</p>
+
+  <!-- Linked from the Google Play data-deletion form: keep this id stable in every language. -->
+  <h2 id="suppression">6. Hesabının ve verilerinin silinmesi</h2>
+  <p><strong>Uygulamadan:</strong> <strong>Profil</strong> sekmesi → <strong>Hesabımı sil</strong>. Silme işlemi anında gerçekleşir.</p>
+  <p><strong>Uygulama olmadan</strong> (örneğin uygulamayı zaten kaldırdıysan): Muskl hesabının e-posta adresinden, konu satırına “Hesap silme” yazarak <a href="mailto:mustafaliiyilmaz@gmail.com?subject=Muskl%20hesap%20silme">mustafaliiyilmaz@gmail.com</a> adresine e-posta gönder. Silme işlemi en geç 30 gün içinde yapılır ve bir onay alırsın.</p>
+  <p>Her iki durumda da silme kalıcıdır ve tüm verilerini kapsar: hesabın, profilin ve fotoğrafın, anket yanıtların ve tercihlerin, antrenmanların, hareketlerin ve setlerin, antrenman şablonların, kilo geçmişin, takip ettiklerin ve takipçilerin, beğenilerin, yorumların, engellemelerin ve şikâyetlerin. Muskl silme işleminden sonra bu verilerin hiçbirini saklamaz.</p>
+
+  <h2>7. Hakların</h2>
+  <p>GDPR uyarınca verilerine erişme, düzeltme, silme ve taşıma hakkına sahipsin. Bu işlemlerin çoğu doğrudan uygulamada yapılabilir (profilini düzenlemek, hesabını silmek). Diğer talepler için aşağıdaki adresten bize ulaş.</p>
+
+  <h2>8. İçerik şikâyeti</h2>
+  <p>Bir antrenmanı akıştan şikâyet edebilirsin. Şikâyetler yalnızca sana ve Muskl ekibine görünür, diğer kullanıcılara asla görünmez.</p>
+
+  <h2>9. Güvenlik</h2>
+  <p>Verilere erişim, veritabanının her satırı düzeyinde güvenlik kurallarıyla (Row Level Security) korunur; böylece bir veriyi yalnızca sahibi değiştirebilir ya da silebilir. Uygulama ile sunucu arasındaki iletişim şifrelidir (HTTPS).</p>
+
+  <h2>10. Asgari yaş</h2>
+  <p>Muskl 16 yaşından küçükler için tasarlanmamıştır.</p>
+
+  <h2>11. Değişiklikler</h2>
+  <p>Bu politika güncellenebilir. Son değişiklik tarihi bu sayfanın başında belirtilir.</p>
+
+  <h2>12. İletişim</h2>
+  <div class="contact">
+    <p>Bu politika veya verilerinle ilgili her türlü soru için:</p>
+    <p><a href="mailto:mustafaliiyilmaz@gmail.com">mustafaliiyilmaz@gmail.com</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — Belçika'da geliştirildi.</div>
+    <div class="foot-links">
+      <a href="mailto:mustafaliiyilmaz@gmail.com">İletişim</a>
+      <a href="index.html">Ana sayfa</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,10 +1,11 @@
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 
 import { KeyboardAwareForm } from '@/components/keyboard-aware-form';
 import { PrimaryButton } from '@/components/primary-button';
+import { SupersetLink } from '@/components/superset-link';
 import { TemplateExerciseSection } from '@/components/template-exercise-section';
 import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
@@ -12,8 +13,10 @@ import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/use-theme';
+import { newId } from '@/lib/offline-queue';
 import { startTemplate } from '@/lib/start-template';
 import { supabase } from '@/lib/supabase';
+import { supersetBlocks, supersetLinkChanges } from '@/lib/superset';
 import type { TemplateExerciseWithSets, WorkoutTemplate } from '@/types';
 
 export default function TemplateDetailScreen() {
@@ -45,7 +48,7 @@ export default function TemplateDetailScreen() {
 
     const { data: exerciseRows, error: exercisesError } = await supabase
       .from('template_exercises')
-      .select('id, template_id, name, order, rest_seconds, catalog_key')
+      .select('id, template_id, name, order, rest_seconds, catalog_key, superset_id')
       .eq('template_id', id)
       .order('order', { ascending: true });
 
@@ -168,6 +171,37 @@ export default function TemplateDetailScreen() {
     }
   }
 
+  function handleToggleSuperset(index: number) {
+    const { nextById, writes } = supersetLinkChanges(exercises, index, newId);
+    if (writes.length === 0) return;
+    setExercises((prev) =>
+      prev.map((exercise) =>
+        nextById.has(exercise.id) ? { ...exercise, superset_id: nextById.get(exercise.id) ?? null } : exercise,
+      ),
+    );
+    for (const { supersetId, ids } of writes) {
+      supabase
+        .from('template_exercises')
+        .update({ superset_id: supersetId })
+        .in('id', ids)
+        .then(({ error: updateError }) => {
+          if (updateError) setError(updateError.message);
+        });
+    }
+  }
+
+  function renderTemplateExercise(index: number) {
+    return (
+      <TemplateExerciseSection
+        exercise={exercises[index]}
+        onAddSet={handleAddSet}
+        onDeleteSet={handleDeleteSet}
+        onDeleteExercise={handleDeleteExercise}
+        onUpdateRest={handleUpdateRest}
+      />
+    );
+  }
+
   async function handleLaunch() {
     if (!user || !template || isLaunching) return;
     setIsLaunching(true);
@@ -241,15 +275,26 @@ export default function TemplateDetailScreen() {
           ) : null}
 
           <View style={styles.exercises}>
-            {exercises.map((exercise) => (
-              <TemplateExerciseSection
-                key={exercise.id}
-                exercise={exercise}
-                onAddSet={handleAddSet}
-                onDeleteSet={handleDeleteSet}
-                onDeleteExercise={handleDeleteExercise}
-                onUpdateRest={handleUpdateRest}
-              />
+            {supersetBlocks(exercises).map((block, blockIndex) => (
+              <Fragment key={exercises[block[0]].id}>
+                {blockIndex > 0 ? (
+                  <SupersetLink linked={false} editable onToggle={() => handleToggleSuperset(block[0] - 1)} />
+                ) : null}
+                {block.length > 1 ? (
+                  <View style={[styles.supersetGroup, { borderColor: theme.tint }]}>
+                    {block.map((exerciseIndex, position) => (
+                      <Fragment key={exercises[exerciseIndex].id}>
+                        {position > 0 ? (
+                          <SupersetLink linked editable onToggle={() => handleToggleSuperset(exerciseIndex - 1)} />
+                        ) : null}
+                        {renderTemplateExercise(exerciseIndex)}
+                      </Fragment>
+                    ))}
+                  </View>
+                ) : (
+                  renderTemplateExercise(block[0])
+                )}
+              </Fragment>
             ))}
             {exercises.length === 0 ? (
               <ThemedText themeColor="textSecondary" type="small">
@@ -294,6 +339,12 @@ const styles = StyleSheet.create({
   },
   exercises: {
     marginTop: Spacing.two,
+    gap: Spacing.three,
+  },
+  // A superset reads as one block: a tint bar down the left edge ties its exercise cards together.
+  supersetGroup: {
+    borderLeftWidth: 3,
+    paddingLeft: Spacing.two,
     gap: Spacing.three,
   },
   deleteTemplate: {

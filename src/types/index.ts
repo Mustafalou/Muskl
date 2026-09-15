@@ -47,6 +47,8 @@ export type Exercise = {
   // exercises, which can't be auto-translated for viewers in another language.
   catalog_key: string | null;
   notes: string | null;
+  // Shared by consecutive exercises done as a superset (see lib/superset.ts); null otherwise.
+  superset_id: string | null;
 };
 
 // Named to match the `sets` table; shadows the global `Set` collection type within this file's scope.
@@ -97,6 +99,7 @@ export type TemplateExercise = {
   order: number;
   rest_seconds: number | null;
   catalog_key: string | null;
+  superset_id: string | null;
 };
 
 export type TemplateSet = {

@@ -1,0 +1,224 @@
+{
+  "common": {
+    "language": "Dil",
+    "nav": {
+      "features": "Özellikler",
+      "sports": "Tüm sporlar",
+      "social": "Sosyal",
+      "install": "Kurulum"
+    },
+    "joinBeta": "Betaya katıl",
+    "backToSite": "Siteye dön",
+    "badge": "Açık beta — iOS &amp; Android",
+    "footer": {
+      "madeIn": "© 2026 Muskl — Belçika'da geliştirildi.",
+      "privacy": "Gizlilik",
+      "contact": "İletişim",
+      "top": "Başa dön",
+      "home": "Ana sayfa"
+    }
+  },
+  "index": {
+    "meta": {
+      "title": "Muskl — Tüm sporlar için antrenman günlüğün",
+      "description": "Muskl bir antrenman takip uygulamasıdır: setler, dinlenme sayacı, takvim, gelişim grafikleri ve arkadaşlarınla bir akış. Fitness, kardiyo, dövüş sporları — hepsi tek yerde.",
+      "ogTitle": "Muskl — Antrenman günlüğün",
+      "ogDescription": "Antrenmanlarını kaydet, gelişimini takip et, arkadaşlarınla paylaş. Tüm sporlar için."
+    },
+    "hero": {
+      "title": "Antrenman günlüğün,<br /><em>tüm sporlar için.</em>",
+      "lede": "Antrenmanlarını set set kaydet, gelişimini takip et ve arkadaşlarını gürültüsüz bir akışta izle. Fitness, kardiyo, dövüş sporları — hepsi tek yerde.",
+      "ctaPrimary": "Uygulamayı dene",
+      "ctaSecondary": "Neler yaptığına bak",
+      "note": "Ücretsiz. Reklamsız. Verilerin sana ait."
+    },
+    "features": {
+      "eyebrow": "Muskl ne yapar",
+      "title": "Ciddi antrenman için gereken her şey. Fazlası değil.",
+      "lede": "Antrenmandan sonra değil, antrenman sırasında açık tutulmak için tasarlandı.",
+      "sessions": {
+        "title": "Ayrıntılı antrenmanlar",
+        "text": "Hareketler, setler, tekrarlar, ağırlıklar ve RPE. Kas grubuna göre sıralı bir katalog ya da kendi hareketlerin."
+      },
+      "live": {
+        "title": "Canlı mod",
+        "text": "Antrenman sırasında her seti işaretle; dinlenme sayacı kendiliğinden başlar."
+      },
+      "calendar": {
+        "title": "Takvim ve seri",
+        "text": "Düzenliliğin bir bakışta, haftalık hedefin ve kaydetmeyi unuttuğun bir antrenmanı ekleme imkânı."
+      },
+      "progress": {
+        "title": "Gelişim",
+        "text": "Vücut ağırlığı grafiği ve hareket başına geçmiş: gerçekten ilerleyip ilerlemediğini görürsün."
+      },
+      "templates": {
+        "title": "Şablonlar",
+        "text": "Bir antrenmanı şablon olarak kaydet ve tek dokunuşla yeniden başlat. Kayıt olur olmaz bir başlangıç programı seni bekler."
+      },
+      "units": {
+        "title": "Kilo ya da pound",
+        "text": "Birimini bir kez seç, tüm uygulama uyum sağlasın. Ülkene göre otomatik algılanır."
+      }
+    },
+    "shots": {
+      "eyebrow": "Görsellerle",
+      "title": "Koyu, net, hızlı.",
+      "profile": "Profilin",
+      "streak": "Seri ve takvim",
+      "progress": "Gelişim",
+      "templates": "Şablonlar"
+    },
+    "sports": {
+      "eyebrow": "Sadece demir değil",
+      "title": "Kayıt, harekete göre uyum sağlar.",
+      "lede": "Her spor tekrarla sayılmaz. Muskl, plank'in süreyle, bench press'in ağırlıkla ölçüldüğünü bilir.",
+      "reps": "<strong>Tekrar ve ağırlık</strong> — bench press, squat, barfiks.",
+      "duration": "<strong>Süre</strong> — plank, ip atlama, kürek makinesi, assault bike."
+    },
+    "social": {
+      "eyebrow": "Birlikte",
+      "title": "Spor birlikte daha kolay.",
+      "lede": "Yalnızca takip ettiğin kişilerin antrenmanlarını gösteren bir akış. Yabancılar yok, algoritmanın dayattığı içerik yok.",
+      "follows": "<strong>Takip</strong> — takip isteği gönder ya da profilini herkese açık bırak.",
+      "likes": "Arkadaşlarının antrenmanlarına <strong>beğeni ve yorum</strong>.",
+      "share": "Basit bir bağlantıyla <strong>paylaşılabilir profil</strong>.",
+      "block": "<strong>Engelleme</strong> ve vücut verilerini kimin göreceği üzerinde kontrol."
+    },
+    "languages": {
+      "eyebrow": "Her yerde",
+      "title": "7 dilde kullanılabilir.",
+      "lede": "Hareket adları dahil — kelimesi kelimesine değil, spor salonunda gerçekten söylendiği gibi çevrildi."
+    },
+    "beta": {
+      "eyebrow": "Beta",
+      "title": "Muskl'ı herkesten önce dene.",
+      "text": "iPhone'da TestFlight ile tek dokunuşla katıl. Android'de bana Gmail adresini gönder, ben de sana davetini göndereyim. Geri bildirimlerin son sürümü şekillendiriyor.",
+      "ctaInstall": "Betayı kur",
+      "ctaPrivacy": "Gizlilik politikası"
+    }
+  },
+  "install": {
+    "meta": {
+      "title": "Muskl'ı kur — iPhone ve Android betası",
+      "description": "Muskl betası nasıl kurulur: iPhone'da TestFlight ile, Android'de Google Play davetiyle.",
+      "ogTitle": "Muskl betasını kur",
+      "ogDescription": "iPhone: tek dokunuşla TestFlight. Android: Gmail adresini bırak, davetini al."
+    },
+    "hero": {
+      "title": "Muskl'ı kur,<br /><em>iki dakikada.</em>",
+      "lede": "Uygulama, mağazalarda resmi olarak çıkmadan önce test ediliyor. Kurulum adımları telefonuna göre değişir."
+    },
+    "iphone": {
+      "tag": "Apple'ın resmi test uygulaması TestFlight ile.",
+      "step1": "App Store'dan <strong>TestFlight'ı kur</strong>. Ücretsiz ve Apple'ın uygulaması.",
+      "step2": "Aşağıdaki düğmeyle <strong>Muskl davetini iPhone'unda aç</strong>.",
+      "step3": "<strong>“Kabul Et”, ardından “Yükle”ye dokun.</strong> Muskl ana ekranında belirir.",
+      "ctaTestflight": "1. TestFlight'ı indir",
+      "ctaInvite": "2. Muskl davetini aç",
+      "note": "Güncellemeler doğrudan TestFlight'a gelir: her yeni sürümde bildirim alırsın."
+    },
+    "android": {
+      "tag": "Google Play daveti ile.",
+      "step1": "<strong>Gmail adresini aşağıya yaz</strong>: telefonundaki Play Store'a bağlı Google hesabının adresi.",
+      "step2": "<strong>Seni test kullanıcılarına eklerim</strong> ve davet bağlantını e-postayla gönderirim.",
+      "step3": "<strong>Bağlantıyı telefonunda aç</strong>, daveti kabul et ve Muskl'ı Play Store'dan kur.",
+      "label": "Gmail adresin",
+      "placeholder": "adresin@gmail.com",
+      "submit": "Davetimi al",
+      "legal": "Adresin yalnızca seni test kullanıcılarına eklemek için kullanılır. Bana FormSubmit hizmeti aracılığıyla ulaşır. <a href=\"privacy.html\">Gizlilik</a>",
+      "note": "Beta süresince Muskl, Play Store aramasında görünmez: her zaman bağlantını kullan. Uygulama teknik bir adla da görünebilir: “com.muskl.app”. Ve teste birkaç hafta kayıtlı kal — Muskl'ın Play Store'da resmi olarak yayınlanmasını sağlayan bu."
+    },
+    "faq": {
+      "eyebrow": "Sorular",
+      "title": "Başlamadan önce",
+      "freeQ": "Ücretsiz mi?",
+      "freeA": "Evet, tamamen ücretsiz ve reklamsız.",
+      "keepQ": "Resmi çıkışta antrenmanlarımı koruyacak mıyım?",
+      "keepA": "Evet. Hesabın ve verilerin test sürümünde değil, sunucuda: uygulama mağazalara çıktığında hepsini aynen bulacaksın.",
+      "helpQ": "Kurulumda sorun mu var?",
+      "helpA": "Telefon modelini belirterek <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Muskl%20kurulumu\">mustafaliiyilmaz@gmail.com</a> adresine yaz."
+    },
+    "form": {
+      "ok": "Tamamdır! Seni test kullanıcılarına ekler eklemez davet bağlantın e-postayla gelecek.",
+      "invalid": "Geçerli bir e-posta adresi gir.",
+      "fileProtocol": "Form yalnızca yayındaki sitede çalışır, dosyayı bilgisayarında açınca çalışmaz.",
+      "sending": "Gönderiliyor…",
+      "failed": "Gönderim başarısız oldu.",
+      "failedLink": "Adresini bana e-postayla gönder",
+      "mailSubject": "Muskl Android test kullanıcısı",
+      "mailBody": "Merhaba! Muskl'ı Android'de test etmek istiyorum.\n\nGmail adresim: "
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Muskl — Gizlilik politikası",
+      "description": "Muskl hangi verileri toplar, bunları nasıl kullanır ve onları nasıl kontrol edebilir ya da silebilirsin."
+    },
+    "title": "Gizlilik politikası — Muskl",
+    "updated": "Son güncelleme: 15 Eylül 2026",
+    "translationNote": "<p class=\"legal-note\">Bu metin Fransızca politikanın çevirisidir; farklılık durumunda Fransızca metin geçerlidir.</p>",
+    "intro": "Muskl, sosyal bir boyutu olan bir antrenman takip uygulamasıdır (fitness, kardiyo ve diğer sporlar). Bu sayfa hangi verilerin toplandığını, nasıl kullanıldığını ve bunları nasıl kontrol edebileceğini ya da silebileceğini açıklar.",
+    "s1": {
+      "title": "1. Verilerinden kim sorumlu",
+      "text": "Muskl bağımsız olarak geliştirilen ve işletilen bir projedir. Her türlü soru için: <a href=\"mailto:mustafaliiyilmaz@gmail.com\">mustafaliiyilmaz@gmail.com</a>."
+    },
+    "s2": {
+      "title": "2. Toplanan veriler",
+      "account": "<strong>Hesap:</strong> e-posta adresi ve şifre (Supabase Auth tarafından yönetilir, asla açık metin olarak saklanmaz).",
+      "profile": "<strong>Profil:</strong> kullanıcı adı, profil fotoğrafı (isteğe bağlı), “Herkese açık profil” ayarı.",
+      "onboarding": "<strong>Karşılama anketi:</strong> başlangıç antrenman şablonları önermek için kullanılan antrenman seviyen.",
+      "preferences": "<strong>Tercihler:</strong> haftalık antrenman hedefi, ağırlık birimi (kg ya da lb).",
+      "body": "<strong>Vücut verileri (isteğe bağlı):</strong> boy, kilo geçmişi.",
+      "workouts": "<strong>Antrenmanlar:</strong> ad, tarih, notlar, hareketler, setler (tekrar, ağırlık, süre, RPE) ve antrenman şablonların.",
+      "social": "<strong>Sosyal etkileşimler:</strong> takip ettiğin ve seni takip eden hesaplar, beğenilerin, yorumların ve engellediğin hesaplar.",
+      "reports": "<strong>Şikâyetler:</strong> bir içeriği şikâyet edersen, hangi antrenmanı kimin şikâyet ettiğini kaydederiz.",
+      "noTracking": "Muskl konumunu, kişilerini ya da herhangi bir reklam kimliğini toplamaz.",
+      "website": "<strong>Web sitesinde:</strong> Kurulum sayfasındaki formla Android betasına erişim istersen, e-posta adresin bana <a href=\"https://formsubmit.co\" target=\"_blank\" rel=\"noopener\">FormSubmit</a> hizmeti aracılığıyla ulaşır. Yalnızca seni test kullanıcıları listesine eklemek ve davetini göndermek için kullanılır."
+    },
+    "s3": {
+      "title": "3. Verilerinin görünürlüğü",
+      "p1": "<strong>Kullanıcı adın</strong> ve <strong>profil fotoğrafın</strong>, örneğin aramada, diğer kullanıcılar tarafından görülebilir.",
+      "p2": "<strong>Antrenmanların</strong> (hareketleri ve setleriyle), <strong>boyun</strong> ve <strong>kilo geçmişin</strong>, Profil sekmesindeki <strong>“Herkese açık profil”</strong> ayarına bağlıdır. Açıkken (varsayılan ayar), profilini açan her kullanıcı bunları görebilir. Kapalıyken yalnızca takip isteğini kabul ettiğin kişiler görebilir.",
+      "p3": "Akış herkese yalnızca takip ettiği kişilerin antrenmanlarını gösterir. Bir antrenmanın beğenileri ve yorumları, o antrenmanı görebilenlere görünür. Bir kullanıcıyı engellersen, artık antrenmanlarını göremez."
+    },
+    "s4": {
+      "title": "4. Veri işleyen",
+      "text": "Veriler, Avrupa Birliği'nde (eu-central-1 bölgesi) barındırılan <a href=\"https://supabase.com\" target=\"_blank\" rel=\"noopener\">Supabase</a> üzerinde tutulur (PostgreSQL veritabanı, kimlik doğrulama, fotoğraf depolama). Hiçbir veri satılmaz ya da reklam amacıyla üçüncü taraflarla paylaşılmaz — Muskl reklam göstermez ve üçüncü taraf analiz araçları kullanmaz."
+    },
+    "s5": {
+      "title": "5. Saklama süresi",
+      "text": "Verilerin hesabın var olduğu sürece saklanır. Hesabını silersen, tüm verilerin kalıcı olarak silinir (bir sonraki bölüme bak)."
+    },
+    "s6": {
+      "title": "6. Hesabının ve verilerinin silinmesi",
+      "inApp": "<strong>Uygulamadan:</strong> <strong>Profil</strong> sekmesi → <strong>Hesabımı sil</strong>. Silme işlemi anında gerçekleşir.",
+      "outside": "<strong>Uygulama olmadan</strong> (örneğin uygulamayı zaten kaldırdıysan): Muskl hesabının e-posta adresinden, konu satırına “Hesap silme” yazarak <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Muskl%20hesap%20silme\">mustafaliiyilmaz@gmail.com</a> adresine e-posta gönder. Silme işlemi en geç 30 gün içinde yapılır ve bir onay alırsın.",
+      "scope": "Her iki durumda da silme kalıcıdır ve tüm verilerini kapsar: hesabın, profilin ve fotoğrafın, anket yanıtların ve tercihlerin, antrenmanların, hareketlerin ve setlerin, antrenman şablonların, kilo geçmişin, takip ettiklerin ve takipçilerin, beğenilerin, yorumların, engellemelerin ve şikâyetlerin. Muskl silme işleminden sonra bu verilerin hiçbirini saklamaz."
+    },
+    "s7": {
+      "title": "7. Hakların",
+      "text": "GDPR uyarınca verilerine erişme, düzeltme, silme ve taşıma hakkına sahipsin. Bu işlemlerin çoğu doğrudan uygulamada yapılabilir (profilini düzenlemek, hesabını silmek). Diğer talepler için aşağıdaki adresten bize ulaş."
+    },
+    "s8": {
+      "title": "8. İçerik şikâyeti",
+      "text": "Bir antrenmanı akıştan şikâyet edebilirsin. Şikâyetler yalnızca sana ve Muskl ekibine görünür, diğer kullanıcılara asla görünmez."
+    },
+    "s9": {
+      "title": "9. Güvenlik",
+      "text": "Verilere erişim, veritabanının her satırı düzeyinde güvenlik kurallarıyla (Row Level Security) korunur; böylece bir veriyi yalnızca sahibi değiştirebilir ya da silebilir. Uygulama ile sunucu arasındaki iletişim şifrelidir (HTTPS)."
+    },
+    "s10": {
+      "title": "10. Asgari yaş",
+      "text": "Muskl 16 yaşından küçükler için tasarlanmamıştır."
+    },
+    "s11": {
+      "title": "11. Değişiklikler",
+      "text": "Bu politika güncellenebilir. Son değişiklik tarihi bu sayfanın başında belirtilir."
+    },
+    "s12": {
+      "title": "12. İletişim",
+      "text": "Bu politika veya verilerinle ilgili her türlü soru için:"
+    }
+  }
+}

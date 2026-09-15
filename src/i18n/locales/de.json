@@ -244,6 +244,13 @@
       "stopLive": "Workout beenden",
       "pendingSync_one": "Offline — {{count}} Änderung wird synchronisiert",
       "pendingSync_other": "Offline — {{count}} Änderungen werden synchronisiert"
+    },
+    "superset": {
+      "label": "Supersatz",
+      "link": "Als Supersatz verbinden",
+      "unlink": "Supersatz trennen",
+      "badge": "Supersatz {{current}}/{{total}}",
+      "next": "Weiter mit {{name}}, ohne Pause"
     }
   },
   "restTimer": {
@@ -391,5 +398,59 @@
     "liveMode": "Wechsle im Training in den Live-Modus: er zeigt einen Satz nach dem anderen, mit Pausentimer.",
     "streakCalendar": "Tippe auf die Flamme, um deinen Kalender zu sehen.",
     "calendarBackfill": "Tippe auf einen Tag, um ein vergessenes Workout nachzutragen."
+  },
+  "library": {
+    "title": "Bibliothek",
+    "intro": "Fertige Trainingspläne. Füge sie deinen Vorlagen hinzu und passe sie nach Belieben an.",
+    "entry": "Vorlagen-Bibliothek",
+    "entryHint": "Fertige Trainingspläne",
+    "add": "Zu meinen Vorlagen hinzufügen",
+    "added": "Zu deinen Vorlagen hinzugefügt ✓",
+    "perWeek_one": "{{count}} Tag / Woche",
+    "perWeek_other": "{{count}} Tage / Woche",
+    "sessionCount_one": "{{count}} Einheit",
+    "sessionCount_other": "{{count}} Einheiten",
+    "setsReps": "{{sets}} × {{reps}}",
+    "sessions": {
+      "strengthA": "Kraft A",
+      "strengthB": "Kraft B",
+      "arms": "Arm-Supersätze",
+      "abs": "Bauch-Express",
+      "hiit": "HIIT"
+    },
+    "programs": {
+      "fullBody2": {
+        "name": "Ganzkörper, 2 Tage",
+        "description": "Der ganze Körper in zwei Einheiten: ideal für den Einstieg oder wenn wenig Zeit bleibt."
+      },
+      "fullBody3": {
+        "name": "Ganzkörper, 3 Tage",
+        "description": "Drei Ganzkörpereinheiten pro Woche, der Klassiker für schnelle Fortschritte."
+      },
+      "upperLower": {
+        "name": "OK/UK-Split, 4 Tage",
+        "description": "Zwei Oberkörper- und zwei Unterkörpereinheiten: mehr Volumen pro Muskel."
+      },
+      "ppl": {
+        "name": "Push Pull Beine, 6 Tage",
+        "description": "Drücken, Ziehen, Beine, zweimal pro Woche. Für regelmäßig Trainierende."
+      },
+      "strength5x5": {
+        "name": "Kraft 5×5",
+        "description": "Die schweren Grundübungen in 5 Sätzen à 5, zwei Einheiten im Wechsel."
+      },
+      "armsSupersets": {
+        "name": "Arm-Supersätze",
+        "description": "Bizeps und Trizeps ohne Pause im Wechsel: eine kurze, intensive Einheit."
+      },
+      "absExpress": {
+        "name": "Bauch-Express",
+        "description": "Ein Zirkel aus 4 Übungen zum Abschluss jeder Einheit."
+      },
+      "hiit": {
+        "name": "HIIT",
+        "description": "Ein Cardio-Zirkel mit Körpergewicht und Kettlebell, ohne Leerlauf."
+      }
+    }
   }
 }

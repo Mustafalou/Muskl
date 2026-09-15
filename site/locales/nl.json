@@ -1,0 +1,224 @@
+{
+  "common": {
+    "language": "Taal",
+    "nav": {
+      "features": "Functies",
+      "sports": "Alle sporten",
+      "social": "Sociaal",
+      "install": "Installatie"
+    },
+    "joinBeta": "Doe mee aan de bèta",
+    "backToSite": "Terug naar de site",
+    "badge": "Open bèta — iOS &amp; Android",
+    "footer": {
+      "madeIn": "© 2026 Muskl — ontwikkeld in België.",
+      "privacy": "Privacy",
+      "contact": "Contact",
+      "top": "Naar boven",
+      "home": "Home"
+    }
+  },
+  "index": {
+    "meta": {
+      "title": "Muskl — Je trainingslogboek, voor elke sport",
+      "description": "Muskl is een app om je trainingen bij te houden: sets, rusttimer, kalender, voortgangsgrafieken en een feed met je vrienden. Krachttraining, cardio, vechtsport — alles op één plek.",
+      "ogTitle": "Muskl — Je trainingslogboek",
+      "ogDescription": "Houd je trainingen bij, volg je vooruitgang en deel het met je vrienden. Voor elke sport."
+    },
+    "hero": {
+      "title": "Je trainingslogboek,<br /><em>voor elke sport.</em>",
+      "lede": "Noteer je trainingen set per set, houd je vooruitgang in de gaten en volg je vrienden in een feed zonder ruis. Krachttraining, cardio, vechtsport — alles op één plek.",
+      "ctaPrimary": "Probeer de app",
+      "ctaSecondary": "Bekijk wat hij doet",
+      "note": "Gratis. Zonder advertenties. Jouw gegevens zijn van jou."
+    },
+    "features": {
+      "eyebrow": "Wat Muskl doet",
+      "title": "Alles om serieus te trainen. Niets meer.",
+      "lede": "Een app die bedoeld is om open te staan tijdens je training, niet alleen erna.",
+      "sessions": {
+        "title": "Gedetailleerde trainingen",
+        "text": "Oefeningen, sets, herhalingen, gewichten en RPE. Een catalogus per spiergroep, of je eigen oefeningen."
+      },
+      "live": {
+        "title": "Live-modus",
+        "text": "Vink elke set af tijdens je training, met een rusttimer die vanzelf start."
+      },
+      "calendar": {
+        "title": "Kalender en reeks",
+        "text": "Je regelmaat in één oogopslag, je weekdoel en de mogelijkheid om een vergeten training toe te voegen."
+      },
+      "progress": {
+        "title": "Vooruitgang",
+        "text": "Grafiek van je lichaamsgewicht en geschiedenis per oefening: je ziet echt of je vooruitgaat."
+      },
+      "templates": {
+        "title": "Sjablonen",
+        "text": "Sla een training op als sjabloon en start hem opnieuw met één tik. Een startprogramma wacht op je zodra je je aanmeldt."
+      },
+      "units": {
+        "title": "Kilo of pond",
+        "text": "Kies één keer je eenheid en de hele app past zich aan. Automatisch herkend op basis van je land."
+      }
+    },
+    "shots": {
+      "eyebrow": "In beeld",
+      "title": "Donker, helder, snel.",
+      "profile": "Je profiel",
+      "streak": "Reeks en kalender",
+      "progress": "Vooruitgang",
+      "templates": "Sjablonen"
+    },
+    "sports": {
+      "eyebrow": "Niet alleen ijzer",
+      "title": "De invoer past zich aan de oefening aan.",
+      "lede": "Niet elke sport tel je in herhalingen. Muskl weet dat een plank op tijd gaat en een bankdrukken op gewicht.",
+      "reps": "<strong>Herhalingen en gewicht</strong> — bankdrukken, squat, optrekken.",
+      "duration": "<strong>Duur</strong> — plank, touwtjespringen, roeimachine, assault bike."
+    },
+    "social": {
+      "eyebrow": "Samen",
+      "title": "Sporten gaat makkelijker samen.",
+      "lede": "Een feed die alleen de trainingen toont van mensen die je volgt. Geen onbekenden, geen inhoud die een algoritme je opdringt.",
+      "follows": "<strong>Volgen</strong> — vraag om iemand te volgen, of houd je profiel openbaar.",
+      "likes": "<strong>Likes en reacties</strong> op de trainingen van je vrienden.",
+      "share": "<strong>Deelbaar profiel</strong> via een simpele link.",
+      "block": "<strong>Blokkeren</strong> en controle over wie je lichaamsgegevens ziet."
+    },
+    "languages": {
+      "eyebrow": "Overal",
+      "title": "Beschikbaar in 7 talen.",
+      "lede": "Ook de namen van de oefeningen, vertaald zoals ze in de gym echt gezegd worden — niet woord voor woord."
+    },
+    "beta": {
+      "eyebrow": "Bèta",
+      "title": "Probeer Muskl voor iedereen.",
+      "text": "Op iPhone doe je met één tik mee via TestFlight. Op Android stuur je me je Gmail-adres en ik stuur je je uitnodiging. Jouw feedback bepaalt de definitieve versie.",
+      "ctaInstall": "De bèta installeren",
+      "ctaPrivacy": "Privacybeleid"
+    }
+  },
+  "install": {
+    "meta": {
+      "title": "Muskl installeren — Bèta voor iPhone en Android",
+      "description": "Zo installeer je de bèta van Muskl: via TestFlight op iPhone, of via een Google Play-uitnodiging op Android.",
+      "ogTitle": "Installeer de Muskl-bèta",
+      "ogDescription": "iPhone: TestFlight met één tik. Android: laat je Gmail-adres achter en ontvang je uitnodiging."
+    },
+    "hero": {
+      "title": "Installeer Muskl<br /><em>in twee minuten.</em>",
+      "lede": "De app wordt getest voor de officiële lancering in de stores. Hoe je hem installeert, hangt af van je telefoon."
+    },
+    "iphone": {
+      "tag": "Via TestFlight, de officiële test-app van Apple.",
+      "step1": "<strong>Installeer TestFlight</strong> uit de App Store. Gratis en gemaakt door Apple.",
+      "step2": "<strong>Open de Muskl-uitnodiging op je iPhone</strong> met de knop hieronder.",
+      "step3": "<strong>Tik op ‘Accepteer’ en daarna op ‘Installeer’.</strong> Muskl verschijnt op je beginscherm.",
+      "ctaTestflight": "1. TestFlight downloaden",
+      "ctaInvite": "2. Muskl-uitnodiging openen",
+      "note": "Updates komen rechtstreeks binnen via TestFlight: je krijgt bij elke nieuwe versie een melding."
+    },
+    "android": {
+      "tag": "Via een Google Play-uitnodiging.",
+      "step1": "<strong>Laat hieronder je Gmail-adres achter</strong>: dat van het Google-account waarmee de Play Store op je telefoon is ingelogd.",
+      "step2": "<strong>Ik voeg je toe aan de testers</strong> en mail je je uitnodigingslink.",
+      "step3": "<strong>Open de link op je telefoon</strong>, accepteer de uitnodiging en installeer Muskl uit de Play Store.",
+      "label": "Je Gmail-adres",
+      "placeholder": "jouw.adres@gmail.com",
+      "submit": "Mijn uitnodiging ontvangen",
+      "legal": "Je adres wordt alleen gebruikt om je aan de testers toe te voegen. Het bereikt me via de dienst FormSubmit. <a href=\"privacy.html\">Privacy</a>",
+      "note": "Tijdens de bèta verschijnt Muskl niet in de zoekresultaten van de Play Store: gebruik altijd je link. De app kan ook onder een technische naam verschijnen, ‘com.muskl.app’. En blijf een paar weken ingeschreven voor de test — daardoor kan Muskl officieel in de Play Store verschijnen."
+    },
+    "faq": {
+      "eyebrow": "Vragen",
+      "title": "Voor je begint",
+      "freeQ": "Is het gratis?",
+      "freeA": "Ja, helemaal, en zonder advertenties.",
+      "keepQ": "Houd ik mijn trainingen bij de officiële lancering?",
+      "keepA": "Ja. Je account en gegevens staan op de server, niet in de testversie: je vindt ze precies zo terug wanneer de app in de stores verschijnt.",
+      "helpQ": "Problemen met installeren?",
+      "helpA": "Mail me op <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Installatie%20Muskl\">mustafaliiyilmaz@gmail.com</a> en vermeld je telefoonmodel."
+    },
+    "form": {
+      "ok": "Genoteerd! Je krijgt je uitnodigingslink per mail zodra ik je aan de testers heb toegevoegd.",
+      "invalid": "Vul een geldig e-mailadres in.",
+      "fileProtocol": "Het formulier werkt alleen op de online website, niet als je het bestand op je computer opent.",
+      "sending": "Bezig met verzenden…",
+      "failed": "Het verzenden is niet gelukt.",
+      "failedLink": "Mail me je adres",
+      "mailSubject": "Muskl Android-tester",
+      "mailBody": "Hoi! Ik wil Muskl testen op Android.\n\nMijn Gmail-adres: "
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Muskl — Privacybeleid",
+      "description": "Welke gegevens Muskl verzamelt, hoe ze worden gebruikt en hoe je ze kunt beheren of verwijderen."
+    },
+    "title": "Privacybeleid — Muskl",
+    "updated": "Laatst bijgewerkt: 15 september 2026",
+    "translationNote": "<p class=\"legal-note\">Dit is een vertaling van het Franse beleid, dat bij verschillen voorrang heeft.</p>",
+    "intro": "Muskl is een app om je trainingen bij te houden (krachttraining, cardio en andere sporten) met een sociale kant. Deze pagina legt uit welke gegevens worden verzameld, hoe ze worden gebruikt en hoe je ze kunt beheren of verwijderen.",
+    "s1": {
+      "title": "1. Wie is verantwoordelijk voor je gegevens",
+      "text": "Muskl is een onafhankelijk ontwikkeld en beheerd project. Voor vragen kun je contact opnemen via: <a href=\"mailto:mustafaliiyilmaz@gmail.com\">mustafaliiyilmaz@gmail.com</a>."
+    },
+    "s2": {
+      "title": "2. Verzamelde gegevens",
+      "account": "<strong>Account:</strong> e-mailadres en wachtwoord (beheerd door Supabase Auth, nooit leesbaar opgeslagen).",
+      "profile": "<strong>Profiel:</strong> gebruikersnaam, profielfoto (optioneel), instelling ‘Openbaar profiel’.",
+      "onboarding": "<strong>Welkomstvragenlijst:</strong> je trainingsniveau, gebruikt om je startsjablonen voor te stellen.",
+      "preferences": "<strong>Voorkeuren:</strong> wekelijks trainingsdoel, gewichtseenheid (kg of lb).",
+      "body": "<strong>Lichaamsgegevens (optioneel):</strong> lengte, gewichtsgeschiedenis.",
+      "workouts": "<strong>Trainingen:</strong> naam, datum, notities, oefeningen, sets (herhalingen, gewicht, duur, RPE) en je trainingssjablonen.",
+      "social": "<strong>Sociale interacties:</strong> de accounts die je volgt en die jou volgen, je likes, je reacties en de accounts die je blokkeert.",
+      "reports": "<strong>Meldingen:</strong> als je inhoud meldt, slaan we op welke training en door wie.",
+      "noTracking": "Muskl verzamelt je locatie, je contacten of een advertentie-ID niet.",
+      "website": "<strong>Op de website:</strong> als je via het formulier op de installatiepagina toegang tot de Android-bèta aanvraagt, bereikt je e-mailadres me via de dienst <a href=\"https://formsubmit.co\" target=\"_blank\" rel=\"noopener\">FormSubmit</a>. Het wordt alleen gebruikt om je aan de testerslijst toe te voegen en je je uitnodiging te sturen."
+    },
+    "s3": {
+      "title": "3. Zichtbaarheid van je gegevens",
+      "p1": "Je <strong>gebruikersnaam</strong> en je <strong>profielfoto</strong> zijn zichtbaar voor andere gebruikers, bijvoorbeeld in de zoekfunctie.",
+      "p2": "Je <strong>trainingen</strong> (met hun oefeningen en sets), je <strong>lengte</strong> en je <strong>gewichtsgeschiedenis</strong> hangen af van de instelling <strong>‘Openbaar profiel’</strong> in het tabblad Profiel. Staat die aan (de standaardinstelling), dan kan elke gebruiker ze zien door je profiel te openen. Staat die uit, dan zien alleen de mensen van wie je het volgverzoek hebt geaccepteerd ze.",
+      "p3": "De feed toont iedereen alleen de trainingen van de mensen die hij of zij volgt. Likes en reacties op een training zijn zichtbaar voor wie die training kan zien. Als je een gebruiker blokkeert, kan die je trainingen niet meer zien."
+    },
+    "s4": {
+      "title": "4. Verwerker",
+      "text": "De gegevens worden gehost bij <a href=\"https://supabase.com\" target=\"_blank\" rel=\"noopener\">Supabase</a> (PostgreSQL-database, authenticatie, opslag van foto's), in de Europese Unie (regio eu-central-1). Er worden geen gegevens verkocht of gedeeld met derden voor advertentiedoeleinden — Muskl toont geen advertenties en gebruikt geen analysetools van derden."
+    },
+    "s5": {
+      "title": "5. Bewaartermijn",
+      "text": "Je gegevens worden bewaard zolang je account bestaat. Als je je account verwijdert, worden al je gegevens definitief verwijderd (zie volgende sectie)."
+    },
+    "s6": {
+      "title": "6. Je account en gegevens verwijderen",
+      "inApp": "<strong>Vanuit de app:</strong> tabblad <strong>Profiel</strong> → <strong>Mijn account verwijderen</strong>. De verwijdering is onmiddellijk.",
+      "outside": "<strong>Zonder de app</strong> (bijvoorbeeld als je hem al hebt verwijderd): stuur een e-mail naar <a href=\"mailto:mustafaliiyilmaz@gmail.com?subject=Account%20verwijderen%20Muskl\">mustafaliiyilmaz@gmail.com</a> met als onderwerp ‘Account verwijderen’, vanaf het e-mailadres van je Muskl-account. De verwijdering gebeurt binnen maximaal 30 dagen en je ontvangt een bevestiging.",
+      "scope": "In beide gevallen is de verwijdering definitief en betreft ze al je gegevens: je account, je profiel en foto, je antwoorden op de vragenlijst en je voorkeuren, je trainingen, oefeningen en sets, je trainingssjablonen, je gewichtsgeschiedenis, wie je volgt en je volgers, je likes, je reacties, je blokkeringen en je meldingen. Muskl bewaart geen van deze gegevens na de verwijdering."
+    },
+    "s7": {
+      "title": "7. Je rechten",
+      "text": "Volgens de AVG heb je recht op inzage, rectificatie, verwijdering en overdraagbaarheid van je gegevens. De meeste van deze acties kun je rechtstreeks in de app uitvoeren (je profiel aanpassen, je account verwijderen). Voor andere verzoeken kun je ons contacteren via het adres hieronder."
+    },
+    "s8": {
+      "title": "8. Inhoud melden",
+      "text": "Je kunt een training melden vanuit de feed. Meldingen zijn alleen zichtbaar voor jou en het Muskl-team, nooit voor andere gebruikers."
+    },
+    "s9": {
+      "title": "9. Beveiliging",
+      "text": "De toegang tot de gegevens is beschermd door beveiligingsregels op het niveau van elke rij van de database (Row Level Security), zodat alleen de eigenaar van een gegeven het kan wijzigen of verwijderen. De communicatie tussen de app en de server is versleuteld (HTTPS)."
+    },
+    "s10": {
+      "title": "10. Minimumleeftijd",
+      "text": "Muskl is niet bedoeld voor personen jonger dan 16 jaar."
+    },
+    "s11": {
+      "title": "11. Wijzigingen",
+      "text": "Dit beleid kan worden bijgewerkt. De datum van de laatste wijziging staat bovenaan deze pagina."
+    },
+    "s12": {
+      "title": "12. Contact",
+      "text": "Voor vragen over dit beleid of je gegevens:"
+    }
+  }
+}

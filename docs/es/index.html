@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Muskl — Tu diario de entrenamiento, para todos los deportes</title>
+<meta name="description" content="Muskl es una app para registrar tus entrenamientos: series, temporizador de descanso, calendario, gráficas de progreso y un feed con tus amigos. Musculación, cardio, deportes de combate — todo se registra." />
+<link rel="canonical" href="https://muskl.mynextgen.be/es/" />
+<link rel="alternate" hreflang="fr" href="https://muskl.mynextgen.be/" />
+<link rel="alternate" hreflang="en" href="https://muskl.mynextgen.be/en/" />
+<link rel="alternate" hreflang="es" href="https://muskl.mynextgen.be/es/" />
+<link rel="alternate" hreflang="de" href="https://muskl.mynextgen.be/de/" />
+<link rel="alternate" hreflang="nl" href="https://muskl.mynextgen.be/nl/" />
+<link rel="alternate" hreflang="pt-BR" href="https://muskl.mynextgen.be/pt/" />
+<link rel="alternate" hreflang="tr" href="https://muskl.mynextgen.be/tr/" />
+<link rel="alternate" hreflang="x-default" href="https://muskl.mynextgen.be/" />
+<link rel="icon" href="../assets/favicon.png" />
+<meta property="og:title" content="Muskl — Tu diario de entrenamiento" />
+<meta property="og:description" content="Registra tus sesiones, sigue tu progreso y compártelo con tus amigos. Para todos los deportes." />
+<meta property="og:image" content="https://muskl.mynextgen.be/assets/icon.png" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0e0e0e" />
+<!-- The ?v= suffix changes with each stylesheet update so browsers can't keep a stale copy. -->
+<link rel="stylesheet" href="../assets/site.css?v=20260916" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img src="../assets/logo.png" alt="" />
+      Muskl
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Funciones</a>
+      <a href="#sports">Todos los deportes</a>
+      <a href="#social">Social</a>
+      <a href="installation.html">Instalación</a>
+    </nav>
+    <details class="lang-switch">
+    <summary aria-label="Idioma"><span class="flag">🇪🇸</span><span class="lang-name">Español</span></summary>
+    <div class="lang-menu">
+      <a href="../index.html" hreflang="fr" lang="fr" data-lang="fr"><span class="flag">🇫🇷</span>Français</a>
+      <a href="../en/index.html" hreflang="en" lang="en" data-lang="en"><span class="flag">🇬🇧</span>English</a>
+      <a href="../es/index.html" hreflang="es" lang="es" data-lang="es" aria-current="true"><span class="flag">🇪🇸</span>Español</a>
+      <a href="../de/index.html" hreflang="de" lang="de" data-lang="de"><span class="flag">🇩🇪</span>Deutsch</a>
+      <a href="../nl/index.html" hreflang="nl" lang="nl" data-lang="nl"><span class="flag">🇳🇱</span>Nederlands</a>
+      <a href="../pt/index.html" hreflang="pt-BR" lang="pt-BR" data-lang="pt"><span class="flag">🇧🇷</span>Português</a>
+      <a href="../tr/index.html" hreflang="tr" lang="tr" data-lang="tr"><span class="flag">🇹🇷</span>Türkçe</a>
+    </div>
+  </details>
+  <script>
+    // An explicit choice beats the browser's language on later visits to the French pages.
+    document.querySelectorAll('[data-lang]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('muskl-lang', link.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  </script>
+    <a class="btn btn-primary btn-sm" href="installation.html">Únete a la beta</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="badge"><span class="dot"></span> Beta abierta — iOS &amp; Android</div>
+        <h1>Tu diario de entrenamiento,<br /><em>para todos los deportes.</em></h1>
+        <p class="lede">Registra tus sesiones serie a serie, no pierdas de vista tu progreso y sigue a tus amigos en un feed sin ruido. Musculación, cardio, deportes de combate — todo en el mismo sitio.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="installation.html">Probar la app</a>
+          <a class="btn btn-ghost" href="#features">Ver lo que hace</a>
+        </div>
+        <p class="cta-note">Gratis. Sin anuncios. Tus datos son tuyos.</p>
+      </div>
+
+      <div class="phone" style="background-image: url('../assets/shot-hero.jpg')"></div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Lo que hace Muskl</p>
+        <h2>Todo lo que necesitas para entrenar en serio. Nada más.</h2>
+        <p>Una app pensada para tenerla abierta durante la sesión, no solo después.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="ico">🏋️</div>
+          <h3>Sesiones detalladas</h3>
+          <p>Ejercicios, series, repeticiones, cargas y RPE. Un catálogo ordenado por grupo muscular, o tus propios ejercicios.</p>
+        </div>
+        <div class="card">
+          <div class="ico">⏱️</div>
+          <h3>Modo En vivo</h3>
+          <p>Marca cada serie durante el entrenamiento, con un temporizador de descanso que arranca solo.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📅</div>
+          <h3>Calendario y racha</h3>
+          <p>Tu constancia de un vistazo, tu objetivo semanal y la posibilidad de añadir una sesión que olvidaste registrar.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📈</div>
+          <h3>Progreso</h3>
+          <p>Gráfica de peso corporal e historial por ejercicio: ves de verdad si avanzas.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📋</div>
+          <h3>Plantillas</h3>
+          <p>Guarda una sesión como plantilla y vuelve a lanzarla con un toque. Un programa inicial te espera en cuanto te registras.</p>
+        </div>
+        <div class="card">
+          <div class="ico">⚖️</div>
+          <h3>Kilos o libras</h3>
+          <p>Elige tu unidad una vez y toda la app se adapta. Se detecta automáticamente según tu país.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">En imágenes</p>
+        <h2>Oscura, clara, rápida.</h2>
+      </div>
+
+      <div class="shots">
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-1.jpg')"></div>
+          <p class="shot-caption">Tu perfil</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-2.jpg')"></div>
+          <p class="shot-caption">Racha y calendario</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-3.jpg')"></div>
+          <p class="shot-caption">Progreso</p>
+        </div>
+        <div>
+          <div class="phone" style="background-image: url('../assets/shot-4.jpg')"></div>
+          <p class="shot-caption">Plantillas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sports">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <p class="eyebrow">No solo pesas</p>
+          <h2>El registro se adapta al ejercicio.</h2>
+          <p class="section-lede">No todos los deportes se cuentan en repeticiones. Muskl sabe que una plancha se cronometra y que un press de banca se carga.</p>
+          <ul class="list">
+            <li><strong>Repeticiones y carga</strong> — press de banca, sentadilla, dominadas.</li>
+            <li><strong>Duración</strong> — plancha, comba, remo, assault bike.</li>
+          </ul>
+        </div>
+
+        <div class="phone" style="background-image: url('../assets/shot-sports.jpg')"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="social">
+    <div class="wrap">
+      <div class="split">
+        <div class="phone" style="background-image: url('../assets/shot-social.jpg')"></div>
+
+        <div>
+          <p class="eyebrow">Entre vosotros</p>
+          <h2>El deporte es más fácil acompañado.</h2>
+          <p class="section-lede">Un feed que solo muestra las sesiones de la gente a la que sigues. Sin desconocidos, sin contenido impuesto por un algoritmo.</p>
+          <ul class="list">
+            <li><strong>Seguimientos</strong> — pide seguir a alguien o deja tu perfil público.</li>
+            <li><strong>Me gusta y comentarios</strong> en las sesiones de tus amigos.</li>
+            <li><strong>Perfil para compartir</strong> con un simple enlace.</li>
+            <li><strong>Bloqueo</strong> y control de quién ve tus datos corporales.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="languages">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">En todas partes</p>
+        <h2>Disponible en 7 idiomas.</h2>
+        <p>Incluidos los nombres de los ejercicios, traducidos como se dicen de verdad en el gimnasio — no palabra por palabra.</p>
+      </div>
+      <div class="langs">
+        <div class="lang"><span class="flag">🇫🇷</span><span>Français</span></div>
+        <div class="lang"><span class="flag">🇬🇧</span><span>English</span></div>
+        <div class="lang"><span class="flag">🇪🇸</span><span>Español</span></div>
+        <div class="lang"><span class="flag">🇩🇪</span><span>Deutsch</span></div>
+        <div class="lang"><span class="flag">🇳🇱</span><span>Nederlands</span></div>
+        <div class="lang"><span class="flag">🇧🇷</span><span>Português</span></div>
+        <div class="lang"><span class="flag">🇹🇷</span><span>Türkçe</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beta" class="final">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Beta</p>
+        <h2>Prueba Muskl antes que nadie.</h2>
+        <p>En iPhone, únete con un toque gracias a TestFlight. En Android, mándame tu dirección de Gmail y te envío tu invitación. Tus comentarios dan forma a la versión final.</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="installation.html">Instalar la beta</a>
+        <a class="btn btn-ghost" href="privacy.html">Política de privacidad</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Muskl — hecho en Bélgica.</div>
+    <div class="foot-links">
+      <a href="privacy.html">Privacidad</a>
+      <a href="mailto:mustafaliiyilmaz@gmail.com">Contacto</a>
+      <a href="#top">Volver arriba</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

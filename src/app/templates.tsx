@@ -141,6 +141,30 @@ export default function TemplatesScreen() {
           data={templates}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.list}
+          ListHeaderComponent={
+            <Pressable
+              onPress={() => router.push('/template/library')}
+              style={({ pressed }) => [styles.libraryEntry, pressed && styles.pressed]}>
+              <ThemedView type="backgroundElement" style={[styles.card, styles.libraryCard, { borderColor: theme.tint }]}>
+                <SymbolView
+                  name={{ ios: 'books.vertical', android: 'library_books', web: 'library_books' }}
+                  tintColor={theme.tint}
+                  size={20}
+                />
+                <View style={styles.cardText}>
+                  <ThemedText type="smallBold">{t('library.entry')}</ThemedText>
+                  <ThemedText type="small" themeColor="textSecondary">
+                    {t('library.entryHint')}
+                  </ThemedText>
+                </View>
+                <SymbolView
+                  name={{ ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' }}
+                  tintColor={theme.textSecondary}
+                  size={16}
+                />
+              </ThemedView>
+            </Pressable>
+          }
           renderItem={({ item }) => (
             <Pressable
               onPress={() => router.push(`/template/${item.id}`)}
@@ -208,6 +232,12 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.7,
+  },
+  libraryEntry: {
+    marginBottom: Spacing.two,
+  },
+  libraryCard: {
+    borderWidth: 1,
   },
   card: {
     flexDirection: 'row',
